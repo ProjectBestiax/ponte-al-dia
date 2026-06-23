@@ -7,6 +7,7 @@ import { ExternalLink, MessageSquare } from "lucide-react";
 import { VoteButtons } from "./VoteButtons";
 import { CommentForm } from "./CommentForm";
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -16,12 +17,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = await db.post.findUnique({
     where: { slug, status: "ACTIVE" },
-    select: { title: true, description: true, aiSummary: true },
+    select: {
+      title: true,
+      description: true,
+      aiSummary: true,
+      voteCount: true,
+      category: { select: { name: true, emoji: true } },
+    },
   });
   if (!post) return { title: "Post no encontrado" };
+
+  const ogUrl = new URL(`${process.env.NEXT_PUBLIC_APP_URL}/api/og`);
+  ogUrl.searchParams.set("title", post.title);
+  ogUrl.searchParams.set("category", post.category.name);
+  ogUrl.searchParams.set("emoji", post.category.emoji);
+  ogUrl.searchParams.set("votes", String(post.voteCount));
+
   return {
     title: post.title,
     description: post.description ?? post.aiSummary ?? undefined,
+    openGraph: {
+      title: post.title,
+      description: post.description ?? post.aiSummary ?? undefined,
+      images: [{ url: ogUrl.toString(), width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      images: [ogUrl.toString()],
+    },
   };
 }
 
@@ -92,8 +116,26 @@ export default async function PostPage({ params }: PageProps) {
 
   const authorName = post.user.username ?? post.user.name ?? "Anónimo";
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "DiscussionForumPosting",
+    headline: post.title,
+    description: post.description ?? undefined,
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/p/${post.slug}`,
+    datePublished: post.publishedAt ?? post.createdAt,
+    author: {
+      "@type": "Person",
+      name: authorName,
+    },
+    interactionStatistic: [
+      { "@type": "InteractionCounter", interactionType: "https://schema.org/LikeAction", userInteractionCount: post.voteCount },
+      { "@type": "InteractionCounter", interactionType: "https://schema.org/CommentAction", userInteractionCount: post.commentCount },
+    ],
+  };
+
   return (
     <div className="max-w-3xl mx-auto">
+      <JsonLd data={jsonLd} />
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-4">
         <Link href="/" className="hover:text-gray-700">Inicio</Link>

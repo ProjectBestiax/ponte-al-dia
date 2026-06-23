@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Providers } from "@/components/layout/Providers";
+import { CookieBanner } from "@/components/layout/CookieBanner";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
           <main className="flex-1 container mx-auto px-4 py-6 max-w-5xl">
             {children}
           </main>
+          <CookieBanner />
           <footer className="border-t border-gray-200 bg-white py-6 mt-12">
             <div className="container mx-auto px-4 max-w-5xl text-center text-sm text-gray-500">
               <p>© {new Date().getFullYear()} Ponte al dIA · <a href="/privacidad" className="hover:underline">Privacidad</a> · <a href="/cookies" className="hover:underline">Cookies</a></p>

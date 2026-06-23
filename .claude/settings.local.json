@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__visualize__read_me",
+      "Bash(mkdir -p \"/Users/marcos/.claude/projects/-Users-marcos-Proyectos-personales-Ponte-al-dIA/memory\")",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --project-name ponte-al-dia)",
+      "Read(//Users/marcos/Proyectos personales/**)",
+      "Bash(npx create-next-app@latest ponte-al-dia --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
+      "Bash(cp -r \"/Users/marcos/Proyectos personales/ponte-al-dia/.\" \"/Users/marcos/Proyectos personales/Ponte al dIA/\")",
+      "Bash(rm -rf \"/Users/marcos/Proyectos personales/ponte-al-dia\")",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(mkdir -p \"/Users/marcos/Proyectos personales/Ponte al dIA/src/app/api/auth/[...nextauth]\")",
+      "Bash(npx tsc *)",
+      "Bash(node node_modules/typescript/bin/tsc --version)",
+      "Bash(node node_modules/typescript/bin/tsc --noEmit)",
+      "Bash(npm run *)",
+      "Bash(node node_modules/next/dist/bin/next build)",
+      "Bash(node node_modules/next/dist/bin/next dev --port 3000)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npx ts-node --skip-project -e ' *)",
+      "Bash(node -e ' *)",
+      "Bash(openssl rand *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/login)",
+      "Bash(curl -s \"http://localhost:3000/api/auth/providers\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/publicar)",
+      "Bash(curl -s -X POST http://localhost:3000/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024')"
+    ]
+  }
+}
