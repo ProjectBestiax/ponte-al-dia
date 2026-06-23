@@ -9,6 +9,7 @@ const schema = z.object({
   url: z.string().url().optional().or(z.literal("")),
   description: z.string().max(500).optional(),
   categoryId: z.string().cuid(),
+  imageUrl: z.string().url().optional().nullable(),
 });
 
 export async function POST(req: NextRequest) {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { title, url, description, categoryId } = parsed.data;
+  const { title, url, description, categoryId, imageUrl } = parsed.data;
 
   // Verificar que la categoría existe
   const category = await db.category.findUnique({ where: { id: categoryId } });
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
       slug,
       url: url || null,
       description: description || null,
+      imageUrl: imageUrl ?? null,
       categoryId,
       userId: session.user.id,
       status: "PENDING", // Requiere moderación

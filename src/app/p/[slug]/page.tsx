@@ -3,7 +3,9 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { timeAgo } from "@/lib/utils";
-import { ExternalLink, ArrowUp, ArrowDown, MessageSquare } from "lucide-react";
+import { ExternalLink, MessageSquare } from "lucide-react";
+import { VoteButtons } from "./VoteButtons";
+import { CommentForm } from "./CommentForm";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -27,8 +29,9 @@ export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
   const session = await auth();
 
+  // Primero buscamos el post sin filtrar por status para detectar pendientes
   const post = await db.post.findUnique({
-    where: { slug, status: "ACTIVE" },
+    where: { slug },
     include: {
       user: { select: { name: true, username: true, image: true } },
       category: true,
@@ -49,6 +52,31 @@ export default async function PostPage({ params }: PageProps) {
   });
 
   if (!post) notFound();
+
+  // Posts eliminados: 404 siempre
+  if (post.status === "REMOVED") notFound();
+
+  // Posts pendientes: mensaje de espera (solo el autor y admins pueden verlo)
+  if (post.status === "PENDING") {
+    const isOwner = session?.user?.id === post.userId;
+    // @ts-expect-error extended session
+    const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "MODERATOR";
+    if (!isOwner && !isAdmin) notFound();
+
+    return (
+      <div className="max-w-2xl mx-auto text-center py-20">
+        <div className="text-5xl mb-4">⏳</div>
+        <h1 className="text-xl font-bold text-gray-900 mb-2">Post publicado — pendiente de aprobación</h1>
+        <p className="text-gray-500 mb-6">
+          Tu post <span className="font-medium text-gray-700">&ldquo;{post.title}&rdquo;</span> está en cola de moderación.
+          Aparecerá en el feed en breve.
+        </p>
+        <a href="/" className="inline-block px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+          Volver al inicio
+        </a>
+      </div>
+    );
+  }
 
   // Incrementar views (fire and forget)
   db.post.update({ where: { id: post.id }, data: { viewCount: { increment: 1 } } }).catch(() => {});
@@ -79,23 +107,12 @@ export default async function PostPage({ params }: PageProps) {
       <div className="bg-white border border-gray-200 rounded-2xl p-6">
         <div className="flex gap-4">
           {/* Votes */}
-          <div className="flex flex-col items-center gap-1 pt-1">
-            <button
-              className={`p-1.5 rounded transition-colors ${userVote === 1 ? "text-indigo-600 bg-indigo-50" : "text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"}`}
-              aria-label="Votar positivo"
-            >
-              <ArrowUp className="w-5 h-5" />
-            </button>
-            <span className={`text-lg font-bold ${post.voteCount > 0 ? "text-indigo-600" : post.voteCount < 0 ? "text-red-500" : "text-gray-500"}`}>
-              {post.voteCount}
-            </span>
-            <button
-              className={`p-1.5 rounded transition-colors ${userVote === -1 ? "text-red-500 bg-red-50" : "text-gray-400 hover:text-red-500 hover:bg-red-50"}`}
-              aria-label="Votar negativo"
-            >
-              <ArrowDown className="w-5 h-5" />
-            </button>
-          </div>
+          <VoteButtons
+            postId={post.id}
+            initialVotes={post.voteCount}
+            initialUserVote={userVote}
+            isLoggedIn={!!session}
+          />
 
           {/* Content */}
           <div className="flex-1 min-w-0">
@@ -150,20 +167,7 @@ export default async function PostPage({ params }: PageProps) {
         </h2>
 
         {session ? (
-          <form action={`/api/posts/${post.id}/comments`} method="POST" className="mb-6">
-            <textarea
-              name="content"
-              rows={3}
-              placeholder="¿Qué opinas? ¿Lo has probado?"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-            />
-            <button
-              type="submit"
-              className="mt-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700"
-            >
-              Comentar
-            </button>
-          </form>
+          <CommentForm postId={post.id} />
         ) : (
           <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600 text-center">
             <Link href="/login" className="text-indigo-600 font-medium hover:underline">Entra</Link> para comentar
