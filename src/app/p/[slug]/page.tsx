@@ -8,6 +8,8 @@ import { VoteButtons } from "./VoteButtons";
 import { CommentForm } from "./CommentForm";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
+import { EmbedPlayer } from "@/components/posts/EmbedPlayer";
+import { detectEmbed } from "@/lib/embed";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -189,6 +191,22 @@ export default async function PostPage({ params }: PageProps) {
                 <p className="text-sm text-gray-700">{post.aiSummary}</p>
               </div>
             )}
+
+            {/* Imagen del post */}
+            {post.imageUrl && !detectEmbed(post.url ?? "") && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="mt-4 w-full rounded-xl border border-gray-200 object-cover max-h-80"
+              />
+            )}
+
+            {/* Embed de vídeo (YouTube, TikTok, X, Instagram) */}
+            {post.url && (() => {
+              const embed = detectEmbed(post.url);
+              return embed ? <EmbedPlayer embed={embed} /> : null;
+            })()}
 
             <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
               <span>por <span className="font-medium text-gray-600">{authorName}</span></span>

@@ -2,7 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Link2, X } from "lucide-react";
+import { Loader2, Link2, X, ImagePlus } from "lucide-react";
+import { detectEmbed } from "@/lib/embed";
 
 interface Category {
   id: string;
@@ -18,9 +19,15 @@ export function PublishForm({ categories }: { categories: Category[] }) {
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ title?: string; description?: string; image?: string } | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
   const urlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const embedDetected = currentUrl ? detectEmbed(currentUrl) : null;
 
   async function fetchMetadata(url: string) {
     if (!url || !url.startsWith("http")) return;
@@ -42,8 +49,27 @@ export function PublishForm({ categories }: { categories: Category[] }) {
     }
   }
 
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: form });
+      if (!res.ok) throw new Error("Error subiendo imagen");
+      const { url } = await res.json();
+      setUploadedImage(url);
+    } catch {
+      setError("No se pudo subir la imagen.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   function handleUrlChange(e: React.ChangeEvent<HTMLInputElement>) {
     const url = e.target.value;
+    setCurrentUrl(url);
     if (urlTimer.current) clearTimeout(urlTimer.current);
     setPreview(null);
     urlTimer.current = setTimeout(() => fetchMetadata(url), 700);
@@ -60,7 +86,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       url: form.get("url") as string,
       description: form.get("description") as string,
       categoryId: form.get("categoryId") as string,
-      imageUrl: preview?.image ?? null,
+      imageUrl: uploadedImage ?? preview?.image ?? null,
     };
 
     if (!data.title || !data.categoryId) {
@@ -110,8 +136,15 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin" />}
         </div>
 
-        {/* Preview de la URL */}
-        {preview?.image && (
+        {/* Indicador de embed detectado */}
+        {embedDetected && (
+          <div className="mt-2 flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-lg text-xs text-orange-700 font-medium">
+            🎬 Se detectó un vídeo de {embedDetected.type} — se mostrará como reproductor en el post
+          </div>
+        )}
+
+        {/* Preview OG */}
+        {!embedDetected && preview?.image && (
           <div className="mt-2 flex items-center gap-3 p-2.5 bg-gray-50 border border-gray-200 rounded-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={preview.image} alt="" className="w-14 h-14 object-cover rounded-md flex-shrink-0 border border-gray-200" />
@@ -125,6 +158,34 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           </div>
         )}
       </div>
+
+      {/* Imagen subida manualmente (solo si no hay embed ni OG image) */}
+      {!embedDetected && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Imagen <span className="text-gray-400 font-normal">(opcional, si no se detectó una automáticamente)</span>
+          </label>
+          {uploadedImage ? (
+            <div className="relative inline-block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={uploadedImage} alt="Preview" className="h-24 rounded-lg border border-gray-200 object-cover" />
+              <button
+                type="button"
+                onClick={() => { setUploadedImage(null); if (fileRef.current) fileRef.current.value = ""; }}
+                className="absolute -top-2 -right-2 bg-white border border-gray-300 rounded-full p-0.5 text-gray-500 hover:text-red-500"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <label className="flex items-center gap-2 w-fit cursor-pointer px-3 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition-colors">
+              {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+              {uploading ? "Subiendo..." : "Subir imagen"}
+              <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={handleImageUpload} disabled={uploading} />
+            </label>
+          )}
+        </div>
+      )}
 
       {/* Título */}
       <div>

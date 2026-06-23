@@ -29,7 +29,8 @@
       "Bash(curl -s \"http://localhost:3000/api/auth/providers\")",
       "Bash(python3 -m json.tool)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/publicar)",
-      "Bash(curl -s -X POST http://localhost:3000/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024')"
+      "Bash(curl -s -X POST http://localhost:3000/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024')",
+      "Bash(curl -s -X POST http://localhost:3000/api/bot/huggingface -H 'x-bot-secret: ponte-al-dia-bot-2024')"
     ]
   }
 }
