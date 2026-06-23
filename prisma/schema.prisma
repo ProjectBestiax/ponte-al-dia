@@ -1,0 +1,215 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth (NextAuth v5 compatible) ─────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  bio           String?
+  karma         Int       @default(0)
+  role          UserRole  @default(USER)
+  isPremium     Boolean   @default(false)
+  premiumUntil  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  posts        Post[]
+  votes        Vote[]
+  comments     Comment[]
+  commentVotes CommentVote[]
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── Categories ────────────────────────────────────────────────────────────
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  slug        String  @unique
+  description String?
+  emoji       String  @default("🤖")
+  color       String  @default("#6366f1")
+  order       Int     @default(0)
+
+  posts Post[]
+
+  @@map("categories")
+}
+
+// ─── Posts ─────────────────────────────────────────────────────────────────
+
+model Post {
+  id           String     @id @default(cuid())
+  title        String
+  slug         String     @unique
+  url          String?
+  description  String?
+  content      String?
+  imageUrl     String?
+  aiSummary    String?
+
+  score        Float      @default(0)
+  voteCount    Int        @default(0)
+  commentCount Int        @default(0)
+  viewCount    Int        @default(0)
+
+  status    PostStatus @default(PENDING)
+  isPinned  Boolean    @default(false)
+
+  userId     String
+  categoryId String
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category  @relation(fields: [categoryId], references: [id])
+  votes    Vote[]
+  comments Comment[]
+  tags     PostTag[]
+
+  @@index([score])
+  @@index([createdAt])
+  @@index([status])
+  @@index([categoryId])
+  @@map("posts")
+}
+
+model Tag {
+  id    String    @id @default(cuid())
+  name  String    @unique
+  slug  String    @unique
+  posts PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId String
+  tagId  String
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+// ─── Votes ─────────────────────────────────────────────────────────────────
+
+model Vote {
+  id        String   @id @default(cuid())
+  value     Int      // +1 o -1
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("votes")
+}
+
+// ─── Comments ──────────────────────────────────────────────────────────────
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  score     Int      @default(0)
+  userId    String
+  postId    String
+  parentId  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent  Comment?      @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[]     @relation("CommentReplies")
+  votes   CommentVote[]
+
+  @@map("comments")
+}
+
+model CommentVote {
+  id        String @id @default(cuid())
+  value     Int    // +1 o -1
+  userId    String
+  commentId String
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+  @@map("comment_votes")
+}
+
+// ─── Enums ─────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+enum PostStatus {
+  PENDING
+  ACTIVE
+  HIDDEN
+  REMOVED
+}

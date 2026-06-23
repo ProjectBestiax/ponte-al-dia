@@ -2,18 +2,19 @@ import { Suspense } from "react";
 import { FeedTabs } from "@/components/posts/FeedTabs";
 import { CategoryFilter } from "@/components/posts/CategoryFilter";
 import { PostCard } from "@/components/posts/PostCard";
-import { getNewPosts, getCategories } from "@/lib/posts";
+import { getRisingPosts, getCategories } from "@/lib/posts";
 
 interface PageProps {
-  searchParams: Promise<{ categoria?: string; pagina?: string }>;
+  searchParams: Promise<{ categoria?: string }>;
 }
 
-export default async function HomePage({ searchParams }: PageProps) {
-  const { categoria, pagina } = await searchParams;
-  const page = parseInt(pagina ?? "1");
+export const metadata = { title: "Subiendo" };
+
+export default async function RisingPage({ searchParams }: PageProps) {
+  const { categoria } = await searchParams;
 
   const [posts, categories] = await Promise.all([
-    getNewPosts(categoria, page),
+    getRisingPosts(categoria),
     getCategories(),
   ]);
 
@@ -24,10 +25,12 @@ export default async function HomePage({ searchParams }: PageProps) {
         <CategoryFilter categories={categories} />
       </Suspense>
 
+      <p className="text-xs text-gray-500 mb-4">Posts con más votos en las últimas 24 horas.</p>
+
       {posts.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
-          <p className="text-lg font-medium">Todavía no hay posts aquí.</p>
-          <p className="text-sm mt-1">¡Sé el primero en publicar algo interesante!</p>
+          <p className="text-lg font-medium">Nada subiendo todavía.</p>
+          <p className="text-sm mt-1">Vota los posts que te parezcan interesantes.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -40,21 +43,9 @@ export default async function HomePage({ searchParams }: PageProps) {
                 description: post.description ?? undefined,
                 imageUrl: post.imageUrl ?? undefined,
               }}
-              rank={(page - 1) * 20 + i + 1}
+              rank={i + 1}
             />
           ))}
-        </div>
-      )}
-
-      {/* Paginación simple */}
-      {posts.length === 20 && (
-        <div className="mt-8 flex justify-center">
-          <a
-            href={`/?${categoria ? `categoria=${categoria}&` : ""}pagina=${page + 1}`}
-            className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Ver más →
-          </a>
         </div>
       )}
     </div>
