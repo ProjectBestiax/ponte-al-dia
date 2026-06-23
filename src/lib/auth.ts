@@ -3,9 +3,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import { db } from "@/lib/db";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyPrismaClient = any;
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db as AnyPrismaClient),
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
