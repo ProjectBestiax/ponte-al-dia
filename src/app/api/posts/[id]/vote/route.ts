@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { calculateHotScore } from "@/lib/hot-score";
+
+export const dynamic = "force-dynamic";
 import { z } from "zod";
 
 const schema = z.object({ value: z.union([z.literal(-1), z.literal(0), z.literal(1)]) });

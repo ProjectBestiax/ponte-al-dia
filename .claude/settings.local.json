@@ -30,7 +30,11 @@
       "Bash(python3 -m json.tool)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/publicar)",
       "Bash(curl -s -X POST http://localhost:3000/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024')",
-      "Bash(curl -s -X POST http://localhost:3000/api/bot/huggingface -H 'x-bot-secret: ponte-al-dia-bot-2024')"
+      "Bash(curl -s -X POST http://localhost:3000/api/bot/huggingface -H 'x-bot-secret: ponte-al-dia-bot-2024')",
+      "Bash(git remote *)",
+      "Bash(git commit -m 'config: allow Supabase and OAuth image domains in Next.js *)",
+      "Bash(git push *)",
+      "Bash(git commit -m 'fix: force-dynamic on all API routes to prevent static analysis errors in Vercel build *)"
     ]
   }
 }

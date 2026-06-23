@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 const schema = z.object({
   title: z.string().min(10).max(200),
   url: z.string().url().optional().or(z.literal("")),

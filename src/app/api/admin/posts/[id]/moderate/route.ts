@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 const schema = z.object({ action: z.enum(["approve", "reject"]) });
 
 export async function POST(
