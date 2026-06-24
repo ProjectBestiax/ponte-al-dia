@@ -4,9 +4,17 @@ import { slugify } from "@/lib/utils";
 
 const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
 
-export async function POST(req: NextRequest) {
-  const authHeader = req.headers.get("x-bot-secret");
-  if (authHeader !== BOT_SECRET) {
+function isAuthorized(req: NextRequest): boolean {
+  const botSecret = req.headers.get("x-bot-secret");
+  if (botSecret === BOT_SECRET) return true;
+  const cronSecret = process.env.CRON_SECRET;
+  const authHeader = req.headers.get("authorization");
+  if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
+  return false;
+}
+
+async function runBot(req: NextRequest) {
+  if (!isAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -66,3 +74,6 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ created: created.length, skipped: skipped.length });
 }
+
+export async function POST(req: NextRequest) { return runBot(req); }
+export async function GET(req: NextRequest) { return runBot(req); }

@@ -59,9 +59,17 @@ async function fetchGitHubAIRepos(): Promise<{ title: string; url: string; descr
   return [...new Map(results.map((r) => [r.url, r])).values()].slice(0, 12);
 }
 
-export async function POST(req: NextRequest) {
-  const auth = req.headers.get("x-bot-secret");
-  if (auth !== BOT_SECRET) {
+function isAuthorized(req: NextRequest): boolean {
+  const botSecret = req.headers.get("x-bot-secret");
+  if (botSecret === BOT_SECRET) return true;
+  const cronSecret = process.env.CRON_SECRET;
+  const authHeader = req.headers.get("authorization");
+  if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
+  return false;
+}
+
+async function runBot(req: NextRequest) {
+  if (!isAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -105,3 +113,6 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ created: created.length, skipped: skipped.length, total: repos.length });
 }
+
+export async function POST(req: NextRequest) { return runBot(req); }
+export async function GET(req: NextRequest) { return runBot(req); }
