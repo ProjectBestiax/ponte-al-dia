@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Providers } from "@/components/layout/Providers";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+
+// Cuando tengas el Publisher ID de AdSense, sustitúyelo aquí:
+const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -46,6 +50,14 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${geist.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-gray-50 antialiased">
+        {ADSENSE_PUBLISHER_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
         <Providers>
           <Navbar />
           <main className="flex-1 container mx-auto px-4 py-6 max-w-5xl">
