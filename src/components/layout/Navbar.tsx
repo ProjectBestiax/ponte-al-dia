@@ -82,7 +82,7 @@ export function Navbar() {
                         </Link>
                       )}
                       <button
-                        onClick={() => { setMenuOpen(false); signOut(); }}
+                        onClick={() => { setMenuOpen(false); signOut({ callbackUrl: "/" }); }}
                         className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50"
                       >
                         <LogOut className="w-4 h-4" /> Cerrar sesión
