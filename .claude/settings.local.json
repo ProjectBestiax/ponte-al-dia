@@ -35,7 +35,20 @@
       "Bash(git commit -m 'config: allow Supabase and OAuth image domains in Next.js *)",
       "Bash(git push *)",
       "Bash(git commit -m 'fix: force-dynamic on all API routes to prevent static analysis errors in Vercel build *)",
-      "Bash(git commit -m 'fix: output Prisma client to src/generated to avoid Vercel cache issues *)"
+      "Bash(git commit -m 'fix: output Prisma client to src/generated to avoid Vercel cache issues *)",
+      "Bash(git config *)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(git commit *)",
+      "Bash(npx vercel *)",
+      "Bash(python3 -c \"import sys,json; [print\\(e['message'][:500]\\) for e in json.loads\\('['+','.join\\(l for l in sys.stdin if l.startswith\\('{'\\)\\)+']'\\)]\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(echo \"Monitoring logs, PID: $!\")",
+      "Bash(kill 58059)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -X POST https://ponte-al-dia.vercel.app/api/bot/huggingface -H 'x-bot-secret: ponte-al-dia-bot-2024' -H 'Content-Type: application/json')",
+      "Bash(curl -s -X POST https://ponte-al-dia.vercel.app/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024' -H 'Content-Type: application/json')",
+      "Bash(echo \"Studio PID: $!\")",
+      "Bash(kill 58513)"
     ]
   }
 }

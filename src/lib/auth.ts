@@ -13,6 +13,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
       allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: { prompt: "select_account" },
+      },
     }),
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID!,

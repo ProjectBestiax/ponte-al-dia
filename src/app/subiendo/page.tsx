@@ -57,6 +57,10 @@ export default async function RisingPage({ searchParams }: PageProps) {
           <ToolsSidebar />
         </div>
       </div>
+
+      <div className="lg:hidden">
+        <ToolsSidebar variant="horizontal" />
+      </div>
     </div>
   );
 }

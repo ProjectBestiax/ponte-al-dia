@@ -65,6 +65,10 @@ export default async function HomePage({ searchParams }: PageProps) {
           <ToolsSidebar />
         </div>
       </div>
+
+      <div className="lg:hidden">
+        <ToolsSidebar variant="horizontal" />
+      </div>
     </div>
   );
 }

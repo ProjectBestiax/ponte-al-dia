@@ -69,6 +69,10 @@ export default async function TrendingPage({ searchParams }: PageProps) {
           <ToolsSidebar />
         </div>
       </div>
+
+      <div className="lg:hidden">
+        <ToolsSidebar variant="horizontal" />
+      </div>
     </div>
   );
 }
