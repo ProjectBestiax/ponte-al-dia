@@ -48,7 +48,8 @@
       "Bash(curl -s -X POST https://ponte-al-dia.vercel.app/api/bot/huggingface -H 'x-bot-secret: ponte-al-dia-bot-2024' -H 'Content-Type: application/json')",
       "Bash(curl -s -X POST https://ponte-al-dia.vercel.app/api/bot/github-trending -H 'x-bot-secret: ponte-al-dia-bot-2024' -H 'Content-Type: application/json')",
       "Bash(echo \"Studio PID: $!\")",
-      "Bash(kill 58513)"
+      "Bash(kill 58513)",
+      "Bash(curl -s https://ponte-al-dia.vercel.app)"
     ]
   }
 }
