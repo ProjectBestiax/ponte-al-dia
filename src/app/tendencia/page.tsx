@@ -1,44 +1,39 @@
 import { Suspense } from "react";
 import { FeedTabs } from "@/components/posts/FeedTabs";
-import { CategoryFilter } from "@/components/posts/CategoryFilter";
 import { PostCard } from "@/components/posts/PostCard";
-import { ToolsSidebar } from "@/components/layout/ToolsSidebar";
-import { getTrendingPosts, getCategories } from "@/lib/posts";
+import { LeftSidebar } from "@/components/layout/LeftSidebar";
+import { RightSidebar } from "@/components/layout/RightSidebar";
+import { getTrendingPosts } from "@/lib/posts";
 
 interface PageProps {
   searchParams: Promise<{ categoria?: string; pagina?: string }>;
 }
 
-export const metadata = { title: "🔥 Tendencia" };
+export const metadata = { title: "Populares · Ponte al dIA" };
 
 export default async function TrendingPage({ searchParams }: PageProps) {
   const { categoria, pagina } = await searchParams;
   const page = parseInt(pagina ?? "1");
-
-  const [posts, categories] = await Promise.all([
-    getTrendingPosts(categoria, page),
-    getCategories(),
-  ]);
+  const posts = await getTrendingPosts(categoria, page);
 
   return (
-    <div>
-      <FeedTabs />
-      <Suspense>
-        <CategoryFilter categories={categories} />
-      </Suspense>
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "30px 36px 48px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "226px 1fr 318px", gap: 36 }}>
+        <Suspense>
+          <LeftSidebar activeCategory={categoria} />
+        </Suspense>
 
-      <p className="text-xs text-gray-500 mb-4">Los posts más votados de la comunidad.</p>
+        <main style={{ minWidth: 0 }}>
+          <FeedTabs />
 
-      <div className="flex gap-6 items-start">
-        <div className="flex-1 min-w-0">
           {posts.length === 0 ? (
-            <div className="text-center py-16 text-gray-500">
+            <div className="text-center py-16 text-zinc-400">
               <p className="text-lg font-medium">Aún no hay tendencias.</p>
               <p className="text-sm mt-1">¡Publica algo y consigue votos!</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
-              {posts.map((post, i) => (
+            <div>
+              {posts.map((post) => (
                 <PostCard
                   key={post.id}
                   post={{
@@ -47,7 +42,6 @@ export default async function TrendingPage({ searchParams }: PageProps) {
                     description: post.description ?? undefined,
                     imageUrl: post.imageUrl ?? undefined,
                   }}
-                  rank={(page - 1) * 20 + i + 1}
                 />
               ))}
             </div>
@@ -57,21 +51,17 @@ export default async function TrendingPage({ searchParams }: PageProps) {
             <div className="mt-8 flex justify-center">
               <a
                 href={`/tendencia?${categoria ? `categoria=${categoria}&` : ""}pagina=${page + 1}`}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="px-6 py-2 border border-zinc-200 rounded-lg text-sm font-medium text-zinc-700 hover:bg-zinc-50"
               >
                 Ver más →
               </a>
             </div>
           )}
-        </div>
+        </main>
 
-        <div className="hidden lg:block w-64 shrink-0">
-          <ToolsSidebar />
-        </div>
-      </div>
-
-      <div className="lg:hidden">
-        <ToolsSidebar variant="horizontal" />
+        <Suspense>
+          <RightSidebar />
+        </Suspense>
       </div>
     </div>
   );
