@@ -92,12 +92,12 @@ export default async function PostPage({ params }: PageProps) {
     return (
       <div className="max-w-2xl mx-auto text-center py-20">
         <div className="text-5xl mb-4">⏳</div>
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Post publicado — pendiente de aprobación</h1>
-        <p className="text-gray-500 mb-6">
-          Tu post <span className="font-medium text-gray-700">&ldquo;{post.title}&rdquo;</span> está en cola de moderación.
+        <h1 className="text-xl font-bold text-zinc-900 mb-2">Post publicado — pendiente de aprobación</h1>
+        <p className="text-zinc-500 mb-6">
+          Tu post <span className="font-medium text-zinc-700">&ldquo;{post.title}&rdquo;</span> está en cola de moderación.
           Aparecerá en el feed en breve.
         </p>
-        <a href="/" className="inline-block px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+        <a href="/" className="inline-block px-5 py-2.5 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-700 transition-colors">
           Volver al inicio
         </a>
       </div>
@@ -136,19 +136,19 @@ export default async function PostPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto px-6 py-8">
       <JsonLd data={jsonLd} />
       {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-4">
-        <Link href="/" className="hover:text-gray-700">Inicio</Link>
+      <div className="text-sm text-zinc-500 mb-4">
+        <Link href="/" className="hover:text-zinc-700">Inicio</Link>
         {" › "}
-        <Link href={`/?categoria=${post.category.slug}`} className="hover:text-gray-700">
+        <Link href={`/?categoria=${post.category.slug}`} className="hover:text-zinc-700">
           {post.category.emoji} {post.category.name}
         </Link>
       </div>
 
       {/* Post header */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6">
+      <div className="bg-white border border-zinc-200 rounded-2xl p-6">
         <div className="flex gap-4">
           {/* Votes */}
           <VoteButtons
@@ -167,14 +167,14 @@ export default async function PostPage({ params }: PageProps) {
               {post.category.emoji} {post.category.name}
             </span>
 
-            <h1 className="text-xl font-bold text-gray-900 leading-snug">{post.title}</h1>
+            <h1 className="text-xl font-bold text-zinc-900 leading-snug">{post.title}</h1>
 
             {post.url && (
               <a
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 mt-2 text-sm text-indigo-600 hover:underline"
+                className="inline-flex items-center gap-1.5 mt-2 text-sm text-blue-600 hover:underline"
               >
                 <ExternalLink className="w-4 h-4" />
                 {new URL(post.url).hostname.replace("www.", "")}
@@ -182,13 +182,13 @@ export default async function PostPage({ params }: PageProps) {
             )}
 
             {post.description && (
-              <p className="mt-3 text-gray-700 leading-relaxed">{post.description}</p>
+              <p className="mt-3 text-zinc-700 leading-relaxed">{post.description}</p>
             )}
 
             {post.aiSummary && (
-              <div className="mt-4 bg-indigo-50 border border-indigo-100 rounded-lg p-3">
-                <p className="text-xs font-semibold text-indigo-600 mb-1">🤖 Resumen IA</p>
-                <p className="text-sm text-gray-700">{post.aiSummary}</p>
+              <div className="mt-4 bg-blue-50 border border-blue-100 rounded-lg p-3">
+                <p className="text-xs font-semibold text-blue-600 mb-1">🤖 Resumen IA</p>
+                <p className="text-sm text-zinc-700">{post.aiSummary}</p>
               </div>
             )}
 
@@ -198,7 +198,7 @@ export default async function PostPage({ params }: PageProps) {
               <img
                 src={post.imageUrl}
                 alt={post.title}
-                className="mt-4 w-full rounded-xl border border-gray-200 object-cover max-h-80"
+                className="mt-4 w-full rounded-xl border border-zinc-200 object-cover max-h-80"
               />
             )}
 
@@ -208,8 +208,8 @@ export default async function PostPage({ params }: PageProps) {
               return embed ? <EmbedPlayer embed={embed} /> : null;
             })()}
 
-            <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
-              <span>por <span className="font-medium text-gray-600">{authorName}</span></span>
+            <div className="mt-4 flex items-center gap-3 text-xs text-zinc-400">
+              <span>por <span className="font-medium text-zinc-600">{authorName}</span></span>
               <span>{timeAgo(post.createdAt)}</span>
               <span className="flex items-center gap-1">
                 <MessageSquare className="w-3.5 h-3.5" />
@@ -222,40 +222,40 @@ export default async function PostPage({ params }: PageProps) {
 
       {/* Comments */}
       <div id="comentarios" className="mt-8">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <h2 className="text-lg font-bold text-zinc-900 mb-4">
           Comentarios ({post.commentCount})
         </h2>
 
         {session ? (
           <CommentForm postId={post.id} />
         ) : (
-          <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600 text-center">
-            <Link href="/login" className="text-indigo-600 font-medium hover:underline">Entra</Link> para comentar
+          <div className="mb-6 p-4 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-600 text-center">
+            <Link href="/login" className="text-blue-600 font-medium hover:underline">Entra</Link> para comentar
           </div>
         )}
 
         <div className="space-y-4">
           {post.comments.map((comment) => (
-            <div key={comment.id} className="bg-white border border-gray-200 rounded-xl p-4">
-              <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                <span className="font-medium text-gray-700">
+            <div key={comment.id} className="bg-white border border-zinc-200 rounded-xl p-4">
+              <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
+                <span className="font-medium text-zinc-700">
                   {comment.user.username ?? comment.user.name ?? "Anónimo"}
                 </span>
                 <span>{timeAgo(comment.createdAt)}</span>
               </div>
-              <p className="text-sm text-gray-800 whitespace-pre-wrap">{comment.content}</p>
+              <p className="text-sm text-zinc-800 whitespace-pre-wrap">{comment.content}</p>
 
               {comment.replies.length > 0 && (
-                <div className="mt-3 pl-4 border-l-2 border-gray-100 space-y-3">
+                <div className="mt-3 pl-4 border-l-2 border-zinc-100 space-y-3">
                   {comment.replies.map((reply) => (
                     <div key={reply.id}>
-                      <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                        <span className="font-medium text-gray-700">
+                      <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
+                        <span className="font-medium text-zinc-700">
                           {reply.user.username ?? reply.user.name ?? "Anónimo"}
                         </span>
                         <span>{timeAgo(reply.createdAt)}</span>
                       </div>
-                      <p className="text-sm text-gray-800">{reply.content}</p>
+                      <p className="text-sm text-zinc-800">{reply.content}</p>
                     </div>
                   ))}
                 </div>
