@@ -17,3 +17,49 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist), -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+/* Feed layout — responsive 3-column grid */
+.feed-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 30px 36px 48px;
+}
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: 226px 1fr 318px;
+  gap: 36px;
+}
+
+/* Tablet: hide right sidebar */
+@media (max-width: 1100px) {
+  .feed-grid {
+    grid-template-columns: 200px 1fr;
+  }
+  .feed-grid .feed-right-sidebar {
+    display: none;
+  }
+}
+
+/* Mobile: single column, hide both sidebars (aligned with Tailwind md = 768) */
+@media (max-width: 767px) {
+  .feed-wrapper {
+    padding: 14px 16px 40px;
+  }
+  .feed-grid {
+    grid-template-columns: 1fr;
+  }
+  .feed-grid .feed-left-sidebar,
+  .feed-grid .feed-right-sidebar {
+    display: none;
+  }
+}
+
+/* Horizontal scroll utility — hide scrollbar for mobile chip bars */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

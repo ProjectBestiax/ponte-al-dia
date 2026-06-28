@@ -29,7 +29,7 @@ async function attachUserVotes<T extends { id: string; voteCount: number }>(
   return posts.map((p) => ({ ...p, userVote: voteMap.get(p.id) ?? null }));
 }
 
-export async function getNewPosts(categorySlug?: string, page = 1, limit = 20) {
+export async function getNewPosts(categorySlug?: string, page = 1, limit = 20, q?: string) {
   const userId = await getSessionUserId();
   const skip = (page - 1) * limit;
 
@@ -37,6 +37,12 @@ export async function getNewPosts(categorySlug?: string, page = 1, limit = 20) {
     where: {
       status: "ACTIVE",
       ...(categorySlug && { category: { slug: categorySlug } }),
+      ...(q && {
+        OR: [
+          { title: { contains: q, mode: "insensitive" } },
+          { description: { contains: q, mode: "insensitive" } },
+        ],
+      }),
     },
     include: POST_INCLUDE,
     orderBy: { createdAt: "desc" },

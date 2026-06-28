@@ -19,7 +19,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-zinc-100" style={{ height: 68 }}>
-      <div className="flex items-center gap-7 h-full px-9" style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="flex items-center gap-3 sm:gap-7 h-full px-4 sm:px-6 lg:px-9" style={{ maxWidth: 1280, margin: "0 auto" }}>
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
@@ -29,47 +29,48 @@ export function Navbar() {
           >
             d<span style={{ fontWeight: 500 }}>I</span>A
           </div>
-          <span style={{ fontFamily: "var(--font-manrope)" }}>
+          <span className="hidden sm:inline" style={{ fontFamily: "var(--font-manrope)" }}>
             <span className="font-medium text-zinc-500" style={{ fontSize: 16 }}>Ponte al </span>
             <span className="font-extrabold text-zinc-950" style={{ fontSize: 16 }}>dIA</span>
           </span>
         </Link>
 
         {/* Search */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-[440px]">
+        <form onSubmit={handleSearch} className="flex-1 max-w-[440px] min-w-0">
           <div className="flex items-center gap-2.5 h-[42px] bg-zinc-100 border border-zinc-100 rounded-[11px] px-4">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="shrink-0" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
             </svg>
             <input
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Buscar noticias, modelos, herramientas…"
-              className="flex-1 bg-transparent text-sm text-zinc-500 placeholder-zinc-400 outline-none"
+              placeholder="Buscar…"
+              className="flex-1 min-w-0 bg-transparent text-sm text-zinc-500 placeholder-zinc-400 outline-none"
               style={{ fontFamily: "var(--font-manrope)" }}
             />
           </div>
         </form>
 
         {/* Actions */}
-        <div className="ml-auto flex items-center gap-3.5">
+        <div className="ml-auto flex items-center gap-2 sm:gap-3.5 shrink-0">
           {session ? (
             <>
-              {/* Bell */}
-              <button className="relative flex items-center justify-center w-[42px] h-[42px] rounded-[11px] border border-zinc-100 bg-white hover:bg-zinc-50 transition-colors">
+              {/* Bell — hidden on mobile to save space */}
+              <button className="relative hidden sm:flex items-center justify-center w-[42px] h-[42px] rounded-[11px] border border-zinc-100 bg-white hover:bg-zinc-50 transition-colors">
                 <Bell className="w-[19px] h-[19px] text-zinc-600" strokeWidth={1.8} />
                 <span className="absolute top-[9px] right-[10px] w-[7px] h-[7px] rounded-full bg-blue-600 border-[1.5px] border-white" />
               </button>
 
-              {/* Publicar */}
+              {/* Publicar — icon-only on mobile */}
               <Link
                 href="/publicar"
-                className="hidden sm:flex items-center gap-2 text-white text-sm font-bold rounded-[11px] px-4 h-[42px] transition-colors"
+                aria-label="Publicar"
+                className="flex items-center justify-center sm:justify-start gap-2 text-white text-sm font-bold rounded-[11px] px-3 sm:px-4 h-[42px] transition-colors shrink-0"
                 style={{ background: "#2563EB", fontFamily: "var(--font-manrope)", fontSize: 14.5 }}
               >
                 <Plus className="w-[17px] h-[17px]" strokeWidth={2.2} />
-                Publicar
+                <span className="hidden sm:inline">Publicar</span>
               </Link>
 
               {/* Avatar menu */}

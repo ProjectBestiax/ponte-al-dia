@@ -85,7 +85,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   if (featured) {
     return (
       <article
-        className="flex gap-4 rounded-[14px] p-[22px] mt-[18px] mb-2"
+        className="flex gap-3 sm:gap-4 rounded-[14px] p-4 sm:p-[22px] mt-[18px] mb-2"
         style={{
           border: "1px solid #DCE6FF",
           background: "linear-gradient(180deg,#F7FAFF 0%,#FFFFFF 70%)",
@@ -145,8 +145,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
           <Link href={`/p/${post.slug}`}>
             <h2
-              className="hover:opacity-80 transition-opacity"
-              style={{ margin: "0 0 8px", fontWeight: 800, fontSize: 25, lineHeight: 1.22, color: "#0A0A0A", letterSpacing: "-0.02em" }}
+              className="hover:opacity-80 transition-opacity text-[21px] sm:text-[25px]"
+              style={{ margin: "0 0 8px", fontWeight: 800, lineHeight: 1.22, color: "#0A0A0A", letterSpacing: "-0.02em" }}
             >
               {post.title}
             </h2>
@@ -158,7 +158,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </p>
           )}
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center flex-wrap gap-x-5 gap-y-2">
             <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
               <MessageSquare className="w-[17px] h-[17px]" strokeWidth={1.9} />
               {formatNumber(post.commentCount)} comentarios

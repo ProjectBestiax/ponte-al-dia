@@ -3,6 +3,7 @@ import { FeedTabs } from "@/components/posts/FeedTabs";
 import { PostCard } from "@/components/posts/PostCard";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
+import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
 import { getRisingPosts } from "@/lib/posts";
 
 interface PageProps {
@@ -16,13 +17,18 @@ export default async function RisingPage({ searchParams }: PageProps) {
   const posts = await getRisingPosts(categoria);
 
   return (
-    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "30px 36px 48px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "226px 1fr 318px", gap: 36 }}>
+    <div className="feed-wrapper">
+      <div className="feed-grid">
         <Suspense>
-          <LeftSidebar activeCategory={categoria} />
+          <aside className="feed-left-sidebar">
+            <LeftSidebar activeCategory={categoria} />
+          </aside>
         </Suspense>
 
         <main style={{ minWidth: 0 }}>
+          <Suspense>
+            <MobileCategoryBar activeCategory={categoria} basePath="/subiendo" />
+          </Suspense>
           <FeedTabs />
 
           {posts.length === 0 ? (
@@ -47,9 +53,11 @@ export default async function RisingPage({ searchParams }: PageProps) {
           )}
         </main>
 
-        <Suspense>
-          <RightSidebar />
-        </Suspense>
+        <aside className="feed-right-sidebar">
+          <Suspense>
+            <RightSidebar />
+          </Suspense>
+        </aside>
       </div>
     </div>
   );

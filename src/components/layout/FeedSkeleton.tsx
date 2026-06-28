@@ -1,9 +1,9 @@
 export function FeedSkeleton() {
   return (
-    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "30px 36px 48px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "226px 1fr 318px", gap: 36 }}>
+    <div className="feed-wrapper">
+      <div className="feed-grid">
         {/* Left sidebar */}
-        <div className="flex flex-col gap-[3px]">
+        <div className="feed-left-sidebar flex flex-col gap-[3px]">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="h-[42px] bg-zinc-100 rounded-[10px] animate-pulse" />
           ))}
@@ -42,7 +42,7 @@ export function FeedSkeleton() {
         </div>
 
         {/* Right sidebar */}
-        <div>
+        <div className="feed-right-sidebar">
           <div className="border border-zinc-100 rounded-[14px] p-[18px]">
             <div className="h-5 w-24 bg-zinc-100 rounded animate-pulse mb-4" />
             {[...Array(5)].map((_, i) => (
