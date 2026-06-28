@@ -253,15 +253,30 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </div>
         </div>
 
-        {/* Title */}
-        <Link href={`/p/${post.slug}`}>
-          <h3
-            className="hover:opacity-75 transition-opacity"
-            style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
-          >
-            {post.title}
-          </h3>
-        </Link>
+        {/* Title + thumbnail */}
+        <div className="flex gap-3 sm:gap-4">
+          <div className="flex-1 min-w-0">
+            <Link href={`/p/${post.slug}`}>
+              <h3
+                className="hover:opacity-75 transition-opacity"
+                style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+              >
+                {post.title}
+              </h3>
+            </Link>
+          </div>
+
+          {post.imageUrl && (
+            <Link href={`/p/${post.slug}`} className="shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="object-cover rounded-[10px] border border-zinc-100 w-[88px] h-[88px] sm:w-[112px] sm:h-[112px]"
+              />
+            </Link>
+          )}
+        </div>
 
         {/* Actions */}
         <div className="flex items-center gap-5">
