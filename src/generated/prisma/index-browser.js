@@ -226,6 +226,14 @@ exports.Prisma.CommentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentReactionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  userId: 'userId',
+  commentId: 'commentId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CommentVoteScalarFieldEnum = {
   id: 'id',
   value: 'value',
@@ -260,6 +268,14 @@ exports.PostStatus = exports.$Enums.PostStatus = {
   REMOVED: 'REMOVED'
 };
 
+exports.ReactionType = exports.$Enums.ReactionType = {
+  THUMBS_UP: 'THUMBS_UP',
+  HEART: 'HEART',
+  BROKEN_HEART: 'BROKEN_HEART',
+  LAUGH: 'LAUGH',
+  THUMBS_DOWN: 'THUMBS_DOWN'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -271,6 +287,7 @@ exports.Prisma.ModelName = {
   PostTag: 'PostTag',
   Vote: 'Vote',
   Comment: 'Comment',
+  CommentReaction: 'CommentReaction',
   CommentVote: 'CommentVote'
 };
 

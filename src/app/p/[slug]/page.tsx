@@ -6,6 +6,7 @@ import { timeAgo } from "@/lib/utils";
 import { ExternalLink, MessageSquare } from "lucide-react";
 import { VoteButtons } from "./VoteButtons";
 import { CommentForm } from "./CommentForm";
+import { CommentThread } from "./CommentThread";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { EmbedPlayer } from "@/components/posts/EmbedPlayer";
@@ -65,9 +66,11 @@ export default async function PostPage({ params }: PageProps) {
         where: { parentId: null },
         include: {
           user: { select: { name: true, username: true, image: true } },
+          reactions: { select: { type: true, userId: true } },
           replies: {
             include: {
               user: { select: { name: true, username: true, image: true } },
+              reactions: { select: { type: true, userId: true } },
             },
             orderBy: { createdAt: "asc" },
           },
@@ -234,33 +237,28 @@ export default async function PostPage({ params }: PageProps) {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="flex flex-col gap-3">
           {post.comments.map((comment) => (
-            <div key={comment.id} className="bg-white border border-zinc-200 rounded-xl p-4">
-              <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
-                <span className="font-medium text-zinc-700">
-                  {comment.user.username ?? comment.user.name ?? "Anónimo"}
-                </span>
-                <span>{timeAgo(comment.createdAt)}</span>
-              </div>
-              <p className="text-sm text-zinc-800 whitespace-pre-wrap">{comment.content}</p>
-
-              {comment.replies.length > 0 && (
-                <div className="mt-3 pl-4 border-l-2 border-zinc-100 space-y-3">
-                  {comment.replies.map((reply) => (
-                    <div key={reply.id}>
-                      <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
-                        <span className="font-medium text-zinc-700">
-                          {reply.user.username ?? reply.user.name ?? "Anónimo"}
-                        </span>
-                        <span>{timeAgo(reply.createdAt)}</span>
-                      </div>
-                      <p className="text-sm text-zinc-800">{reply.content}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <CommentThread
+              key={comment.id}
+              comment={{
+                id: comment.id,
+                content: comment.content,
+                createdAt: comment.createdAt.toISOString(),
+                user: comment.user,
+                reactions: comment.reactions as { type: "THUMBS_UP" | "HEART" | "BROKEN_HEART" | "LAUGH" | "THUMBS_DOWN"; userId: string }[],
+                replies: comment.replies.map(r => ({
+                  id: r.id,
+                  content: r.content,
+                  createdAt: r.createdAt.toISOString(),
+                  user: r.user,
+                  reactions: r.reactions as { type: "THUMBS_UP" | "HEART" | "BROKEN_HEART" | "LAUGH" | "THUMBS_DOWN"; userId: string }[],
+                })),
+              }}
+              postId={post.id}
+              isLoggedIn={!!session}
+              currentUserId={session?.user?.id}
+            />
           ))}
         </div>
       </div>
