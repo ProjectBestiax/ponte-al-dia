@@ -18,8 +18,26 @@ export function LeftSidebarCategories({ categories }: { categories: CategoryItem
   // Preserve current section (/, /populares, /tendencias)
   const base = pathname === "/" || pathname === "/populares" || pathname === "/tendencias" ? pathname : "/";
 
+  const totalCount = categories.reduce((sum, cat) => sum + cat.count, 0);
+
   return (
     <nav className="flex flex-col gap-0.5">
+      {/* Todas — limpia el filtro de categoría */}
+      <Link
+        href={base}
+        className="flex items-center justify-between h-[38px] px-3.5 rounded-[9px] font-semibold text-[14px] transition-colors hover:bg-zinc-100"
+        style={{
+          color: !activeCategory ? "#0A0A0A" : "#3F3F46",
+          background: !activeCategory ? "#F4F4F5" : undefined,
+          fontWeight: !activeCategory ? 700 : undefined,
+        }}
+      >
+        <span>📋 Todas</span>
+        <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, color: "#A1A1AA" }}>
+          {totalCount}
+        </span>
+      </Link>
+
       {categories.map((cat) => {
         const selected = activeCategory === cat.slug;
         const href = `${base}?categoria=${cat.slug}`;

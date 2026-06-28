@@ -44,7 +44,8 @@ export function LeftSidebarNav() {
     <nav className="flex flex-col gap-[3px]">
       {NAV_ITEMS.map((item) => {
         const active = pathname === item.href;
-        const target = categoria ? `${item.href}?categoria=${categoria}` : item.href;
+        // Inicio always resets to "/" with no filters; other sections preserve category
+        const target = item.href === "/" || !categoria ? item.href : `${item.href}?categoria=${categoria}`;
         return (
           <Link
             key={item.href}
