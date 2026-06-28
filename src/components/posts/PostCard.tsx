@@ -234,9 +234,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         className="flex sm:hidden gap-3 py-4 px-2 border-b border-zinc-100"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Left column: votes (top) + image (bottom) */}
-        <div className="flex flex-col items-center gap-2.5 shrink-0" style={{ width: 86 }}>
-          <div className="flex flex-col items-center gap-0.5">{voteButtons}</div>
+        {/* Left column: votes (top, horizontal) + image (bottom) */}
+        <div className="flex flex-col items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1">{voteButtons}</div>
           {post.imageUrl && (
             <Link href={`/p/${post.slug}`} className="block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
