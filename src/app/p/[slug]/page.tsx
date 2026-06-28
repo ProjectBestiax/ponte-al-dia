@@ -211,18 +211,13 @@ export default async function PostPage({ params }: PageProps) {
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 flex items-center justify-between gap-3 w-full px-5 py-3.5 bg-zinc-950 text-white rounded-[12px] hover:bg-zinc-800 transition-colors group"
+                className="mt-5 flex items-center justify-center gap-2.5 w-full px-5 py-3.5 bg-blue-600 text-white rounded-[12px] hover:bg-blue-700 transition-colors group"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <ExternalLink className="w-4 h-4 shrink-0 text-zinc-400" />
+                  <ExternalLink className="w-4 h-4 shrink-0 text-blue-200" />
                   <span className="font-bold text-[14px]">Ver fuente original</span>
-                  <span className="text-zinc-500 text-[12px] truncate hidden sm:block">
+                  <span className="text-blue-300 text-[12px] truncate hidden sm:block">
                     {new URL(post.url).hostname.replace("www.", "")}
                   </span>
-                </div>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-zinc-500 group-hover:translate-x-0.5 transition-transform">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
               </a>
             )}
 
