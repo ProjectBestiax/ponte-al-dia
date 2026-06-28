@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -37,15 +37,18 @@ const NAV_ITEMS = [
 
 export function LeftSidebarNav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const categoria = searchParams.get("categoria");
 
   return (
     <nav className="flex flex-col gap-[3px]">
       {NAV_ITEMS.map((item) => {
         const active = pathname === item.href;
+        const target = categoria ? `${item.href}?categoria=${categoria}` : item.href;
         return (
           <Link
             key={item.href}
-            href={item.href}
+            href={target}
             className={cn(
               "flex items-center gap-3 h-[42px] px-3.5 rounded-[10px] text-[14.5px] transition-colors",
               active

@@ -230,23 +230,27 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        {/* Meta */}
-        <div className="flex items-center gap-2.5 mb-1.5">
-          {post.url && <DomainIcon url={post.url} />}
+        {/* Meta — mobile: 2 lines (url / categoría + tiempo); desktop: 1 line */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 mb-2">
           {domain && (
-            <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              {post.url && <DomainIcon url={post.url} />}
+              <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+            </div>
           )}
-          <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
-          <span
-            className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase"
-            style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
-          >
-            {post.category.emoji} {post.category.name}
-          </span>
-          <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
-          <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
-            {timeAgo(new Date(post.createdAt))}
-          </span>
+          {domain && <span className="hidden sm:block w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span
+              className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
+              style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
+            >
+              {post.category.emoji} {post.category.name}
+            </span>
+            <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+            <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
+              {timeAgo(new Date(post.createdAt))}
+            </span>
+          </div>
         </div>
 
         {/* Title */}

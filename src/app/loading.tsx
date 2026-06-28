@@ -1,5 +1,5 @@
-import { FeedSkeleton } from "@/components/layout/FeedSkeleton";
+import { BrandLoader } from "@/components/layout/BrandLoader";
 
 export default function Loading() {
-  return <FeedSkeleton />;
+  return <BrandLoader />;
 }

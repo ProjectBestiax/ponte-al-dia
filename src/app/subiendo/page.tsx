@@ -21,7 +21,7 @@ export default async function RisingPage({ searchParams }: PageProps) {
       <div className="feed-grid">
         <Suspense>
           <aside className="feed-left-sidebar">
-            <LeftSidebar activeCategory={categoria} />
+            <LeftSidebar />
           </aside>
         </Suspense>
 

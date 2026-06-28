@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -12,6 +12,8 @@ const tabs = [
 
 export function FeedTabs() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const categoria = searchParams.get("categoria");
 
   return (
     <div
@@ -20,10 +22,11 @@ export function FeedTabs() {
     >
       {tabs.map(({ href, label }) => {
         const active = pathname === href;
+        const target = categoria ? `${href}?categoria=${categoria}` : href;
         return (
           <Link
             key={href}
-            href={href}
+            href={target}
             className={cn(
               "pb-3.5 text-[15px] transition-colors",
               active

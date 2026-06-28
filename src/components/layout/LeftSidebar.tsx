@@ -2,12 +2,9 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { LeftSidebarNav } from "./LeftSidebarNav";
+import { LeftSidebarCategories } from "./LeftSidebarCategories";
 
-interface LeftSidebarProps {
-  activeCategory?: string;
-}
-
-export async function LeftSidebar({ activeCategory }: LeftSidebarProps) {
+export async function LeftSidebar() {
   const session = await auth();
 
   const categories = await db.category.findMany({
@@ -30,28 +27,15 @@ export async function LeftSidebar({ activeCategory }: LeftSidebarProps) {
       >
         Categorías
       </div>
-      <nav className="flex flex-col gap-0.5">
-        {categories.map((cat) => {
-          const selected = activeCategory === cat.slug;
-          return (
-            <Link
-              key={cat.id}
-              href={`/?categoria=${cat.slug}`}
-              className="flex items-center justify-between h-[38px] px-3.5 rounded-[9px] font-semibold text-[14px] transition-colors hover:bg-zinc-100"
-              style={{
-                color: selected ? "#0A0A0A" : "#3F3F46",
-                background: selected ? "#F4F4F5" : undefined,
-                fontWeight: selected ? 700 : undefined,
-              }}
-            >
-              <span>{cat.emoji} {cat.name}</span>
-              <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, color: "#A1A1AA" }}>
-                {cat._count.posts}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
+      <LeftSidebarCategories
+        categories={categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          slug: cat.slug,
+          emoji: cat.emoji,
+          count: cat._count.posts,
+        }))}
+      />
 
       {/* CTA card (only when not logged in) */}
       {!session && (
