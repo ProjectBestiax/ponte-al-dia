@@ -39,16 +39,16 @@ export function CommentForm({ postId }: { postId: string }) {
         onChange={(e) => setContent(e.target.value)}
         rows={3}
         placeholder="¿Qué opinas? ¿Lo has probado?"
-        className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         maxLength={2000}
       />
       {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
       <div className="flex items-center justify-between mt-2">
-        <span className="text-xs text-gray-400">{content.length}/2000</span>
+        <span className="text-xs text-zinc-400">{content.length}/2000</span>
         <button
           type="submit"
           disabled={loading || !content.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
         >
           {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
           Comentar

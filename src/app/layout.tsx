@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Providers } from "@/components/layout/Providers";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { TopLoader } from "@/components/layout/TopLoader";
 
-// Cuando tengas el Publisher ID de AdSense, sustitúyelo aquí:
 const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
 
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -47,8 +59,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${geist.variable} h-full`} suppressHydrationWarning>
+    <html lang="es" className={`${geist.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full`} suppressHydrationWarning>
       <head>
+        {/* Critical layout CSS inlined so the grid never flashes unstyled during streaming */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .feed-wrapper{max-width:1280px;margin:0 auto;padding:30px 36px 48px}
+          .feed-grid{display:grid;grid-template-columns:226px 1fr 318px;gap:36px}
+          @media(max-width:1100px){.feed-grid{grid-template-columns:200px 1fr}.feed-grid .feed-right-sidebar{display:none}}
+          @media(max-width:767px){.feed-wrapper{padding:14px 16px 40px}.feed-grid{grid-template-columns:1fr}.feed-grid .feed-left-sidebar,.feed-grid .feed-right-sidebar{display:none}}
+        `}} />
         {ADSENSE_PUBLISHER_ID && (
           <script
             async
@@ -57,18 +76,14 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className="min-h-full flex flex-col bg-gray-50 antialiased">
+      <body className="min-h-full flex flex-col bg-white antialiased">
         <Providers>
+          <TopLoader />
           <Navbar />
-          <main className="flex-1 container mx-auto px-4 py-6 max-w-5xl">
+          <main className="flex-1 w-full">
             {children}
           </main>
           <CookieBanner />
-          <footer className="border-t border-gray-200 bg-white py-6 mt-12">
-            <div className="container mx-auto px-4 max-w-5xl text-center text-sm text-gray-500">
-              <p>© {new Date().getFullYear()} Ponte al dIA · <a href="/privacidad" className="hover:underline">Privacidad</a> · <a href="/cookies" className="hover:underline">Cookies</a></p>
-            </div>
-          </footer>
         </Providers>
       </body>
     </html>

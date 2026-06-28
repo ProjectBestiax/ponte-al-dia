@@ -2,25 +2,86 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Feed layout — responsive 3-column grid */
+.feed-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 30px 36px 48px;
+}
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: 226px 1fr 318px;
+  gap: 36px;
+}
+
+/* Tablet: hide right sidebar */
+@media (max-width: 1100px) {
+  .feed-grid {
+    grid-template-columns: 200px 1fr;
+  }
+  .feed-grid .feed-right-sidebar {
+    display: none;
+  }
+}
+
+/* Mobile: single column, hide both sidebars (aligned with Tailwind md = 768) */
+@media (max-width: 767px) {
+  .feed-wrapper {
+    padding: 14px 16px 40px;
+  }
+  .feed-grid {
+    grid-template-columns: 1fr;
+  }
+  .feed-grid .feed-left-sidebar,
+  .feed-grid .feed-right-sidebar {
+    display: none;
+  }
+}
+
+/* Horizontal scroll utility — hide scrollbar for mobile chip bars */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Branded loader — dIA logo heartbeat */
+@keyframes dia-beat {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(0.86); }
+  45% { transform: scale(1.04); }
+  60% { transform: scale(0.96); }
+}
+@keyframes dia-ring {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+.dia-beat {
+  animation: dia-beat 1.3s ease-in-out infinite;
+}
+.dia-ring {
+  animation: dia-ring 1.3s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dia-beat, .dia-ring { animation: none; }
+  .dia-ring { opacity: 0; }
 }

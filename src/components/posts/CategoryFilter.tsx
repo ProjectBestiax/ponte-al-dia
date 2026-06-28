@@ -34,8 +34,8 @@ export function CategoryFilter({ categories }: { categories: Category[] }) {
         className={cn(
           "text-xs font-medium px-3 py-1.5 rounded-full border transition-colors",
           !active
-            ? "bg-indigo-600 text-white border-indigo-600"
-            : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+            ? "bg-zinc-900 text-white border-zinc-900"
+            : "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400"
         )}
       >
         Todo
@@ -48,7 +48,7 @@ export function CategoryFilter({ categories }: { categories: Category[] }) {
             "text-xs font-medium px-3 py-1.5 rounded-full border transition-colors",
             active === cat.slug
               ? "text-white border-transparent"
-              : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              : "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400"
           )}
           style={
             active === cat.slug

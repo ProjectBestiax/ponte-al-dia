@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUp, ArrowDown, MessageSquare, ExternalLink } from "lucide-react";
+import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2 } from "lucide-react";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ interface PostCardProps {
     voteCount: number;
     commentCount: number;
     createdAt: Date;
-    userVote?: number | null; // +1, -1 o null
+    userVote?: number | null;
     user: {
       name?: string | null;
       username?: string | null;
@@ -29,10 +29,27 @@ interface PostCardProps {
       color: string;
     };
   };
-  rank?: number;
+  featured?: boolean;
 }
 
-export function PostCard({ post, rank }: PostCardProps) {
+function DomainIcon({ url }: { url: string }) {
+  try {
+    const hostname = new URL(url).hostname.replace("www.", "");
+    const letter = hostname[0].toUpperCase();
+    return (
+      <div
+        className="flex items-center justify-center rounded-[5px] bg-zinc-100 text-zinc-500 shrink-0"
+        style={{ width: 20, height: 20, fontFamily: "var(--font-jetbrains-mono)", fontWeight: 600, fontSize: 10 }}
+      >
+        {letter}
+      </div>
+    );
+  } catch {
+    return null;
+  }
+}
+
+export function PostCard({ post, featured = false }: PostCardProps) {
   const [votes, setVotes] = useState(post.voteCount);
   const [userVote, setUserVote] = useState(post.userVote ?? 0);
   const [loading, setLoading] = useState(false);
@@ -40,19 +57,21 @@ export function PostCard({ post, rank }: PostCardProps) {
   async function handleVote(value: number) {
     if (loading) return;
     setLoading(true);
-
     const newValue = userVote === value ? 0 : value;
     const diff = newValue - userVote;
-
     setVotes((v) => v + diff);
     setUserVote(newValue);
-
     try {
-      await fetch(`/api/posts/${post.id}/vote`, {
+      const res = await fetch(`/api/posts/${post.id}/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ value: newValue }),
       });
+      if (!res.ok) {
+        setVotes((v) => v - diff);
+        setUserVote(userVote);
+        if (res.status === 401) window.location.href = "/login";
+      }
     } catch {
       setVotes((v) => v - diff);
       setUserVote(userVote);
@@ -61,115 +80,206 @@ export function PostCard({ post, rank }: PostCardProps) {
     }
   }
 
-  const authorName = post.user.username ?? post.user.name ?? "Anónimo";
+  const domain = post.url ? (() => { try { return new URL(post.url).hostname.replace("www.", ""); } catch { return ""; } })() : "";
 
-  return (
-    <article className="flex gap-3 bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
-      {/* Rank */}
-      {rank !== undefined && (
-        <div className="hidden sm:flex items-start pt-1 w-6 text-xs font-bold text-gray-400">
-          {rank}.
+  if (featured) {
+    return (
+      <article
+        className="flex gap-3 sm:gap-4 rounded-[14px] p-4 sm:p-[22px] mt-[18px] mb-2"
+        style={{
+          border: "1px solid #DCE6FF",
+          background: "linear-gradient(180deg,#F7FAFF 0%,#FFFFFF 70%)",
+          fontFamily: "var(--font-manrope)",
+        }}
+      >
+        {/* Votes */}
+        <div className="flex flex-col items-center gap-[3px] min-w-[46px] pt-0.5">
+          <button
+            onClick={() => handleVote(1)}
+            disabled={loading}
+            className={cn(
+              "flex items-center justify-center rounded-[8px] transition-colors",
+              userVote === 1 ? "bg-blue-600" : "bg-blue-600 hover:bg-blue-700"
+            )}
+            style={{ width: 30, height: 30, border: "none" }}
+            aria-label="Votar positivo"
+          >
+            <ArrowUp className="w-[17px] h-[17px] text-white" strokeWidth={2.4} />
+          </button>
+          <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontWeight: 700, fontSize: 14, color: "#2563EB" }}>
+            {formatNumber(votes)}
+          </span>
+          <button
+            onClick={() => handleVote(-1)}
+            disabled={loading}
+            className="flex items-center justify-center rounded-[8px] transition-colors hover:bg-zinc-100"
+            style={{ width: 30, height: 30, border: "none", background: "transparent", color: "#C4C4CB" }}
+            aria-label="Votar negativo"
+          >
+            <ArrowDown className="w-[17px] h-[17px]" />
+          </button>
         </div>
-      )}
 
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div
+            className="flex items-center gap-2 mb-2.5"
+            style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, letterSpacing: "0.05em", textTransform: "uppercase", color: "#2563EB", fontWeight: 600 }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#2563EB" stroke="none">
+              <path d="m12 2 2.6 6.9L22 9.2l-5.6 4.7L18.1 22 12 17.8 5.9 22l1.7-8.1L2 9.2l7.4-.3z"/>
+            </svg>
+            IA destacada hoy
+          </div>
+
+          <div className="flex items-center gap-2.5 mb-2.5">
+            {post.url && <DomainIcon url={post.url} />}
+            {domain && (
+              <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#71717A" }}>{domain}</span>
+            )}
+            <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+            <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#A1A1AA" }}>
+              {timeAgo(new Date(post.createdAt))}
+            </span>
+          </div>
+
+          <Link href={`/p/${post.slug}`}>
+            <h2
+              className="hover:opacity-80 transition-opacity text-[21px] sm:text-[25px]"
+              style={{ margin: "0 0 8px", fontWeight: 800, lineHeight: 1.22, color: "#0A0A0A", letterSpacing: "-0.02em" }}
+            >
+              {post.title}
+            </h2>
+          </Link>
+
+          {post.description && (
+            <p style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.55, color: "#52525B", maxWidth: "62ch" }}>
+              {post.description.slice(0, 200)}{post.description.length > 200 ? "…" : ""}
+            </p>
+          )}
+
+          <div className="flex items-center flex-wrap gap-x-5 gap-y-2">
+            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+              <MessageSquare className="w-[17px] h-[17px]" strokeWidth={1.9} />
+              {formatNumber(post.commentCount)} comentarios
+            </Link>
+            <button className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+              <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} />
+              Guardar
+            </button>
+            <button className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+              <Share2 className="w-[17px] h-[17px]" strokeWidth={1.9} />
+              Compartir
+            </button>
+          </div>
+        </div>
+
+        {/* Thumbnail placeholder */}
+        {post.imageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.imageUrl}
+            alt={post.title}
+            className="hidden md:block shrink-0 object-cover rounded-[11px]"
+            style={{ width: 172, alignSelf: "stretch" }}
+          />
+        )}
+      </article>
+    );
+  }
+
+  // Regular row
+  return (
+    <article
+      className="flex gap-4 py-[18px] px-3 rounded-[12px] border-b border-zinc-50 hover:bg-zinc-50 transition-colors"
+      style={{ fontFamily: "var(--font-manrope)" }}
+    >
       {/* Votes */}
-      <div className="flex flex-col items-center gap-0.5 min-w-[40px]">
+      <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">
         <button
           onClick={() => handleVote(1)}
           disabled={loading}
           className={cn(
-            "p-1 rounded transition-colors",
-            userVote === 1
-              ? "text-indigo-600 bg-indigo-50"
-              : "text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"
+            "flex items-center justify-center rounded-[8px] transition-colors",
+            userVote === 1 ? "bg-blue-600 text-white" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
           )}
+          style={{ width: 30, height: 30, border: "none" }}
           aria-label="Votar positivo"
         >
-          <ArrowUp className="w-5 h-5" />
+          <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.2} />
         </button>
-        <span className={cn(
-          "text-sm font-bold tabular-nums",
-          votes > 0 ? "text-indigo-600" : votes < 0 ? "text-red-500" : "text-gray-500"
-        )}>
+        <span
+          className={cn("font-bold", votes < 0 ? "text-red-500" : "text-zinc-950")}
+          style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5 }}
+        >
           {formatNumber(votes)}
         </span>
         <button
           onClick={() => handleVote(-1)}
           disabled={loading}
           className={cn(
-            "p-1 rounded transition-colors",
-            userVote === -1
-              ? "text-red-500 bg-red-50"
-              : "text-gray-400 hover:text-red-500 hover:bg-red-50"
+            "flex items-center justify-center rounded-[8px] transition-colors",
+            userVote === -1 ? "bg-red-50 text-red-500" : "bg-transparent hover:bg-zinc-100"
           )}
+          style={{ width: 30, height: 30, border: "none", color: "#C4C4CB" }}
           aria-label="Votar negativo"
         >
-          <ArrowDown className="w-5 h-5" />
+          <ArrowDown className="w-[17px] h-[17px]" />
         </button>
       </div>
 
-      {/* Thumbnail */}
-      {post.imageUrl && (
-        <div className="hidden sm:block flex-shrink-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={post.imageUrl}
-            alt={post.title}
-            className="w-16 h-16 object-cover rounded-lg border border-gray-200"
-          />
-        </div>
-      )}
-
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start gap-2 flex-wrap">
-          <span
-            className="text-xs font-medium px-2 py-0.5 rounded-full"
-            style={{
-              backgroundColor: post.category.color + "20",
-              color: post.category.color,
-            }}
-          >
-            {post.category.emoji} {post.category.name}
-          </span>
-          {post.url && (
-            <span className="text-xs text-gray-400 truncate max-w-[200px]">
-              {new URL(post.url).hostname.replace("www.", "")}
-            </span>
+        {/* Meta — mobile: 2 lines (url / categoría + tiempo); desktop: 1 line */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 mb-2">
+          {domain && (
+            <div className="flex items-center gap-2 min-w-0">
+              {post.url && <DomainIcon url={post.url} />}
+              <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+            </div>
           )}
+          {domain && <span className="hidden sm:block w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span
+              className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
+              style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
+            >
+              {post.category.emoji} {post.category.name}
+            </span>
+            <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+            <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
+              {timeAgo(new Date(post.createdAt))}
+            </span>
+          </div>
         </div>
 
-        <div className="mt-1 flex items-start gap-1">
-          <Link
-            href={`/p/${post.slug}`}
-            className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors leading-snug line-clamp-2"
+        {/* Title */}
+        <Link href={`/p/${post.slug}`}>
+          <h3
+            className="hover:opacity-75 transition-opacity"
+            style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
           >
             {post.title}
-          </Link>
-          {post.url && (
-            <a
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-gray-600 flex-shrink-0 mt-0.5"
-              aria-label="Abrir enlace externo"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          )}
-        </div>
+          </h3>
+        </Link>
 
-        {post.description && (
-          <p className="mt-1 text-sm text-gray-500 line-clamp-2">{post.description}</p>
-        )}
-
-        <div className="mt-2 flex items-center gap-3 text-xs text-gray-400">
-          <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 hover:text-gray-600">
-            <MessageSquare className="w-3.5 h-3.5" />
-            {post.commentCount} comentario{post.commentCount !== 1 ? "s" : ""}
+        {/* Actions */}
+        <div className="flex items-center gap-5">
+          <Link
+            href={`/p/${post.slug}#comentarios`}
+            className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
+          >
+            <MessageSquare className="w-4 h-4" strokeWidth={1.9} />
+            {formatNumber(post.commentCount)}
           </Link>
-          <span>por <span className="font-medium text-gray-600">{authorName}</span></span>
-          <span>{timeAgo(new Date(post.createdAt))}</span>
+          <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+            <Bookmark className="w-4 h-4" strokeWidth={1.9} />
+            Guardar
+          </button>
+          <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+            <Share2 className="w-4 h-4" strokeWidth={1.9} />
+            Compartir
+          </button>
         </div>
       </div>
     </article>

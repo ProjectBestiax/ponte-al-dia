@@ -32,7 +32,7 @@ export function CookieBanner() {
           <p className="text-sm text-gray-700 leading-relaxed">
             Usamos cookies propias y de terceros para mejorar tu experiencia y mostrarte publicidad relevante.
             Puedes aceptarlas, rechazarlas, o{" "}
-            <a href="/premium" className="text-indigo-600 font-medium hover:underline">
+            <a href="/premium" className="text-blue-600 font-medium hover:underline">
               eliminar todos los anuncios por 1,99€/mes
             </a>
             .
@@ -48,7 +48,7 @@ export function CookieBanner() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={accept}
-            className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-700 transition-colors"
           >
             Aceptar cookies
           </button>
@@ -60,7 +60,7 @@ export function CookieBanner() {
           </button>
           <a
             href="/premium"
-            className="px-4 py-2 border border-indigo-200 text-indigo-600 text-sm font-medium rounded-lg hover:bg-indigo-50 transition-colors"
+            className="px-4 py-2 border border-zinc-200 text-blue-600 text-sm font-medium rounded-lg hover:bg-zinc-50 transition-colors"
           >
             ✨ Sin anuncios — 1,99€/mes
           </a>

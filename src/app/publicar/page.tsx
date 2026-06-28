@@ -12,8 +12,8 @@ export default async function PublishPage() {
   const categories = await getCategories();
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Publicar en Ponte al dIA</h1>
+    <div className="max-w-2xl mx-auto px-6 py-8">
+      <h1 className="text-2xl font-bold text-zinc-900 mb-6">Publicar en Ponte al dIA</h1>
       <PublishForm categories={categories} />
     </div>
   );

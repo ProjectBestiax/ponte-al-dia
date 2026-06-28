@@ -116,24 +116,24 @@ export function PublishForm({ categories }: { categories: Category[] }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
+    <form onSubmit={handleSubmit} className="bg-white border border-zinc-200 rounded-2xl p-6 space-y-5">
 
       {/* URL con auto-fetch */}
       <div>
-        <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
-          Enlace <span className="text-gray-400 font-normal">(pega la URL y rellenamos el resto)</span>
+        <label htmlFor="url" className="block text-sm font-medium text-zinc-700 mb-1">
+          Enlace <span className="text-zinc-400 font-normal">(pega la URL y rellenamos el resto)</span>
         </label>
         <div className="relative">
-          <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
           <input
             id="url"
             name="url"
             type="url"
             placeholder="https://..."
             onChange={handleUrlChange}
-            className="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full border border-zinc-300 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin" />}
+          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500 animate-spin" />}
         </div>
 
         {/* Indicador de embed detectado */}
@@ -145,14 +145,14 @@ export function PublishForm({ categories }: { categories: Category[] }) {
 
         {/* Preview OG */}
         {!embedDetected && preview?.image && (
-          <div className="mt-2 flex items-center gap-3 p-2.5 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="mt-2 flex items-center gap-3 p-2.5 bg-zinc-50 border border-zinc-200 rounded-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={preview.image} alt="" className="w-14 h-14 object-cover rounded-md flex-shrink-0 border border-gray-200" />
+            <img src={preview.image} alt="" className="w-14 h-14 object-cover rounded-md flex-shrink-0 border border-zinc-200" />
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-gray-700 truncate">{preview.title}</p>
-              <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{preview.description}</p>
+              <p className="text-xs font-semibold text-zinc-700 truncate">{preview.title}</p>
+              <p className="text-xs text-zinc-500 line-clamp-2 mt-0.5">{preview.description}</p>
             </div>
-            <button type="button" onClick={() => setPreview(null)} className="flex-shrink-0 text-gray-400 hover:text-gray-600">
+            <button type="button" onClick={() => setPreview(null)} className="flex-shrink-0 text-zinc-400 hover:text-zinc-600">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -162,23 +162,23 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       {/* Imagen subida manualmente (solo si no hay embed ni OG image) */}
       {!embedDetected && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Imagen <span className="text-gray-400 font-normal">(opcional, si no se detectó una automáticamente)</span>
+          <label className="block text-sm font-medium text-zinc-700 mb-1">
+            Imagen <span className="text-zinc-400 font-normal">(opcional, si no se detectó una automáticamente)</span>
           </label>
           {uploadedImage ? (
             <div className="relative inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={uploadedImage} alt="Preview" className="h-24 rounded-lg border border-gray-200 object-cover" />
+              <img src={uploadedImage} alt="Preview" className="h-24 rounded-lg border border-zinc-200 object-cover" />
               <button
                 type="button"
                 onClick={() => { setUploadedImage(null); if (fileRef.current) fileRef.current.value = ""; }}
-                className="absolute -top-2 -right-2 bg-white border border-gray-300 rounded-full p-0.5 text-gray-500 hover:text-red-500"
+                className="absolute -top-2 -right-2 bg-white border border-zinc-300 rounded-full p-0.5 text-zinc-500 hover:text-red-500"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
           ) : (
-            <label className="flex items-center gap-2 w-fit cursor-pointer px-3 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition-colors">
+            <label className="flex items-center gap-2 w-fit cursor-pointer px-3 py-2 border border-dashed border-zinc-300 rounded-lg text-sm text-zinc-500 hover:border-blue-400 hover:text-blue-600 transition-colors">
               {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
               {uploading ? "Subiendo..." : "Subir imagen"}
               <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={handleImageUpload} disabled={uploading} />
@@ -189,7 +189,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
 
       {/* Título */}
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="title" className="block text-sm font-medium text-zinc-700 mb-1">
           Título <span className="text-red-500">*</span>
         </label>
         <input
@@ -199,14 +199,14 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           ref={titleRef}
           maxLength={200}
           placeholder="Ej: Claude 4 ya puede usar computadoras de forma autónoma"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           required
         />
       </div>
 
       {/* Descripción */}
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="description" className="block text-sm font-medium text-zinc-700 mb-1">
           Descripción breve
         </label>
         <textarea
@@ -216,24 +216,24 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           rows={3}
           maxLength={500}
           placeholder="Explica en 2-3 frases por qué esto es interesante para la comunidad..."
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
         />
       </div>
 
       {/* Categoría */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-zinc-700 mb-2">
           Categoría <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((cat) => (
             <label
               key={cat.id}
-              className="flex items-center gap-2 p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition-colors"
+              className="flex items-center gap-2 p-2.5 border border-zinc-200 rounded-lg cursor-pointer hover:border-blue-300 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 transition-colors"
             >
               <input type="radio" name="categoryId" value={cat.id} className="sr-only" required />
               <span>{cat.emoji}</span>
-              <span className="text-sm font-medium text-gray-700">{cat.name}</span>
+              <span className="text-sm font-medium text-zinc-700">{cat.name}</span>
             </label>
           ))}
         </div>
@@ -246,13 +246,13 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-medium py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors"
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
         {loading ? "Publicando..." : "Publicar"}
       </button>
 
-      <p className="text-xs text-gray-400 text-center">
+      <p className="text-xs text-zinc-400 text-center">
         Tu post pasará por moderación antes de aparecer en el feed. Normalmente en menos de 1 hora.
       </p>
     </form>
