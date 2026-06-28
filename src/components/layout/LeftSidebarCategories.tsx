@@ -15,8 +15,8 @@ export function LeftSidebarCategories({ categories }: { categories: CategoryItem
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("categoria");
-  // Preserve current section (/, /tendencia, /subiendo)
-  const base = pathname === "/" || pathname === "/tendencia" || pathname === "/subiendo" ? pathname : "/";
+  // Preserve current section (/, /populares, /tendencias)
+  const base = pathname === "/" || pathname === "/populares" || pathname === "/tendencias" ? pathname : "/";
 
   return (
     <nav className="flex flex-col gap-0.5">

@@ -4,18 +4,17 @@ import { PostCard } from "@/components/posts/PostCard";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
-import { getTrendingPosts } from "@/lib/posts";
+import { getRisingPosts } from "@/lib/posts";
 
 interface PageProps {
-  searchParams: Promise<{ categoria?: string; pagina?: string }>;
+  searchParams: Promise<{ categoria?: string }>;
 }
 
-export const metadata = { title: "Populares · Ponte al dIA" };
+export const metadata = { title: "Tendencias · Ponte al dIA" };
 
-export default async function TrendingPage({ searchParams }: PageProps) {
-  const { categoria, pagina } = await searchParams;
-  const page = parseInt(pagina ?? "1");
-  const posts = await getTrendingPosts(categoria, page);
+export default async function RisingPage({ searchParams }: PageProps) {
+  const { categoria } = await searchParams;
+  const posts = await getRisingPosts(categoria);
 
   return (
     <div className="feed-wrapper">
@@ -28,14 +27,14 @@ export default async function TrendingPage({ searchParams }: PageProps) {
 
         <main style={{ minWidth: 0 }}>
           <Suspense>
-            <MobileCategoryBar activeCategory={categoria} basePath="/tendencia" />
+            <MobileCategoryBar activeCategory={categoria} basePath="/tendencias" />
           </Suspense>
           <FeedTabs />
 
           {posts.length === 0 ? (
             <div className="text-center py-16 text-zinc-400">
-              <p className="text-lg font-medium">Aún no hay tendencias.</p>
-              <p className="text-sm mt-1">¡Publica algo y consigue votos!</p>
+              <p className="text-lg font-medium">Nada subiendo todavía.</p>
+              <p className="text-sm mt-1">Vota los posts que te parezcan interesantes.</p>
             </div>
           ) : (
             <div>
@@ -50,17 +49,6 @@ export default async function TrendingPage({ searchParams }: PageProps) {
                   }}
                 />
               ))}
-            </div>
-          )}
-
-          {posts.length === 20 && (
-            <div className="mt-8 flex justify-center">
-              <a
-                href={`/tendencia?${categoria ? `categoria=${categoria}&` : ""}pagina=${page + 1}`}
-                className="px-6 py-2 border border-zinc-200 rounded-lg text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-              >
-                Ver más →
-              </a>
             </div>
           )}
         </main>

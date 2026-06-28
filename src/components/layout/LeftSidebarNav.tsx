@@ -15,7 +15,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    href: "/tendencia",
+    href: "/populares",
     label: "Populares",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -24,7 +24,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    href: "/subiendo",
+    href: "/tendencias",
     label: "Tendencias",
     blue: true,
     icon: (
