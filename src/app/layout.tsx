@@ -61,6 +61,13 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${geist.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full`} suppressHydrationWarning>
       <head>
+        {/* Critical layout CSS inlined so the grid never flashes unstyled during streaming */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .feed-wrapper{max-width:1280px;margin:0 auto;padding:30px 36px 48px}
+          .feed-grid{display:grid;grid-template-columns:226px 1fr 318px;gap:36px}
+          @media(max-width:1100px){.feed-grid{grid-template-columns:200px 1fr}.feed-grid .feed-right-sidebar{display:none}}
+          @media(max-width:767px){.feed-wrapper{padding:14px 16px 40px}.feed-grid{grid-template-columns:1fr}.feed-grid .feed-left-sidebar,.feed-grid .feed-right-sidebar{display:none}}
+        `}} />
         {ADSENSE_PUBLISHER_ID && (
           <script
             async
