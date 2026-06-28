@@ -254,8 +254,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           {/* Category + time */}
           <div className="flex items-center gap-2 mb-2 flex-wrap">
             <span
-              className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
-              style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
+              className="rounded-full font-medium shrink-0"
+              style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
             >
               {post.category.emoji} {post.category.name}
             </span>
@@ -320,8 +320,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             )}
             {domain && <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />}
             <span
-              className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
-              style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
+              className="rounded-full font-medium shrink-0"
+              style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
             >
               {post.category.emoji} {post.category.name}
             </span>
