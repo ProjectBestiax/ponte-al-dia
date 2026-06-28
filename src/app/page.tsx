@@ -23,11 +23,11 @@ export default async function HomePage({ searchParams }: PageProps) {
   return (
     <div className="feed-wrapper">
       <div className="feed-grid">
-        <Suspense>
-          <aside className="feed-left-sidebar">
+        <aside className="feed-left-sidebar">
+          <Suspense>
             <LeftSidebar />
-          </aside>
-        </Suspense>
+          </Suspense>
+        </aside>
 
         <main style={{ minWidth: 0 }}>
           <Suspense>
