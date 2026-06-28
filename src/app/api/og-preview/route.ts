@@ -42,6 +42,24 @@ export async function GET(req: NextRequest) {
       return match?.[1]?.trim() ?? null;
     };
 
+    // For X/Twitter tweet URLs, og:title = "User on X" (useless).
+    // The actual tweet text lives in og:description — use it as the title instead.
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.replace("www.", "");
+    const isXTweet =
+      (host === "x.com" || host === "twitter.com") &&
+      parsedUrl.pathname.includes("/status/");
+
+    if (isXTweet) {
+      const tweetText = getDesc();
+      return NextResponse.json({
+        title: tweetText ? tweetText.slice(0, 200) : getTitle(),
+        description: null,
+        image: get("og:image"),
+        siteName: "X",
+      });
+    }
+
     return NextResponse.json({
       title: getTitle(),
       description: getDesc(),
