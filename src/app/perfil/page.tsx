@@ -1,103 +1,306 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { User, Star, FileText, Calendar } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Mi perfil" };
+export const metadata: Metadata = { title: "Mi perfil · Ponte al dIA" };
+export const dynamic = "force-dynamic";
 
-export default async function PerfilPage() {
+type Tab = "publicaciones" | "votos" | "comentarios";
+
+interface PageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function PerfilPage({ searchParams }: PageProps) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
+  const { tab } = await searchParams;
+  const activeTab: Tab =
+    tab === "votos" || tab === "comentarios" ? tab : "publicaciones";
+
   const user = await db.user.findUnique({
     where: { id: session.user.id },
-    include: {
-      posts: {
-        where: { status: "ACTIVE" },
-        orderBy: { createdAt: "desc" },
-        take: 10,
-        include: { category: true },
-      },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      username: true,
+      image: true,
+      bio: true,
+      karma: true,
+      createdAt: true,
     },
   });
 
   if (!user) redirect("/login");
 
+  const [postCount, voteCount, commentCount] = await Promise.all([
+    db.post.count({ where: { userId: user.id, status: "ACTIVE" } }),
+    db.vote.count({ where: { userId: user.id } }),
+    db.comment.count({ where: { userId: user.id } }),
+  ]);
+
+  // Fetch only the active tab's data
+  const posts =
+    activeTab === "publicaciones"
+      ? await db.post.findMany({
+          where: { userId: user.id, status: "ACTIVE" },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          select: {
+            id: true, title: true, slug: true, voteCount: true,
+            commentCount: true, createdAt: true,
+            category: { select: { name: true, emoji: true } },
+          },
+        })
+      : [];
+
+  const votes =
+    activeTab === "votos"
+      ? await db.vote.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          select: {
+            id: true, value: true, createdAt: true,
+            post: { select: { title: true, slug: true, category: { select: { name: true, emoji: true } } } },
+          },
+        })
+      : [];
+
+  const comments =
+    activeTab === "comentarios"
+      ? await db.comment.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          select: {
+            id: true, content: true, createdAt: true, score: true,
+            post: { select: { title: true, slug: true } },
+          },
+        })
+      : [];
+
+  const initial = (user.name ?? user.email ?? "U")[0].toUpperCase();
+  const displayName = user.name ?? user.email ?? "Usuario";
+  const memberSince = formatDistanceToNow(user.createdAt, { addSuffix: true, locale: es });
+
+  const tabLink = (t: Tab) => (t === "publicaciones" ? "/perfil" : `/perfil?tab=${t}`);
+
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
-      {/* Avatar + datos */}
-      <div className="bg-white border border-zinc-200 rounded-xl p-6 flex items-start gap-5">
+    <div style={{ maxWidth: 680, margin: "0 auto", padding: "32px 24px 64px", fontFamily: "var(--font-manrope)" }}>
+
+      {/* ── Header ── */}
+      <div className="flex items-start gap-5 mb-6">
         {user.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={user.image} alt="avatar" className="w-16 h-16 rounded-full" />
+          <img
+            src={user.image}
+            alt="avatar"
+            className="rounded-full shrink-0 object-cover"
+            style={{ width: 72, height: 72 }}
+          />
         ) : (
-          <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-            <User className="w-8 h-8 text-blue-500" />
+          <div
+            className="rounded-full shrink-0 flex items-center justify-center text-white font-extrabold"
+            style={{ width: 72, height: 72, background: "#0A0A0A", fontSize: 28 }}
+          >
+            {initial}
           </div>
         )}
+
         <div className="flex-1 min-w-0">
-          <h1 className="text-xl font-bold text-zinc-900 truncate">
-            {user.name ?? "Sin nombre"}
-          </h1>
-          <p className="text-sm text-zinc-500 truncate">{user.email}</p>
-          <div className="flex items-center gap-4 mt-3 text-sm text-zinc-600">
-            <span className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-amber-500" />
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h1 className="font-extrabold text-zinc-950 truncate" style={{ fontSize: 22 }}>
+                {displayName}
+              </h1>
+              {user.username && (
+                <p className="text-zinc-400 font-medium" style={{ fontSize: 14 }}>
+                  @{user.username}
+                </p>
+              )}
+            </div>
+            <Link
+              href="/perfil/editar"
+              className="shrink-0 flex items-center gap-1.5 border border-zinc-200 rounded-[9px] px-3 h-[34px] text-zinc-600 font-semibold hover:bg-zinc-50 transition-colors"
+              style={{ fontSize: 13 }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Editar
+            </Link>
+          </div>
+
+          {user.bio && (
+            <p className="text-zinc-600 mt-2 leading-relaxed" style={{ fontSize: 14 }}>
+              {user.bio}
+            </p>
+          )}
+
+          <div className="flex items-center gap-3 mt-3 flex-wrap" style={{ fontSize: 13 }}>
+            <span className="flex items-center gap-1 font-semibold text-amber-600">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
               {user.karma} karma
             </span>
-            <span className="flex items-center gap-1">
-              <FileText className="w-4 h-4 text-blue-400" />
-              {user.posts.length} posts
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar className="w-4 h-4 text-zinc-400" />
-              {formatDistanceToNow(user.createdAt, { addSuffix: true, locale: es })}
-            </span>
+            <span className="text-zinc-300">·</span>
+            <span className="text-zinc-400">Miembro {memberSince}</span>
           </div>
         </div>
       </div>
 
-      {/* Posts recientes */}
-      <div className="mt-6">
-        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-3">
-          Mis publicaciones
-        </h2>
-        {user.posts.length === 0 ? (
-          <div className="bg-white border border-zinc-200 rounded-xl p-8 text-center text-zinc-500">
-            <p>Aún no has publicado nada.</p>
-            <a
-              href="/publicar"
-              className="inline-block mt-3 text-sm text-blue-600 hover:underline"
-            >
-              Publicar algo →
-            </a>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {user.posts.map((post) => (
-              <a
+      {/* ── Stats bar ── */}
+      <div className="grid grid-cols-3 border border-zinc-100 rounded-[13px] mb-6 overflow-hidden">
+        {[
+          { label: "Publicaciones", value: postCount, tab: "publicaciones" as Tab },
+          { label: "Votos dados", value: voteCount, tab: "votos" as Tab },
+          { label: "Comentarios", value: commentCount, tab: "comentarios" as Tab },
+        ].map(({ label, value, tab: t }, i) => (
+          <Link
+            key={t}
+            href={tabLink(t)}
+            className={`flex flex-col items-center py-4 transition-colors hover:bg-zinc-50 ${
+              i < 2 ? "border-r border-zinc-100" : ""
+            } ${activeTab === t ? "bg-zinc-50" : ""}`}
+          >
+            <span className="font-extrabold text-zinc-950" style={{ fontSize: 22, fontFamily: "var(--font-jetbrains-mono)" }}>
+              {value}
+            </span>
+            <span className="text-zinc-400 font-medium" style={{ fontSize: 12 }}>
+              {label}
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Tabs ── */}
+      <div className="flex items-center gap-6 border-b border-zinc-100 mb-4">
+        {(["publicaciones", "votos", "comentarios"] as Tab[]).map((t) => (
+          <Link
+            key={t}
+            href={tabLink(t)}
+            className={`pb-3.5 capitalize transition-colors ${
+              activeTab === t
+                ? "font-bold text-zinc-950 border-b-2 border-zinc-950 -mb-px"
+                : "font-semibold text-zinc-400 hover:text-zinc-700"
+            }`}
+            style={{ fontSize: 15 }}
+          >
+            {t.charAt(0).toUpperCase() + t.slice(1)}
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Tab content ── */}
+
+      {activeTab === "publicaciones" && (
+        <div className="flex flex-col divide-y divide-zinc-100">
+          {posts.length === 0 ? (
+            <div className="py-12 text-center text-zinc-400">
+              <p className="font-medium">Aún no has publicado nada.</p>
+              <Link href="/publicar" className="mt-2 inline-block text-blue-600 text-sm hover:underline">
+                Publicar algo →
+              </Link>
+            </div>
+          ) : (
+            posts.map((post) => (
+              <Link
                 key={post.id}
                 href={`/p/${post.slug}`}
-                className="bg-white border border-zinc-200 rounded-lg px-4 py-3 hover:border-blue-300 transition-colors flex items-center justify-between gap-3"
+                className="flex items-center justify-between gap-4 py-3.5 hover:bg-zinc-50 -mx-2 px-2 rounded-[9px] transition-colors"
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-zinc-900 truncate">{post.title}</p>
-                  <p className="text-xs text-zinc-400 mt-0.5">
+                  <p className="font-semibold text-zinc-900 truncate" style={{ fontSize: 14 }}>
+                    {post.title}
+                  </p>
+                  <p className="text-zinc-400 mt-0.5" style={{ fontSize: 12 }}>
                     {post.category.emoji} {post.category.name} ·{" "}
                     {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: es })}
                   </p>
                 </div>
-                <span className="text-xs font-medium text-blue-600 shrink-0">
-                  {post.voteCount} votos
+                <div className="shrink-0 flex items-center gap-3 text-zinc-400" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12 }}>
+                  <span>{post.voteCount} votos</span>
+                  <span>{post.commentCount} com.</span>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
+
+      {activeTab === "votos" && (
+        <div className="flex flex-col divide-y divide-zinc-100">
+          {votes.length === 0 ? (
+            <div className="py-12 text-center text-zinc-400">
+              <p className="font-medium">Todavía no has votado nada.</p>
+            </div>
+          ) : (
+            votes.map((vote) => (
+              <Link
+                key={vote.id}
+                href={`/p/${vote.post.slug}`}
+                className="flex items-center gap-3 py-3.5 hover:bg-zinc-50 -mx-2 px-2 rounded-[9px] transition-colors"
+              >
+                <span
+                  className="shrink-0 font-bold text-lg"
+                  style={{ color: vote.value > 0 ? "#16a34a" : "#e11d48", fontFamily: "var(--font-jetbrains-mono)" }}
+                >
+                  {vote.value > 0 ? "▲" : "▼"}
                 </span>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
+                <div className="min-w-0">
+                  <p className="font-semibold text-zinc-900 truncate" style={{ fontSize: 14 }}>
+                    {vote.post.title}
+                  </p>
+                  <p className="text-zinc-400 mt-0.5" style={{ fontSize: 12 }}>
+                    {vote.post.category.emoji} {vote.post.category.name} ·{" "}
+                    {formatDistanceToNow(vote.createdAt, { addSuffix: true, locale: es })}
+                  </p>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
+
+      {activeTab === "comentarios" && (
+        <div className="flex flex-col divide-y divide-zinc-100">
+          {comments.length === 0 ? (
+            <div className="py-12 text-center text-zinc-400">
+              <p className="font-medium">Todavía no has comentado nada.</p>
+            </div>
+          ) : (
+            comments.map((comment) => (
+              <Link
+                key={comment.id}
+                href={`/p/${comment.post.slug}`}
+                className="flex flex-col gap-1.5 py-3.5 hover:bg-zinc-50 -mx-2 px-2 rounded-[9px] transition-colors"
+              >
+                <p className="text-zinc-700 leading-relaxed line-clamp-2" style={{ fontSize: 14 }}>
+                  {comment.content}
+                </p>
+                <p className="text-zinc-400" style={{ fontSize: 12 }}>
+                  en: <span className="text-zinc-600 font-medium">{comment.post.title}</span>{" "}
+                  · {formatDistanceToNow(comment.createdAt, { addSuffix: true, locale: es })}
+                  {comment.score !== 0 && (
+                    <span className={`ml-2 font-semibold ${comment.score > 0 ? "text-green-600" : "text-red-400"}`}>
+                      {comment.score > 0 ? "+" : ""}{comment.score} pts
+                    </span>
+                  )}
+                </p>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }
