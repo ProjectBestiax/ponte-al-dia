@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2 } from "lucide-react";
+import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2, ChevronRight } from "lucide-react";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -189,57 +189,70 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   }
 
   // Regular row
-  return (
-    <article
-      className="flex gap-4 py-[18px] px-3 rounded-[12px] border-b border-zinc-50 hover:bg-zinc-50 transition-colors"
-      style={{ fontFamily: "var(--font-manrope)" }}
-    >
-      {/* Votes */}
-      <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">
-        <button
-          onClick={() => handleVote(1)}
-          disabled={loading}
-          className={cn(
-            "flex items-center justify-center rounded-[8px] transition-colors",
-            userVote === 1 ? "bg-blue-600 text-white" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
-          )}
-          style={{ width: 30, height: 30, border: "none" }}
-          aria-label="Votar positivo"
-        >
-          <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.2} />
-        </button>
-        <span
-          className={cn("font-bold", votes < 0 ? "text-red-500" : "text-zinc-950")}
-          style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5 }}
-        >
-          {formatNumber(votes)}
-        </span>
-        <button
-          onClick={() => handleVote(-1)}
-          disabled={loading}
-          className={cn(
-            "flex items-center justify-center rounded-[8px] transition-colors",
-            userVote === -1 ? "bg-red-50 text-red-500" : "bg-transparent hover:bg-zinc-100"
-          )}
-          style={{ width: 30, height: 30, border: "none", color: "#C4C4CB" }}
-          aria-label="Votar negativo"
-        >
-          <ArrowDown className="w-[17px] h-[17px]" />
-        </button>
-      </div>
+  const authorName = post.user.username ?? post.user.name ?? "Anónimo";
 
-      {/* Content */}
-      <div className="flex-1 min-w-0">
-        {/* Meta — mobile: 2 lines (url / categoría + tiempo); desktop: 1 line */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 mb-2">
-          {domain && (
-            <div className="flex items-center gap-2 min-w-0">
-              {post.url && <DomainIcon url={post.url} />}
-              <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
-            </div>
+  // Shared vote buttons (used in both mobile and desktop layouts)
+  const voteButtons = (
+    <>
+      <button
+        onClick={() => handleVote(1)}
+        disabled={loading}
+        className={cn(
+          "flex items-center justify-center rounded-[8px] transition-colors",
+          userVote === 1 ? "bg-blue-600 text-white" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
+        )}
+        style={{ width: 30, height: 30, border: "none" }}
+        aria-label="Votar positivo"
+      >
+        <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.2} />
+      </button>
+      <span
+        className={cn("font-bold", votes < 0 ? "text-red-500" : "text-zinc-950")}
+        style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5 }}
+      >
+        {formatNumber(votes)}
+      </span>
+      <button
+        onClick={() => handleVote(-1)}
+        disabled={loading}
+        className={cn(
+          "flex items-center justify-center rounded-[8px] transition-colors",
+          userVote === -1 ? "bg-red-50 text-red-500" : "bg-transparent hover:bg-zinc-100"
+        )}
+        style={{ width: 30, height: 30, border: "none", color: "#C4C4CB" }}
+        aria-label="Votar negativo"
+      >
+        <ArrowDown className="w-[17px] h-[17px]" />
+      </button>
+    </>
+  );
+
+  return (
+    <>
+      {/* ─── Mobile layout (< sm): votes + square image on the left, content on the right ─── */}
+      <article
+        className="flex sm:hidden gap-3 py-4 px-2 border-b border-zinc-100"
+        style={{ fontFamily: "var(--font-manrope)" }}
+      >
+        {/* Left column: votes (top) + image (bottom) */}
+        <div className="flex flex-col items-center gap-2.5 shrink-0" style={{ width: 86 }}>
+          <div className="flex flex-col items-center gap-0.5">{voteButtons}</div>
+          {post.imageUrl && (
+            <Link href={`/p/${post.slug}`} className="block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="w-[86px] h-[86px] object-cover rounded-[11px] border border-zinc-100"
+              />
+            </Link>
           )}
-          {domain && <span className="hidden sm:block w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />}
-          <div className="flex items-center gap-2.5 min-w-0">
+        </div>
+
+        {/* Right column: category + time, title, source, author, CTA */}
+        <div className="flex-1 min-w-0">
+          {/* Category + time */}
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
             <span
               className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
               style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
@@ -251,52 +264,118 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               {timeAgo(new Date(post.createdAt))}
             </span>
           </div>
-        </div>
 
-        {/* Title + thumbnail */}
-        <div className="flex gap-3 sm:gap-4">
-          <div className="flex-1 min-w-0">
-            <Link href={`/p/${post.slug}`}>
-              <h3
-                className="hover:opacity-75 transition-opacity"
-                style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
-              >
-                {post.title}
-              </h3>
-            </Link>
+          {/* Title */}
+          <Link href={`/p/${post.slug}`}>
+            <h3
+              className="hover:opacity-75 transition-opacity"
+              style={{ margin: 0, fontWeight: 700, fontSize: 17, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+            >
+              {post.title}
+            </h3>
+          </Link>
+
+          {/* Source */}
+          {domain && (
+            <div className="flex items-center gap-1.5 mt-2">
+              {post.url && <DomainIcon url={post.url} />}
+              <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+            </div>
+          )}
+
+          {/* Author */}
+          <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
+            por <span className="font-semibold text-zinc-600">{authorName}</span>
+          </p>
+
+          {/* CTA */}
+          <Link
+            href={`/p/${post.slug}`}
+            className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            style={{ fontSize: 12.5, fontWeight: 700 }}
+          >
+            Ir al post
+            <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.5} />
+          </Link>
+        </div>
+      </article>
+
+      {/* ─── Desktop / tablet layout (>= sm): unchanged ─── */}
+      <article
+        className="hidden sm:flex gap-4 py-[18px] px-3 rounded-[12px] border-b border-zinc-50 hover:bg-zinc-50 transition-colors"
+        style={{ fontFamily: "var(--font-manrope)" }}
+      >
+        {/* Votes */}
+        <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">{voteButtons}</div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          {/* Meta — single line */}
+          <div className="flex items-center gap-2.5 mb-2">
+            {domain && (
+              <div className="flex items-center gap-2 min-w-0">
+                {post.url && <DomainIcon url={post.url} />}
+                <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+              </div>
+            )}
+            {domain && <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />}
+            <span
+              className="border border-zinc-200 rounded-[5px] text-zinc-600 uppercase shrink-0"
+              style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, letterSpacing: "0.04em", padding: "2px 7px" }}
+            >
+              {post.category.emoji} {post.category.name}
+            </span>
+            <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+            <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
+              {timeAgo(new Date(post.createdAt))}
+            </span>
           </div>
 
-          {post.imageUrl && (
-            <Link href={`/p/${post.slug}`} className="shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={post.imageUrl}
-                alt={post.title}
-                className="object-cover rounded-[10px] border border-zinc-100 w-[88px] h-[88px] sm:w-[112px] sm:h-[112px]"
-              />
-            </Link>
-          )}
-        </div>
+          {/* Title + thumbnail */}
+          <div className="flex gap-4">
+            <div className="flex-1 min-w-0">
+              <Link href={`/p/${post.slug}`}>
+                <h3
+                  className="hover:opacity-75 transition-opacity"
+                  style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+                >
+                  {post.title}
+                </h3>
+              </Link>
+            </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-5">
-          <Link
-            href={`/p/${post.slug}#comentarios`}
-            className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
-          >
-            <MessageSquare className="w-4 h-4" strokeWidth={1.9} />
-            {formatNumber(post.commentCount)}
-          </Link>
-          <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
-            <Bookmark className="w-4 h-4" strokeWidth={1.9} />
-            Guardar
-          </button>
-          <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
-            <Share2 className="w-4 h-4" strokeWidth={1.9} />
-            Compartir
-          </button>
+            {post.imageUrl && (
+              <Link href={`/p/${post.slug}`} className="shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  className="object-cover rounded-[10px] border border-zinc-100 w-[112px] h-[112px]"
+                />
+              </Link>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-5">
+            <Link
+              href={`/p/${post.slug}#comentarios`}
+              className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
+            >
+              <MessageSquare className="w-4 h-4" strokeWidth={1.9} />
+              {formatNumber(post.commentCount)}
+            </Link>
+            <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+              <Bookmark className="w-4 h-4" strokeWidth={1.9} />
+              Guardar
+            </button>
+            <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+              <Share2 className="w-4 h-4" strokeWidth={1.9} />
+              Compartir
+            </button>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </>
   );
 }
