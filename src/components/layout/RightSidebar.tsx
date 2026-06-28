@@ -1,20 +1,10 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { getCachedTrendingSidebar, getCachedTopContributors } from "@/lib/cached-data";
 
 export async function RightSidebar() {
   const [trending, topUsers] = await Promise.all([
-    db.post.findMany({
-      where: { status: "ACTIVE" },
-      orderBy: { score: "desc" },
-      take: 5,
-      select: { id: true, title: true, slug: true, voteCount: true, commentCount: true, score: true },
-    }),
-    db.user.findMany({
-      where: { karma: { gt: 0 } },
-      orderBy: { karma: "desc" },
-      take: 5,
-      select: { id: true, name: true, username: true, image: true, karma: true },
-    }),
+    getCachedTrendingSidebar(),
+    getCachedTopContributors(),
   ]);
 
   return (

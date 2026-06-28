@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { getCachedCategories } from "@/lib/cached-data";
 import { LeftSidebarNav } from "./LeftSidebarNav";
 import { LeftSidebarCategories } from "./LeftSidebarCategories";
 
 export async function LeftSidebar() {
-  const session = await auth();
-
-  const categories = await db.category.findMany({
-    orderBy: { name: "asc" },
-    include: { _count: { select: { posts: { where: { status: "ACTIVE" } } } } },
-  });
+  const [session, categories] = await Promise.all([
+    auth(),
+    getCachedCategories(),
+  ]);
 
   return (
     <aside style={{ fontFamily: "var(--font-manrope)" }}>

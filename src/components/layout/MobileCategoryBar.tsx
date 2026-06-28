@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { getCachedCategories } from "@/lib/cached-data";
 
 interface MobileCategoryBarProps {
   activeCategory?: string;
@@ -7,10 +7,7 @@ interface MobileCategoryBarProps {
 }
 
 export async function MobileCategoryBar({ activeCategory, basePath = "/" }: MobileCategoryBarProps) {
-  const categories = await db.category.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, slug: true, emoji: true },
-  });
+  const categories = await getCachedCategories();
 
   const chip = (active: boolean) =>
     `shrink-0 inline-flex items-center gap-1.5 h-[34px] px-3.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-colors ${
