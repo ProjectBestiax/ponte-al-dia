@@ -199,7 +199,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         disabled={loading}
         className={cn(
           "flex items-center justify-center rounded-[8px] transition-colors",
-          userVote === 1 ? "bg-blue-600 text-white" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
+          userVote === 1 ? "bg-blue-50 text-blue-600" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
         )}
         style={{ width: 30, height: 30, border: "none" }}
         aria-label="Votar positivo"
