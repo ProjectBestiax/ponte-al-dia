@@ -25,14 +25,16 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts         Account[]
-  sessions         Session[]
-  posts            Post[]
-  votes            Vote[]
-  comments         Comment[]
-  commentVotes     CommentVote[]
-  commentReactions CommentReaction[]
-  bookmarks        Bookmark[]
+  accounts           Account[]
+  sessions           Session[]
+  posts              Post[]
+  votes              Vote[]
+  comments           Comment[]
+  commentVotes       CommentVote[]
+  commentReactions   CommentReaction[]
+  bookmarks          Bookmark[]
+  notifications      Notification[]    @relation("UserNotifications")
+  actorNotifications Notification[]    @relation("ActorNotifications")
 
   @@map("users")
 }
@@ -118,12 +120,13 @@ model Post {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
 
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category  Category   @relation(fields: [categoryId], references: [id])
-  votes     Vote[]
-  comments  Comment[]
-  tags      PostTag[]
-  bookmarks Bookmark[]
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      Category       @relation(fields: [categoryId], references: [id])
+  votes         Vote[]
+  comments      Comment[]
+  tags          PostTag[]
+  bookmarks     Bookmark[]
+  notifications Notification[]
 
   @@index([score])
   @@index([createdAt])
@@ -252,4 +255,28 @@ enum ReactionType {
   BROKEN_HEART
   LAUGH
   THUMBS_DOWN
+}
+
+enum NotificationType {
+  COMMENT_ON_POST
+  REPLY_TO_COMMENT
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  read      Boolean          @default(false)
+  userId    String // recipient
+  actorId   String? // who triggered it
+  postId    String?
+  commentId String? // for deep-linking to the comment anchor
+  createdAt DateTime         @default(now())
+
+  user  User  @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  actor User? @relation("ActorNotifications", fields: [actorId], references: [id], onDelete: Cascade)
+  post  Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@map("notifications")
 }

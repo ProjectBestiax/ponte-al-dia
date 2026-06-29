@@ -248,6 +248,17 @@ exports.Prisma.CommentVoteScalarFieldEnum = {
   commentId: 'commentId'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  read: 'read',
+  userId: 'userId',
+  actorId: 'actorId',
+  postId: 'postId',
+  commentId: 'commentId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -283,6 +294,11 @@ exports.ReactionType = exports.$Enums.ReactionType = {
   THUMBS_DOWN: 'THUMBS_DOWN'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  COMMENT_ON_POST: 'COMMENT_ON_POST',
+  REPLY_TO_COMMENT: 'REPLY_TO_COMMENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -296,7 +312,8 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   CommentReaction: 'CommentReaction',
   Bookmark: 'Bookmark',
-  CommentVote: 'CommentVote'
+  CommentVote: 'CommentVote',
+  Notification: 'Notification'
 };
 
 /**

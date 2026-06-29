@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { notifyOnComment } from "@/lib/notifications";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -49,6 +50,16 @@ export async function POST(
   await db.post.update({
     where: { id },
     data: { commentCount: { increment: 1 } },
+  });
+
+  // Notify the post/parent author. Awaited (a single insert) so it runs reliably
+  // on serverless — fire-and-forget after the response gets dropped. The helper
+  // swallows its own errors, so it can never break comment creation.
+  await notifyOnComment({
+    commentId: comment.id,
+    postId: id,
+    actorId: session.user.id,
+    parentId: parsed.data.parentId ?? null,
   });
 
   return NextResponse.json(comment, { status: 201 });

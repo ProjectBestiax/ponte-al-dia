@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { LogOut, User, Shield, Bell, Plus } from "lucide-react";
+import { LogOut, User, Shield, Plus } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { NotificationBell } from "./NotificationBell";
 
 export function Navbar() {
   const { data: session } = useSession();
@@ -56,11 +57,8 @@ export function Navbar() {
         <div className="ml-auto flex items-center gap-2 sm:gap-3.5 shrink-0">
           {session ? (
             <>
-              {/* Bell — hidden on mobile to save space */}
-              <button className="relative hidden sm:flex items-center justify-center w-[42px] h-[42px] rounded-[11px] border border-zinc-100 bg-white hover:bg-zinc-50 transition-colors">
-                <Bell className="w-[19px] h-[19px] text-zinc-600" strokeWidth={1.8} />
-                <span className="absolute top-[9px] right-[10px] w-[7px] h-[7px] rounded-full bg-blue-600 border-[1.5px] border-white" />
-              </button>
+              {/* Notifications — hidden on mobile to save space */}
+              <NotificationBell />
 
               {/* Publicar — icon-only on mobile */}
               <Link
