@@ -53,50 +53,47 @@ function DomainIcon({ url }: { url: string }) {
 export function PostCard({ post, featured = false }: PostCardProps) {
   const [votes, setVotes] = useState(post.voteCount);
   const [userVote, setUserVote] = useState(post.userVote ?? 0);
-  const [loading, setLoading] = useState(false);
   const [bookmarked, setBookmarked] = useState(post.userBookmarked ?? false);
   const [copied, setCopied] = useState(false);
 
-  // Refs hold the live values so handleVote never reads a stale closure
-  // (the vote buttons are rendered in two layouts at once, which can leave a
-  // stale handler bound to the visible subtree).
+  // userVoteRef holds the live vote so clicks never read a stale closure;
+  // the network call is debounced so rapid clicks (vote → unvote) are never
+  // swallowed by an in-flight request — only the final state is sent.
   const userVoteRef = useRef(userVote);
   userVoteRef.current = userVote;
-  const loadingRef = useRef(false);
+  const lastSentRef = useRef(userVote);
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  async function handleVote(value: number) {
-    if (loadingRef.current) return;
-    const prev = userVoteRef.current;
-    const newValue = prev === value ? 0 : value;
-    const diff = newValue - prev;
-    if (diff === 0) return;
-
-    loadingRef.current = true;
-    setLoading(true);
-    userVoteRef.current = newValue;
-    setUserVote(newValue);
-    setVotes((v) => v + diff);
-
+  async function syncVote() {
+    const target = userVoteRef.current;
+    if (target === lastSentRef.current) return;
     try {
       const res = await fetch(`/api/posts/${post.id}/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value: newValue }),
+        body: JSON.stringify({ value: target }),
       });
-      if (!res.ok) {
-        userVoteRef.current = prev;
-        setUserVote(prev);
-        setVotes((v) => v - diff);
-        if (res.status === 401) window.location.href = "/login";
+      if (res.ok) {
+        lastSentRef.current = target;
+      } else if (res.status === 401) {
+        window.location.href = "/login";
       }
     } catch {
-      userVoteRef.current = prev;
-      setUserVote(prev);
-      setVotes((v) => v - diff);
-    } finally {
-      loadingRef.current = false;
-      setLoading(false);
+      // network error — keep the optimistic state, it reconciles on next load
     }
+  }
+
+  function handleVote(value: number) {
+    const prev = userVoteRef.current;
+    const newValue = prev === value ? 0 : value;
+    if (newValue === prev) return;
+
+    userVoteRef.current = newValue;
+    setUserVote(newValue);
+    setVotes((v) => v + (newValue - prev));
+
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+    syncTimer.current = setTimeout(syncVote, 400);
   }
 
   async function handleBookmark() {
@@ -143,7 +140,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         <div className="flex flex-col items-center gap-[3px] min-w-[46px] pt-0.5">
           <button
             onClick={() => handleVote(1)}
-            disabled={loading}
             className={cn(
               "flex items-center justify-center rounded-[8px] transition-colors",
               userVote === 1 ? "bg-blue-600" : "bg-blue-600 hover:bg-blue-700"
@@ -158,7 +154,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </span>
           <button
             onClick={() => handleVote(-1)}
-            disabled={loading}
             className="flex items-center justify-center rounded-[8px] transition-colors hover:bg-zinc-100"
             style={{ width: 30, height: 30, border: "none", background: "transparent", color: "#C4C4CB" }}
             aria-label="Votar negativo"
@@ -250,7 +245,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
     <>
       <button
         onClick={() => handleVote(1)}
-        disabled={loading}
         className={cn(
           "flex items-center justify-center rounded-[8px] transition-colors",
           userVote === 1 ? "bg-blue-50 text-blue-600" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
@@ -261,14 +255,13 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.2} />
       </button>
       <span
-        className={cn("font-bold", votes < 0 ? "text-red-500" : "text-zinc-950")}
-        style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5 }}
+        className={cn("font-bold text-center", votes < 0 ? "text-red-500" : "text-zinc-950")}
+        style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5, minWidth: 24 }}
       >
         {formatNumber(votes)}
       </span>
       <button
         onClick={() => handleVote(-1)}
-        disabled={loading}
         className={cn(
           "flex items-center justify-center rounded-[8px] transition-colors",
           userVote === -1 ? "bg-red-50 text-red-500" : "bg-transparent hover:bg-zinc-100"
