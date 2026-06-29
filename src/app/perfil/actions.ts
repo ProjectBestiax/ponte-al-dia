@@ -35,6 +35,8 @@ export async function updateProfile(_prev: ProfileState, formData: FormData): Pr
       name,
       username: username || null,
       bio: bio || null,
+      emailReplies: formData.get("emailReplies") === "on",
+      emailDigest: formData.get("emailDigest") === "on",
     },
   });
 

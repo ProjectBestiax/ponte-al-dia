@@ -22,6 +22,12 @@ model User {
   role          UserRole  @default(USER)
   isPremium     Boolean   @default(false)
   premiumUntil  DateTime?
+
+  // Email preferences
+  emailReplies     Boolean @default(true) // comments/replies on your content
+  emailDigest      Boolean @default(true) // weekly "what happened in AI" digest
+  unsubscribeToken String? @unique // for one-click unsubscribe links (lazy-generated)
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

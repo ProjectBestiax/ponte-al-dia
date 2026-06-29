@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { notifyOnComment } from "@/lib/notifications";
+import { notifyOnComment, sendCommentEmail } from "@/lib/notifications";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -52,15 +53,28 @@ export async function POST(
     data: { commentCount: { increment: 1 } },
   });
 
-  // Notify the post/parent author. Awaited (a single insert) so it runs reliably
-  // on serverless — fire-and-forget after the response gets dropped. The helper
-  // swallows its own errors, so it can never break comment creation.
-  await notifyOnComment({
+  // In-app notification: awaited (single insert, fast). The helper swallows its
+  // own errors, so it can never break comment creation.
+  const notified = await notifyOnComment({
     commentId: comment.id,
     postId: id,
     actorId: session.user.id,
     parentId: parsed.data.parentId ?? null,
   });
+
+  // Transactional email: scheduled with after() so the slow network call to
+  // Resend runs after the response is sent, without blocking the client.
+  if (notified) {
+    after(() =>
+      sendCommentEmail({
+        recipientId: notified.recipientId,
+        actorId: session.user!.id!,
+        type: notified.type,
+        postId: id,
+        snippet: parsed.data.content,
+      })
+    );
+  }
 
   return NextResponse.json(comment, { status: 201 });
 }

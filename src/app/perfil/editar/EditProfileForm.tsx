@@ -11,6 +11,8 @@ interface Props {
     bio: string | null;
     image: string | null;
     email: string;
+    emailReplies: boolean;
+    emailDigest: boolean;
   };
 }
 
@@ -184,6 +186,38 @@ export function EditProfileForm({ user }: Props) {
           <p className="text-right mt-1" style={{ fontSize: 12, color: bioLength > 180 ? "#e11d48" : "#A1A1AA" }}>
             {bioLength}/200
           </p>
+        </div>
+
+        {/* Email preferences */}
+        <div className="border-t border-zinc-100 pt-5">
+          <p className="font-bold text-zinc-900 mb-1" style={{ fontSize: 15 }}>Notificaciones por email</p>
+          <p className="text-zinc-400 mb-4" style={{ fontSize: 12 }}>Decide qué emails quieres recibir.</p>
+
+          <label className="flex items-start gap-3 cursor-pointer mb-3">
+            <input
+              type="checkbox"
+              name="emailReplies"
+              defaultChecked={user.emailReplies}
+              className="mt-0.5 w-[18px] h-[18px] accent-blue-600 cursor-pointer"
+            />
+            <span>
+              <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Respuestas y comentarios</span>
+              <span className="block text-zinc-400" style={{ fontSize: 12 }}>Cuando alguien responde a tu comentario o comenta tu publicación.</span>
+            </span>
+          </label>
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              name="emailDigest"
+              defaultChecked={user.emailDigest}
+              className="mt-0.5 w-[18px] h-[18px] accent-blue-600 cursor-pointer"
+            />
+            <span>
+              <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Resumen semanal</span>
+              <span className="block text-zinc-400" style={{ fontSize: 12 }}>Lo más destacado de IA cada semana, en un solo email.</span>
+            </span>
+          </label>
         </div>
 
         {/* Actions */}

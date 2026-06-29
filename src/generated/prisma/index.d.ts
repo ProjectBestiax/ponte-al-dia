@@ -2341,6 +2341,9 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     isPremium: boolean | null
     premiumUntil: Date | null
+    emailReplies: boolean | null
+    emailDigest: boolean | null
+    unsubscribeToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2357,6 +2360,9 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     isPremium: boolean | null
     premiumUntil: Date | null
+    emailReplies: boolean | null
+    emailDigest: boolean | null
+    unsubscribeToken: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2373,6 +2379,9 @@ export namespace Prisma {
     role: number
     isPremium: number
     premiumUntil: number
+    emailReplies: number
+    emailDigest: number
+    unsubscribeToken: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2399,6 +2408,9 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     premiumUntil?: true
+    emailReplies?: true
+    emailDigest?: true
+    unsubscribeToken?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2415,6 +2427,9 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     premiumUntil?: true
+    emailReplies?: true
+    emailDigest?: true
+    unsubscribeToken?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2431,6 +2446,9 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     premiumUntil?: true
+    emailReplies?: true
+    emailDigest?: true
+    unsubscribeToken?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2534,6 +2552,9 @@ export namespace Prisma {
     role: $Enums.UserRole
     isPremium: boolean
     premiumUntil: Date | null
+    emailReplies: boolean
+    emailDigest: boolean
+    unsubscribeToken: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2569,6 +2590,9 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     premiumUntil?: boolean
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -2596,6 +2620,9 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     premiumUntil?: boolean
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2612,6 +2639,9 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     premiumUntil?: boolean
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -2657,6 +2687,9 @@ export namespace Prisma {
       role: $Enums.UserRole
       isPremium: boolean
       premiumUntil: Date | null
+      emailReplies: boolean
+      emailDigest: boolean
+      unsubscribeToken: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3073,6 +3106,9 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'UserRole'>
     readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly premiumUntil: FieldRef<"User", 'DateTime'>
+    readonly emailReplies: FieldRef<"User", 'Boolean'>
+    readonly emailDigest: FieldRef<"User", 'Boolean'>
+    readonly unsubscribeToken: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -16454,6 +16490,9 @@ export namespace Prisma {
     role: 'role',
     isPremium: 'isPremium',
     premiumUntil: 'premiumUntil',
+    emailReplies: 'emailReplies',
+    emailDigest: 'emailDigest',
+    unsubscribeToken: 'unsubscribeToken',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16787,6 +16826,9 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isPremium?: BoolFilter<"User"> | boolean
     premiumUntil?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailReplies?: BoolFilter<"User"> | boolean
+    emailDigest?: BoolFilter<"User"> | boolean
+    unsubscribeToken?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -16813,6 +16855,9 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     premiumUntil?: SortOrderInput | SortOrder
+    emailReplies?: SortOrder
+    emailDigest?: SortOrder
+    unsubscribeToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -16831,6 +16876,7 @@ export namespace Prisma {
     id?: string
     email?: string
     username?: string
+    unsubscribeToken?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -16842,6 +16888,8 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isPremium?: BoolFilter<"User"> | boolean
     premiumUntil?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailReplies?: BoolFilter<"User"> | boolean
+    emailDigest?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -16854,7 +16902,7 @@ export namespace Prisma {
     bookmarks?: BookmarkListRelationFilter
     notifications?: NotificationListRelationFilter
     actorNotifications?: NotificationListRelationFilter
-  }, "id" | "email" | "username">
+  }, "id" | "email" | "username" | "unsubscribeToken">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -16868,6 +16916,9 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     premiumUntil?: SortOrderInput | SortOrder
+    emailReplies?: SortOrder
+    emailDigest?: SortOrder
+    unsubscribeToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -16892,6 +16943,9 @@ export namespace Prisma {
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     premiumUntil?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    emailReplies?: BoolWithAggregatesFilter<"User"> | boolean
+    emailDigest?: BoolWithAggregatesFilter<"User"> | boolean
+    unsubscribeToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -17778,6 +17832,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -17804,6 +17861,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -17830,6 +17890,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -17856,6 +17919,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -17882,6 +17948,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17898,6 +17967,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17914,6 +17986,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18968,6 +19043,9 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     premiumUntil?: SortOrder
+    emailReplies?: SortOrder
+    emailDigest?: SortOrder
+    unsubscribeToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18988,6 +19066,9 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     premiumUntil?: SortOrder
+    emailReplies?: SortOrder
+    emailDigest?: SortOrder
+    unsubscribeToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19004,6 +19085,9 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     premiumUntil?: SortOrder
+    emailReplies?: SortOrder
+    emailDigest?: SortOrder
+    unsubscribeToken?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -21788,6 +21872,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -21813,6 +21900,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -21854,6 +21944,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -21879,6 +21972,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -21904,6 +22000,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -21929,6 +22028,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -21970,6 +22072,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -21995,6 +22100,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22098,6 +22206,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22123,6 +22234,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22319,6 +22433,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22344,6 +22461,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22682,6 +22802,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22707,6 +22830,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22805,6 +22931,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22830,6 +22959,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22918,6 +23050,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22943,6 +23078,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -23154,6 +23292,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23179,6 +23320,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23352,6 +23496,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -23377,6 +23524,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -23449,6 +23599,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23474,6 +23627,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23536,6 +23692,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -23561,6 +23720,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -23659,6 +23821,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23684,6 +23849,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23772,6 +23940,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -23797,6 +23968,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -23869,6 +24043,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23894,6 +24071,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23956,6 +24136,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -23981,6 +24164,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -24011,6 +24197,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -24036,6 +24225,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isPremium?: boolean
     premiumUntil?: Date | string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -24134,6 +24326,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -24159,6 +24354,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -24195,6 +24393,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -24220,6 +24421,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
