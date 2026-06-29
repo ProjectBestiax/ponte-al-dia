@@ -12,6 +12,7 @@ const schema = z.object({
   description: z.string().max(500).optional(),
   categoryId: z.string().cuid(),
   imageUrl: z.string().url().optional().nullable(),
+  tagSlugs: z.array(z.string()).max(6).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { title, url, description, categoryId, imageUrl } = parsed.data;
+  const { title, url, description, categoryId, imageUrl, tagSlugs } = parsed.data;
 
   // Verificar que la categoría existe
   const category = await db.category.findUnique({ where: { id: categoryId } });
@@ -54,6 +55,17 @@ export async function POST(req: NextRequest) {
       status: "PENDING", // Requiere moderación
     },
   });
+
+  // Compatibility tags (only existing ones — no on-the-fly tag creation)
+  if (tagSlugs && tagSlugs.length > 0) {
+    const tags = await db.tag.findMany({ where: { slug: { in: tagSlugs } }, select: { id: true } });
+    if (tags.length > 0) {
+      await db.postTag.createMany({
+        data: tags.map((t) => ({ postId: post.id, tagId: t.id })),
+        skipDuplicates: true,
+      });
+    }
+  }
 
   return NextResponse.json({ slug: post.slug }, { status: 201 });
 }

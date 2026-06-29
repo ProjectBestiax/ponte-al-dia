@@ -62,6 +62,7 @@ export default async function PostPage({ params }: PageProps) {
     include: {
       user: { select: { name: true, username: true, image: true } },
       category: true,
+      tags: { include: { tag: { select: { name: true, slug: true } } } },
       comments: {
         where: { parentId: null },
         include: {
@@ -163,12 +164,23 @@ export default async function PostPage({ params }: PageProps) {
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <span
-              className="inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-2"
-              style={{ backgroundColor: post.category.color + "20", color: post.category.color }}
-            >
-              {post.category.emoji} {post.category.name}
-            </span>
+            <div className="flex items-center gap-1.5 flex-wrap mb-2">
+              <span
+                className="inline-block text-xs font-medium px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: post.category.color + "20", color: post.category.color }}
+              >
+                {post.category.emoji} {post.category.name}
+              </span>
+              {post.tags.map(({ tag }) => (
+                <span
+                  key={tag.slug}
+                  className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full"
+                  style={{ backgroundColor: "#F0FDFA", color: "#0F766E", border: "1px solid #99F6E4" }}
+                >
+                  {tag.name}
+                </span>
+              ))}
+            </div>
 
             <h1 className="text-xl font-bold text-zinc-900 leading-snug">{post.title}</h1>
 

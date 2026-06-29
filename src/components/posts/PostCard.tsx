@@ -30,8 +30,26 @@ interface PostCardProps {
       emoji: string;
       color: string;
     };
+    tags?: { tag: { name: string; slug: string } }[];
   };
   featured?: boolean;
+}
+
+function ToolTags({ tags }: { tags?: { tag: { name: string; slug: string } }[] }) {
+  if (!tags || tags.length === 0) return null;
+  return (
+    <>
+      {tags.map(({ tag }) => (
+        <span
+          key={tag.slug}
+          className="rounded-full font-semibold shrink-0"
+          style={{ backgroundColor: "#F0FDFA", color: "#0F766E", fontSize: 11, padding: "2px 8px", border: "1px solid #99F6E4" }}
+        >
+          {tag.name}
+        </span>
+      ))}
+    </>
+  );
 }
 
 function DomainIcon({ url }: { url: string }) {
@@ -185,11 +203,12 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             IA destacada hoy
           </div>
 
-          <div className="flex items-center gap-2.5 mb-2.5">
+          <div className="flex items-center gap-2.5 mb-2.5 flex-wrap">
             {post.url && <DomainIcon url={post.url} />}
             {domain && (
               <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#71717A" }}>{domain}</span>
             )}
+            <ToolTags tags={post.tags} />
             <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
             <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#A1A1AA" }}>
               {timeAgo(new Date(post.createdAt))}
@@ -317,6 +336,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             >
               {post.category.emoji} {post.category.name}
             </span>
+            <ToolTags tags={post.tags} />
             <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
             <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
               {timeAgo(new Date(post.createdAt))}
@@ -376,7 +396,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         {/* Content */}
         <div className="flex-1 min-w-0">
           {/* Meta — single line */}
-          <div className="flex items-center gap-2.5 mb-2">
+          <div className="flex items-center gap-2.5 mb-2 flex-wrap">
             {domain && (
               <div className="flex items-center gap-2 min-w-0">
                 {post.url && <DomainIcon url={post.url} />}
@@ -390,6 +410,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             >
               {post.category.emoji} {post.category.name}
             </span>
+            <ToolTags tags={post.tags} />
             <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
             <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
               {timeAgo(new Date(post.createdAt))}

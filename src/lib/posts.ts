@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 const POST_INCLUDE = {
   user: { select: { name: true, username: true, image: true } },
   category: { select: { name: true, slug: true, emoji: true, color: true } },
+  tags: { include: { tag: { select: { name: true, slug: true } } } },
   _count: { select: { comments: true } },
 } as const;
 

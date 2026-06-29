@@ -4,6 +4,7 @@ import { PostCard } from "@/components/posts/PostCard";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
+import { CategoryBanner } from "@/components/feed/CategoryBanner";
 import { getNewPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +35,8 @@ export default async function HomePage({ searchParams }: PageProps) {
             <MobileCategoryBar activeCategory={categoria} basePath="/" />
           </Suspense>
           <FeedTabs />
+
+          <CategoryBanner categorySlug={categoria} />
 
           {q && (
             <div className="flex items-center gap-2 py-2 mb-1 text-sm text-zinc-500" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>

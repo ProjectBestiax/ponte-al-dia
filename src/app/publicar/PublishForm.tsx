@@ -13,6 +13,15 @@ interface Category {
   color: string;
 }
 
+// Compatibility tags shown when publishing in the "Skills y extensiones" category.
+const TOOL_TAGS = [
+  { slug: "claude", label: "Claude" },
+  { slug: "cursor", label: "Cursor" },
+  { slug: "chatgpt", label: "ChatGPT" },
+  { slug: "gemini", label: "Gemini" },
+  { slug: "cualquiera", label: "Cualquiera" },
+];
+
 export function PublishForm({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -24,10 +33,18 @@ export function PublishForm({ categories }: { categories: Category[] }) {
   const [currentUrl, setCurrentUrl] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [tagSlugs, setTagSlugs] = useState<string[]>([]);
   const urlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const embedDetected = currentUrl ? detectEmbed(currentUrl) : null;
+  const selectedCat = categories.find((c) => c.id === categoryId);
+  const showToolTags = selectedCat?.slug === "skills";
+
+  function toggleTag(slug: string) {
+    setTagSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+  }
 
   async function fetchMetadata(url: string) {
     if (!url || !url.startsWith("http")) return;
@@ -83,6 +100,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       description: form.get("description") as string,
       categoryId: form.get("categoryId") as string,
       imageUrl: uploadedImage ?? preview?.image ?? null,
+      tagSlugs: showToolTags ? tagSlugs : undefined,
     };
 
     if (!data.title || !data.categoryId) {
@@ -230,13 +248,49 @@ export function PublishForm({ categories }: { categories: Category[] }) {
               key={cat.id}
               className="flex items-center gap-2 p-2.5 border border-zinc-200 rounded-lg cursor-pointer hover:border-blue-300 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 transition-colors"
             >
-              <input type="radio" name="categoryId" value={cat.id} className="sr-only" required />
+              <input
+                type="radio"
+                name="categoryId"
+                value={cat.id}
+                checked={categoryId === cat.id}
+                onChange={() => setCategoryId(cat.id)}
+                className="sr-only"
+                required
+              />
               <span>{cat.emoji}</span>
               <span className="text-sm font-medium text-zinc-700">{cat.name}</span>
             </label>
           ))}
         </div>
       </div>
+
+      {/* Compatibilidad (solo para Skills y extensiones) */}
+      {showToolTags && (
+        <div>
+          <label className="block text-sm font-medium text-zinc-700 mb-1">
+            Compatible con <span className="text-zinc-400 font-normal">(¿con qué herramienta funciona?)</span>
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {TOOL_TAGS.map((t) => {
+              const active = tagSlugs.includes(t.slug);
+              return (
+                <button
+                  type="button"
+                  key={t.slug}
+                  onClick={() => toggleTag(t.slug)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                    active
+                      ? "border-teal-500 bg-teal-50 text-teal-700"
+                      : "border-zinc-200 text-zinc-600 hover:border-teal-300"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {error && (
         <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>
