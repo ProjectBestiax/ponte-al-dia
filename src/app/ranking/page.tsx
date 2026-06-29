@@ -53,7 +53,7 @@ export default async function RankingPage() {
                   {post.title.replace(/^\[.*?\]\s*/, "")}
                 </div>
                 <div style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA", marginTop: 2 }}>
-                  {post.voteCount} votos · {post.commentCount} comentarios
+                  {post.voteCount} {post.voteCount === 1 ? "voto" : "votos"} · {post.commentCount} {post.commentCount === 1 ? "comentario" : "comentarios"}
                 </div>
               </div>
             </Link>
@@ -103,7 +103,7 @@ export default async function RankingPage() {
                   )}
                 </div>
                 <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#A1A1AA", whiteSpace: "nowrap" }}>
-                  {user.karma} pts
+                  {user.karma} {user.karma === 1 ? "pt" : "pts"}
                 </span>
               </div>
             );
