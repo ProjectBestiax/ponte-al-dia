@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { EmbedPlayer } from "@/components/posts/EmbedPlayer";
 import { detectEmbed } from "@/lib/embed";
+import { tagStyle } from "@/lib/tool-tags";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -171,15 +172,18 @@ export default async function PostPage({ params }: PageProps) {
               >
                 {post.category.emoji} {post.category.name}
               </span>
-              {post.tags.map(({ tag }) => (
-                <span
-                  key={tag.slug}
-                  className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: "#F0FDFA", color: "#0F766E", border: "1px solid #99F6E4" }}
-                >
-                  {tag.name}
-                </span>
-              ))}
+              {post.tags.map(({ tag }) => {
+                const s = tagStyle(tag.slug);
+                return (
+                  <span
+                    key={tag.slug}
+                    className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: s.bg, color: s.text, border: `1px solid ${s.border}` }}
+                  >
+                    {tag.name}
+                  </span>
+                );
+              })}
             </div>
 
             <h1 className="text-xl font-bold text-zinc-900 leading-snug">{post.title}</h1>

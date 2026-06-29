@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2, ChevronRight } from "lucide-react";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
+import { tagStyle } from "@/lib/tool-tags";
 import { useState, useRef } from "react";
 
 interface PostCardProps {
@@ -39,15 +40,18 @@ function ToolTags({ tags }: { tags?: { tag: { name: string; slug: string } }[] }
   if (!tags || tags.length === 0) return null;
   return (
     <>
-      {tags.map(({ tag }) => (
-        <span
-          key={tag.slug}
-          className="rounded-full font-semibold shrink-0"
-          style={{ backgroundColor: "#F0FDFA", color: "#0F766E", fontSize: 11, padding: "2px 8px", border: "1px solid #99F6E4" }}
-        >
-          {tag.name}
-        </span>
-      ))}
+      {tags.map(({ tag }) => {
+        const s = tagStyle(tag.slug);
+        return (
+          <span
+            key={tag.slug}
+            className="rounded-full font-semibold shrink-0"
+            style={{ backgroundColor: s.bg, color: s.text, fontSize: 11, padding: "2px 8px", border: `1px solid ${s.border}` }}
+          >
+            {tag.name}
+          </span>
+        );
+      })}
     </>
   );
 }

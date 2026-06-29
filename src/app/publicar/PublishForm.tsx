@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Link2, X, ImagePlus } from "lucide-react";
 import { detectEmbed } from "@/lib/embed";
+import { tagStyle } from "@/lib/tool-tags";
 
 interface Category {
   id: string;
@@ -273,16 +274,18 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           <div className="flex flex-wrap gap-2">
             {TOOL_TAGS.map((t) => {
               const active = tagSlugs.includes(t.slug);
+              const s = tagStyle(t.slug);
               return (
                 <button
                   type="button"
                   key={t.slug}
                   onClick={() => toggleTag(t.slug)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  className="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors"
+                  style={
                     active
-                      ? "border-teal-500 bg-teal-50 text-teal-700"
-                      : "border-zinc-200 text-zinc-600 hover:border-teal-300"
-                  }`}
+                      ? { backgroundColor: s.bg, color: s.text, borderColor: s.border }
+                      : { backgroundColor: "transparent", color: "#52525B", borderColor: "#E4E4E7" }
+                  }
                 >
                   {t.label}
                 </button>
