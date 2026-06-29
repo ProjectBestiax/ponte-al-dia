@@ -22,9 +22,9 @@ export function PublishForm({ categories }: { categories: Category[] }) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const urlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const embedDetected = currentUrl ? detectEmbed(currentUrl) : null;
@@ -37,13 +37,9 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       if (!res.ok) return;
       const data = await res.json();
       setPreview(data);
-      // Auto-rellena si los campos están vacíos
-      if (titleRef.current && !titleRef.current.value && data.title) {
-        titleRef.current.value = data.title;
-      }
-      if (descRef.current && !descRef.current.value && data.description) {
-        descRef.current.value = data.description;
-      }
+      // Siempre rellena (sobrescribe) con los datos de la URL
+      if (data.title) setTitle(data.title);
+      if (data.description) setDescription(data.description);
     } finally {
       setFetching(false);
     }
@@ -72,7 +68,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
     setCurrentUrl(url);
     if (urlTimer.current) clearTimeout(urlTimer.current);
     setPreview(null);
-    urlTimer.current = setTimeout(() => fetchMetadata(url), 700);
+    if (url) urlTimer.current = setTimeout(() => fetchMetadata(url), 700);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -133,7 +129,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
             onChange={handleUrlChange}
             className="w-full border border-zinc-300 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500 animate-spin" />}
+          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 animate-spin" />}
         </div>
 
         {/* Indicador de embed detectado */}
@@ -191,12 +187,14 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-zinc-700 mb-1">
           Título <span className="text-red-500">*</span>
+          {fetching && <span className="ml-2 text-xs text-blue-500 font-normal">Detectando…</span>}
         </label>
         <input
           id="title"
           name="title"
           type="text"
-          ref={titleRef}
+          value={title}
+          onChange={e => setTitle(e.target.value)}
           maxLength={200}
           placeholder="Ej: Claude 4 ya puede usar computadoras de forma autónoma"
           className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -212,7 +210,8 @@ export function PublishForm({ categories }: { categories: Category[] }) {
         <textarea
           id="description"
           name="description"
-          ref={descRef}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
           rows={3}
           maxLength={500}
           placeholder="Explica en 2-3 frases por qué esto es interesante para la comunidad..."

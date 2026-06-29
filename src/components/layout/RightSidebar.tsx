@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCachedTrendingSidebar, getCachedTopContributors } from "@/lib/cached-data";
+import { ToolsSidebar } from "./ToolsSidebar";
 
 export async function RightSidebar() {
   const [trending, topUsers] = await Promise.all([
@@ -86,6 +87,11 @@ export async function RightSidebar() {
           </div>
         </div>
       )}
+
+      {/* Herramientas recomendadas (afiliados) */}
+      <div className="mb-[18px]">
+        <ToolsSidebar />
+      </div>
 
       {/* Footer links */}
       <div

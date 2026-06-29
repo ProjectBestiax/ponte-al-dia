@@ -21,25 +21,38 @@ export async function GET(req: NextRequest) {
     if (!res.ok) throw new Error("Fetch failed");
     const html = await res.text();
 
-    const get = (prop: string) => {
-      const match =
+    const getMeta = (prop: string) => {
+      const m =
         html.match(new RegExp(`<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["']`, "i")) ??
-        html.match(new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${prop}["']`, "i"));
-      return match?.[1]?.trim() ?? null;
+        html.match(new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${prop}["']`, "i")) ??
+        html.match(new RegExp(`<meta[^>]+name=["']${prop}["'][^>]+content=["']([^"']+)["']`, "i")) ??
+        html.match(new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+name=["']${prop}["']`, "i"));
+      return m?.[1]?.trim() ?? null;
     };
 
+    const get = (prop: string) => getMeta(prop);
+
+    const cleanTitle = (raw: string) =>
+      raw
+        .replace(/\s*[|\-–—·•]\s*.{1,60}$/, "")  // strip " | Site Name" suffixes
+        .replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+        .trim();
+
     const getTitle = () => {
-      const og = get("og:title");
-      if (og) return og;
-      const match = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-      return match?.[1]?.trim() ?? null;
+      const og = getMeta("og:title") ?? getMeta("twitter:title");
+      if (og) return cleanTitle(og);
+      const tagMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+      if (tagMatch?.[1]) return cleanTitle(tagMatch[1]);
+      const h1 = html.match(/<h1[^>]*>([^<]{10,})<\/h1>/i);
+      return h1?.[1]?.trim() ?? null;
     };
 
     const getDesc = () => {
-      const og = get("og:description");
+      const og = getMeta("og:description") ?? getMeta("twitter:description") ?? getMeta("description");
       if (og) return og;
-      const match = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i);
-      return match?.[1]?.trim() ?? null;
+      // Fallback: first long <p> outside nav/header/footer
+      const pMatch = html.match(/<p[^>]*>([^<]{80,})<\/p>/i);
+      return pMatch?.[1]?.trim() ?? null;
     };
 
     // For X/Twitter tweet URLs, og:title = "User on X" (useless).
