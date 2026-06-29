@@ -195,7 +195,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           type="text"
           value={title}
           onChange={e => setTitle(e.target.value)}
-          maxLength={200}
+          maxLength={100}
           placeholder="Ej: Claude 4 ya puede usar computadoras de forma autónoma"
           className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           required

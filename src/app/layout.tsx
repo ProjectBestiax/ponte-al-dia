@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Providers } from "@/components/layout/Providers";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { TopLoader } from "@/components/layout/TopLoader";
 
 const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
@@ -66,7 +67,7 @@ export default function RootLayout({
           .feed-wrapper{max-width:1280px;margin:0 auto;padding:30px 36px 48px}
           .feed-grid{display:grid;grid-template-columns:226px 1fr 318px;gap:36px}
           @media(max-width:1100px){.feed-grid{grid-template-columns:200px 1fr}.feed-grid .feed-right-sidebar{display:none}}
-          @media(max-width:767px){.feed-wrapper{padding:14px 16px 40px}.feed-grid{grid-template-columns:1fr}.feed-grid .feed-left-sidebar{display:none}.feed-grid .feed-right-sidebar{display:block;margin-top:24px}}
+          @media(max-width:767px){.feed-wrapper{padding:14px 16px 40px}.feed-grid{grid-template-columns:1fr}.feed-grid .feed-left-sidebar{display:none}.feed-grid .feed-right-sidebar{display:none}}
         `}} />
         {ADSENSE_PUBLISHER_ID && (
           <script
@@ -80,9 +81,10 @@ export default function RootLayout({
         <Providers>
           <TopLoader />
           <Navbar />
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full pb-[58px] sm:pb-0">
             {children}
           </main>
+          <BottomNav />
           <CookieBanner />
         </Providers>
       </body>

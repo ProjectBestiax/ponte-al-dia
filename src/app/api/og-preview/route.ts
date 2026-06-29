@@ -40,11 +40,11 @@ export async function GET(req: NextRequest) {
 
     const getTitle = () => {
       const og = getMeta("og:title") ?? getMeta("twitter:title");
-      if (og) return cleanTitle(og);
+      if (og) return cleanTitle(og).slice(0, 80);
       const tagMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-      if (tagMatch?.[1]) return cleanTitle(tagMatch[1]);
+      if (tagMatch?.[1]) return cleanTitle(tagMatch[1]).slice(0, 80);
       const h1 = html.match(/<h1[^>]*>([^<]{10,})<\/h1>/i);
-      return h1?.[1]?.trim() ?? null;
+      return h1?.[1]?.trim().slice(0, 80) ?? null;
     };
 
     const getDesc = () => {
