@@ -234,6 +234,13 @@ exports.Prisma.CommentReactionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BookmarkScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CommentVoteScalarFieldEnum = {
   id: 'id',
   value: 'value',
@@ -288,6 +295,7 @@ exports.Prisma.ModelName = {
   Vote: 'Vote',
   Comment: 'Comment',
   CommentReaction: 'CommentReaction',
+  Bookmark: 'Bookmark',
   CommentVote: 'CommentVote'
 };
 

@@ -32,6 +32,7 @@ model User {
   comments         Comment[]
   commentVotes     CommentVote[]
   commentReactions CommentReaction[]
+  bookmarks        Bookmark[]
 
   @@map("users")
 }
@@ -117,11 +118,12 @@ model Post {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
 
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category  @relation(fields: [categoryId], references: [id])
-  votes    Vote[]
-  comments Comment[]
-  tags     PostTag[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category  Category   @relation(fields: [categoryId], references: [id])
+  votes     Vote[]
+  comments  Comment[]
+  tags      PostTag[]
+  bookmarks Bookmark[]
 
   @@index([score])
   @@index([createdAt])
@@ -201,6 +203,19 @@ model CommentReaction {
 
   @@unique([userId, commentId, type])
   @@map("comment_reactions")
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("bookmarks")
 }
 
 model CommentVote {

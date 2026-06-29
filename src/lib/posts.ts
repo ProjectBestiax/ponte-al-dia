@@ -29,6 +29,21 @@ async function attachUserVotes<T extends { id: string; voteCount: number }>(
   return posts.map((p) => ({ ...p, userVote: voteMap.get(p.id) ?? null }));
 }
 
+async function attachUserBookmarks<T extends { id: string }>(
+  posts: T[],
+  userId: string | null
+): Promise<(T & { userBookmarked: boolean })[]> {
+  if (!userId || posts.length === 0) {
+    return posts.map((p) => ({ ...p, userBookmarked: false }));
+  }
+  const bookmarks = await db.bookmark.findMany({
+    where: { userId, postId: { in: posts.map((p) => p.id) } },
+    select: { postId: true },
+  });
+  const bookmarkSet = new Set(bookmarks.map((b) => b.postId));
+  return posts.map((p) => ({ ...p, userBookmarked: bookmarkSet.has(p.id) }));
+}
+
 export async function getNewPosts(categorySlug?: string, page = 1, limit = 20, q?: string) {
   const userId = await getSessionUserId();
   const skip = (page - 1) * limit;
@@ -55,7 +70,8 @@ export async function getNewPosts(categorySlug?: string, page = 1, limit = 20, q
     commentCount: p._count.comments,
   }));
 
-  return attachUserVotes(normalized, userId);
+  const withVotes = await attachUserVotes(normalized, userId);
+  return attachUserBookmarks(withVotes, userId);
 }
 
 export async function getTrendingPosts(categorySlug?: string, page = 1, limit = 20) {
@@ -78,7 +94,8 @@ export async function getTrendingPosts(categorySlug?: string, page = 1, limit = 
     commentCount: p._count.comments,
   }));
 
-  return attachUserVotes(normalized, userId);
+  const withVotes = await attachUserVotes(normalized, userId);
+  return attachUserBookmarks(withVotes, userId);
 }
 
 export async function getRisingPosts(categorySlug?: string, limit = 20) {
@@ -102,7 +119,8 @@ export async function getRisingPosts(categorySlug?: string, limit = 20) {
     commentCount: p._count.comments,
   }));
 
-  return attachUserVotes(normalized, userId);
+  const withVotes = await attachUserVotes(normalized, userId);
+  return attachUserBookmarks(withVotes, userId);
 }
 
 export async function getCategories() {

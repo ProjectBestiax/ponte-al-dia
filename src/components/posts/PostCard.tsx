@@ -17,6 +17,7 @@ interface PostCardProps {
     commentCount: number;
     createdAt: Date;
     userVote?: number | null;
+    userBookmarked?: boolean;
     user: {
       name?: string | null;
       username?: string | null;
@@ -53,6 +54,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   const [votes, setVotes] = useState(post.voteCount);
   const [userVote, setUserVote] = useState(post.userVote ?? 0);
   const [loading, setLoading] = useState(false);
+  const [bookmarked, setBookmarked] = useState(post.userBookmarked ?? false);
+  const [copied, setCopied] = useState(false);
 
   async function handleVote(value: number) {
     if (loading) return;
@@ -78,6 +81,34 @@ export function PostCard({ post, featured = false }: PostCardProps) {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleBookmark() {
+    setBookmarked((b) => !b); // optimistic
+    try {
+      const res = await fetch(`/api/posts/${post.id}/bookmark`, { method: "POST" });
+      if (!res.ok) {
+        setBookmarked((b) => !b); // revert
+        if (res.status === 401) window.location.href = "/login";
+      }
+    } catch {
+      setBookmarked((b) => !b); // revert
+    }
+  }
+
+  async function handleShare() {
+    const url = `${window.location.origin}/p/${post.slug}`;
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: post.title, url });
+        return;
+      } catch {
+        // cancelled or not supported — fall through to clipboard
+      }
+    }
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }
 
   const domain = post.url ? (() => { try { return new URL(post.url).hostname.replace("www.", ""); } catch { return ""; } })() : "";
@@ -163,13 +194,19 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <MessageSquare className="w-[17px] h-[17px]" strokeWidth={1.9} />
               {formatNumber(post.commentCount)} comentarios
             </Link>
-            <button className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
-              <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} />
-              Guardar
+            <button
+              onClick={handleBookmark}
+              className={cn("flex items-center gap-1.5 text-[13.5px] font-semibold transition-colors", bookmarked ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900")}
+            >
+              <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
+              {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <button className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
+            >
               <Share2 className="w-[17px] h-[17px]" strokeWidth={1.9} />
-              Compartir
+              {copied ? "¡Copiado!" : "Compartir"}
             </button>
           </div>
         </div>
@@ -365,13 +402,19 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <MessageSquare className="w-4 h-4" strokeWidth={1.9} />
               {formatNumber(post.commentCount)}
             </Link>
-            <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
-              <Bookmark className="w-4 h-4" strokeWidth={1.9} />
-              Guardar
+            <button
+              onClick={handleBookmark}
+              className={cn("flex items-center gap-1.5 text-[13px] font-semibold transition-colors", bookmarked ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900")}
+            >
+              <Bookmark className="w-4 h-4" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
+              {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <button className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
+            >
               <Share2 className="w-4 h-4" strokeWidth={1.9} />
-              Compartir
+              {copied ? "¡Copiado!" : "Compartir"}
             </button>
           </div>
         </div>

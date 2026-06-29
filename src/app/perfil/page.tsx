@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: "Mi perfil · Ponte al dIA" };
 export const dynamic = "force-dynamic";
 
-type Tab = "publicaciones" | "votos" | "comentarios";
+type Tab = "publicaciones" | "votos" | "comentarios" | "guardados";
 
 interface PageProps {
   searchParams: Promise<{ tab?: string }>;
@@ -21,7 +21,7 @@ export default async function PerfilPage({ searchParams }: PageProps) {
 
   const { tab } = await searchParams;
   const activeTab: Tab =
-    tab === "votos" || tab === "comentarios" ? tab : "publicaciones";
+    tab === "votos" || tab === "comentarios" || tab === "guardados" ? tab : "publicaciones";
 
   const user = await db.user.findUnique({
     where: { id: session.user.id },
@@ -39,10 +39,11 @@ export default async function PerfilPage({ searchParams }: PageProps) {
 
   if (!user) redirect("/login");
 
-  const [postCount, voteCount, commentCount] = await Promise.all([
+  const [postCount, voteCount, commentCount, bookmarkCount] = await Promise.all([
     db.post.count({ where: { userId: user.id, status: "ACTIVE" } }),
     db.vote.count({ where: { userId: user.id } }),
     db.comment.count({ where: { userId: user.id } }),
+    db.bookmark.count({ where: { userId: user.id } }),
   ]);
 
   // Fetch only the active tab's data
@@ -86,11 +87,35 @@ export default async function PerfilPage({ searchParams }: PageProps) {
         })
       : [];
 
+  const bookmarks =
+    activeTab === "guardados"
+      ? await db.bookmark.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          select: {
+            id: true, createdAt: true,
+            post: {
+              select: {
+                title: true, slug: true, voteCount: true, commentCount: true,
+                category: { select: { name: true, emoji: true } },
+              },
+            },
+          },
+        })
+      : [];
+
   const initial = (user.name ?? user.email ?? "U")[0].toUpperCase();
   const displayName = user.name ?? user.email ?? "Usuario";
   const memberSince = formatDistanceToNow(user.createdAt, { addSuffix: true, locale: es });
 
   const tabLink = (t: Tab) => (t === "publicaciones" ? "/perfil" : `/perfil?tab=${t}`);
+  const tabLabel: Record<Tab, string> = {
+    publicaciones: "Publicaciones",
+    votos: "Votos",
+    comentarios: "Comentarios",
+    guardados: "Guardados",
+  };
 
   return (
     <div style={{ maxWidth: 680, margin: "0 auto", padding: "32px 24px 64px", fontFamily: "var(--font-manrope)" }}>
@@ -159,23 +184,24 @@ export default async function PerfilPage({ searchParams }: PageProps) {
       </div>
 
       {/* ── Stats bar ── */}
-      <div className="grid grid-cols-3 border border-zinc-100 rounded-[13px] mb-6 overflow-hidden">
+      <div className="grid grid-cols-4 border border-zinc-100 rounded-[13px] mb-6 overflow-hidden">
         {[
-          { label: "Publicaciones", value: postCount, tab: "publicaciones" as Tab },
-          { label: "Votos dados", value: voteCount, tab: "votos" as Tab },
+          { label: "Posts", value: postCount, tab: "publicaciones" as Tab },
+          { label: "Votos", value: voteCount, tab: "votos" as Tab },
           { label: "Comentarios", value: commentCount, tab: "comentarios" as Tab },
+          { label: "Guardados", value: bookmarkCount, tab: "guardados" as Tab },
         ].map(({ label, value, tab: t }, i) => (
           <Link
             key={t}
             href={tabLink(t)}
             className={`flex flex-col items-center py-4 transition-colors hover:bg-zinc-50 ${
-              i < 2 ? "border-r border-zinc-100" : ""
+              i < 3 ? "border-r border-zinc-100" : ""
             } ${activeTab === t ? "bg-zinc-50" : ""}`}
           >
-            <span className="font-extrabold text-zinc-950" style={{ fontSize: 22, fontFamily: "var(--font-jetbrains-mono)" }}>
+            <span className="font-extrabold text-zinc-950" style={{ fontSize: 20, fontFamily: "var(--font-jetbrains-mono)" }}>
               {value}
             </span>
-            <span className="text-zinc-400 font-medium" style={{ fontSize: 12 }}>
+            <span className="text-zinc-400 font-medium text-center" style={{ fontSize: 11 }}>
               {label}
             </span>
           </Link>
@@ -183,19 +209,19 @@ export default async function PerfilPage({ searchParams }: PageProps) {
       </div>
 
       {/* ── Tabs ── */}
-      <div className="flex items-center gap-6 border-b border-zinc-100 mb-4">
-        {(["publicaciones", "votos", "comentarios"] as Tab[]).map((t) => (
+      <div className="flex items-center gap-6 border-b border-zinc-100 mb-4 overflow-x-auto">
+        {(["publicaciones", "votos", "comentarios", "guardados"] as Tab[]).map((t) => (
           <Link
             key={t}
             href={tabLink(t)}
-            className={`pb-3.5 capitalize transition-colors ${
+            className={`pb-3.5 whitespace-nowrap transition-colors ${
               activeTab === t
                 ? "font-bold text-zinc-950 border-b-2 border-zinc-950 -mb-px"
                 : "font-semibold text-zinc-400 hover:text-zinc-700"
             }`}
             style={{ fontSize: 15 }}
           >
-            {t.charAt(0).toUpperCase() + t.slice(1)}
+            {tabLabel[t]}
           </Link>
         ))}
       </div>
@@ -296,6 +322,39 @@ export default async function PerfilPage({ searchParams }: PageProps) {
                     </span>
                   )}
                 </p>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
+
+      {activeTab === "guardados" && (
+        <div className="flex flex-col divide-y divide-zinc-100">
+          {bookmarks.length === 0 ? (
+            <div className="py-12 text-center text-zinc-400">
+              <p className="font-medium">Todavía no has guardado ningún post.</p>
+              <p className="text-sm mt-1">Pulsa el botón Guardar en cualquier post.</p>
+            </div>
+          ) : (
+            bookmarks.map((bm) => (
+              <Link
+                key={bm.id}
+                href={`/p/${bm.post.slug}`}
+                className="flex items-center justify-between gap-4 py-3.5 hover:bg-zinc-50 -mx-2 px-2 rounded-[9px] transition-colors"
+              >
+                <div className="min-w-0">
+                  <p className="font-semibold text-zinc-900 truncate" style={{ fontSize: 14 }}>
+                    {bm.post.title}
+                  </p>
+                  <p className="text-zinc-400 mt-0.5" style={{ fontSize: 12 }}>
+                    {bm.post.category.emoji} {bm.post.category.name} ·{" "}
+                    {formatDistanceToNow(bm.createdAt, { addSuffix: true, locale: es })}
+                  </p>
+                </div>
+                <div className="shrink-0 flex items-center gap-3 text-zinc-400" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12 }}>
+                  <span>{bm.post.voteCount} votos</span>
+                  <span>{bm.post.commentCount} com.</span>
+                </div>
               </Link>
             ))
           )}
