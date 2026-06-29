@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
+import { generateAiSummary } from "@/lib/ai-summary";
 
 const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
 
@@ -95,12 +96,19 @@ async function runBot(req: NextRequest) {
     const existing = await db.post.findUnique({ where: { slug } });
     if (existing) slug = `${slug}-${Date.now()}`;
 
+    const aiSummary = await generateAiSummary({
+      title: repo.title,
+      description: repo.description,
+      url: repo.url,
+    });
+
     await db.post.create({
       data: {
         title: repo.title,
         slug,
         url: repo.url,
         description: repo.description || null,
+        aiSummary,
         categoryId: category.id,
         userId: botUser.id,
         status: "ACTIVE",

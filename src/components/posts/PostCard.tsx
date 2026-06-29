@@ -12,6 +12,7 @@ interface PostCardProps {
     slug: string;
     url?: string | null;
     description?: string | null;
+    aiSummary?: string | null;
     imageUrl?: string | null;
     voteCount: number;
     commentCount: number;
@@ -125,6 +126,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   }
 
   const domain = post.url ? (() => { try { return new URL(post.url).hostname.replace("www.", ""); } catch { return ""; } })() : "";
+  const summary = post.aiSummary?.trim() || null;
 
   if (featured) {
     return (
@@ -203,9 +205,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </h2>
           </Link>
 
-          {post.description && (
+          {(summary ?? post.description) && (
             <p style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.55, color: "#52525B", maxWidth: "62ch" }}>
-              {post.description.slice(0, 200)}{post.description.length > 200 ? "…" : ""}
+              {(summary ?? post.description ?? "").slice(0, 200)}{(summary ?? post.description ?? "").length > 200 ? "…" : ""}
             </p>
           )}
 
@@ -331,6 +333,13 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </h3>
           </Link>
 
+          {/* AI summary */}
+          {summary && (
+            <p className="line-clamp-2 mt-1.5" style={{ fontSize: 13, lineHeight: 1.45, color: "#71717A" }}>
+              {summary}
+            </p>
+          )}
+
           {/* Source */}
           {domain && (
             <div className="flex items-center gap-1.5 mt-2">
@@ -393,11 +402,16 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <Link href={`/p/${post.slug}`}>
                 <h3
                   className="hover:opacity-75 transition-opacity"
-                  style={{ margin: "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+                  style={{ margin: summary ? "0 0 6px" : "0 0 11px", fontWeight: 700, fontSize: 19, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
                 >
                   {post.title}
                 </h3>
               </Link>
+              {summary && (
+                <p className="line-clamp-2 mb-2.5" style={{ fontSize: 14, lineHeight: 1.5, color: "#52525B" }}>
+                  {summary}
+                </p>
+              )}
             </div>
 
             {post.imageUrl && (

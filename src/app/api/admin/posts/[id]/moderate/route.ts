@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { generateAiSummary } from "@/lib/ai-summary";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +31,20 @@ export async function POST(
     where: { id },
     data: { status, publishedAt },
   });
+
+  // On approval, generate a neutral one-sentence summary if missing.
+  if (parsed.data.action === "approve") {
+    const post = await db.post.findUnique({
+      where: { id },
+      select: { title: true, description: true, url: true, aiSummary: true },
+    });
+    if (post && !post.aiSummary) {
+      const summary = await generateAiSummary(post);
+      if (summary) {
+        await db.post.update({ where: { id }, data: { aiSummary: summary } });
+      }
+    }
+  }
 
   return NextResponse.json({ success: true });
 }
