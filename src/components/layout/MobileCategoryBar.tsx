@@ -22,7 +22,7 @@ export async function MobileCategoryBar({ activeCategory, basePath = "/" }: Mobi
       <Link href={basePath} className={chip(!activeCategory)}>
         Todas
       </Link>
-      {categories.map((cat) => {
+      {categories.filter((cat) => cat._count.posts > 0).map((cat) => {
         const sep = basePath.includes("?") ? "&" : "?";
         return (
           <Link

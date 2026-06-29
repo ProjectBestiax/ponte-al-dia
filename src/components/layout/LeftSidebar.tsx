@@ -26,13 +26,15 @@ export async function LeftSidebar() {
         Categorías
       </div>
       <LeftSidebarCategories
-        categories={categories.map((cat) => ({
-          id: cat.id,
-          name: cat.name,
-          slug: cat.slug,
-          emoji: cat.emoji,
-          count: cat._count.posts,
-        }))}
+        categories={categories
+          .filter((cat) => cat._count.posts > 0)
+          .map((cat) => ({
+            id: cat.id,
+            name: cat.name,
+            slug: cat.slug,
+            emoji: cat.emoji,
+            count: cat._count.posts,
+          }))}
       />
 
       {/* CTA card (only when not logged in) */}
