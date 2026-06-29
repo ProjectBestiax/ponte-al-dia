@@ -142,12 +142,12 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             onClick={() => handleVote(1)}
             className={cn(
               "flex items-center justify-center rounded-[8px] transition-colors",
-              userVote === 1 ? "bg-blue-600" : "bg-blue-600 hover:bg-blue-700"
+              userVote === 1 ? "bg-blue-600" : "bg-transparent hover:bg-blue-50"
             )}
             style={{ width: 30, height: 30, border: "none" }}
             aria-label="Votar positivo"
           >
-            <ArrowUp className="w-[17px] h-[17px] text-white" strokeWidth={2.4} />
+            <ArrowUp className={cn("w-[17px] h-[17px]", userVote === 1 ? "text-white" : "text-blue-600")} strokeWidth={2.4} />
           </button>
           <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontWeight: 700, fontSize: 14, color: "#2563EB" }}>
             {formatNumber(votes)}
