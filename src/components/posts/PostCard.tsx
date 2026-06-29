@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2, ChevronRight } from "lucide-react";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface PostCardProps {
   post: {
@@ -57,13 +57,26 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   const [bookmarked, setBookmarked] = useState(post.userBookmarked ?? false);
   const [copied, setCopied] = useState(false);
 
+  // Refs hold the live values so handleVote never reads a stale closure
+  // (the vote buttons are rendered in two layouts at once, which can leave a
+  // stale handler bound to the visible subtree).
+  const userVoteRef = useRef(userVote);
+  userVoteRef.current = userVote;
+  const loadingRef = useRef(false);
+
   async function handleVote(value: number) {
-    if (loading) return;
+    if (loadingRef.current) return;
+    const prev = userVoteRef.current;
+    const newValue = prev === value ? 0 : value;
+    const diff = newValue - prev;
+    if (diff === 0) return;
+
+    loadingRef.current = true;
     setLoading(true);
-    const newValue = userVote === value ? 0 : value;
-    const diff = newValue - userVote;
-    setVotes((v) => v + diff);
+    userVoteRef.current = newValue;
     setUserVote(newValue);
+    setVotes((v) => v + diff);
+
     try {
       const res = await fetch(`/api/posts/${post.id}/vote`, {
         method: "POST",
@@ -71,14 +84,17 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         body: JSON.stringify({ value: newValue }),
       });
       if (!res.ok) {
+        userVoteRef.current = prev;
+        setUserVote(prev);
         setVotes((v) => v - diff);
-        setUserVote(userVote);
         if (res.status === 401) window.location.href = "/login";
       }
     } catch {
+      userVoteRef.current = prev;
+      setUserVote(prev);
       setVotes((v) => v - diff);
-      setUserVote(userVote);
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
   }
@@ -228,8 +244,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   // Regular row
   const authorName = post.user.username ?? post.user.name ?? "Anónimo";
 
-  // Shared vote buttons (used in both mobile and desktop layouts)
-  const voteButtons = (
+  // Vote buttons — rendered fresh in each layout (mobile + desktop) so React
+  // never reuses a single element instance across two subtrees.
+  const renderVoteButtons = () => (
     <>
       <button
         onClick={() => handleVote(1)}
@@ -273,7 +290,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
       >
         {/* Left column: votes (top, horizontal) + image (bottom) */}
         <div className="flex flex-col items-center gap-2.5 shrink-0">
-          <div className="flex items-center gap-1">{voteButtons}</div>
+          <div className="flex items-center gap-1">{renderVoteButtons()}</div>
           {post.imageUrl && (
             <Link href={`/p/${post.slug}`} className="block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -343,7 +360,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         style={{ fontFamily: "var(--font-manrope)" }}
       >
         {/* Votes */}
-        <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">{voteButtons}</div>
+        <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">{renderVoteButtons()}</div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
