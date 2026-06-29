@@ -154,8 +154,17 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </span>
           <button
             onClick={() => handleVote(-1)}
-            className="flex items-center justify-center rounded-[8px] transition-colors hover:bg-zinc-100"
-            style={{ width: 30, height: 30, border: "none", background: "transparent", color: "#C4C4CB" }}
+            className={cn(
+              "flex items-center justify-center rounded-[8px] transition-colors",
+              userVote === -1 ? "" : "hover:bg-zinc-100"
+            )}
+            style={{
+              width: 30,
+              height: 30,
+              border: "none",
+              background: userVote === -1 ? "#FEF2F2" : "transparent",
+              color: userVote === -1 ? "#EF4444" : "#C4C4CB",
+            }}
             aria-label="Votar negativo"
           >
             <ArrowDown className="w-[17px] h-[17px]" />
