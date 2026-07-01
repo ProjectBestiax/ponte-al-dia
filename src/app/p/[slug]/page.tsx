@@ -12,6 +12,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { EmbedPlayer } from "@/components/posts/EmbedPlayer";
 import { detectEmbed } from "@/lib/embed";
 import { tagStyle } from "@/lib/tool-tags";
+import { FollowButton } from "@/components/users/FollowButton";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -61,7 +62,7 @@ export default async function PostPage({ params }: PageProps) {
   const post = await db.post.findUnique({
     where: { slug },
     include: {
-      user: { select: { name: true, username: true, image: true } },
+      user: { select: { id: true, name: true, username: true, image: true } },
       category: true,
       tags: { include: { tag: { select: { name: true, slug: true } } } },
       comments: {
@@ -122,6 +123,17 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   const authorName = post.user.username ?? post.user.name ?? "Anónimo";
+  const authorHandle = post.user.username ?? post.user.id;
+  const isAuthorSelf = session?.user?.id === post.user.id;
+
+  let isFollowingAuthor = false;
+  if (session?.user?.id && !isAuthorSelf) {
+    const f = await db.follow.findUnique({
+      where: { followerId_followingId: { followerId: session.user.id, followingId: post.user.id } },
+      select: { id: true },
+    });
+    isFollowingAuthor = !!f;
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -237,8 +249,13 @@ export default async function PostPage({ params }: PageProps) {
               </a>
             )}
 
-            <div className="mt-4 flex items-center gap-3 text-xs text-zinc-400">
-              <span>por <span className="font-medium text-zinc-600">{authorName}</span></span>
+            <div className="mt-4 flex items-center gap-3 flex-wrap text-xs text-zinc-400">
+              <Link href={`/u/${authorHandle}`} className="hover:text-zinc-700 transition-colors">
+                por <span className="font-medium text-zinc-600">{authorName}</span>
+              </Link>
+              {!isAuthorSelf && (
+                <FollowButton targetUserId={post.user.id} initialFollowing={isFollowingAuthor} isLoggedIn={!!session} size="sm" />
+              )}
               <span>{timeAgo(post.createdAt)}</span>
               <span className="flex items-center gap-1">
                 <MessageSquare className="w-3.5 h-3.5" />

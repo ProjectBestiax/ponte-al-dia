@@ -21,6 +21,7 @@ interface PostCardProps {
     userVote?: number | null;
     userBookmarked?: boolean;
     user: {
+      id?: string | null;
       name?: string | null;
       username?: string | null;
       image?: string | null;
@@ -373,9 +374,15 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           )}
 
           {/* Author */}
-          <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
-            por <span className="font-semibold text-zinc-600">{authorName}</span>
-          </p>
+          {post.user.username || post.user.id ? (
+            <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-block hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
+              por <span className="font-semibold text-zinc-600">{authorName}</span>
+            </Link>
+          ) : (
+            <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
+              por <span className="font-semibold text-zinc-600">{authorName}</span>
+            </p>
+          )}
 
           {/* CTA */}
           <Link

@@ -1,12 +1,28 @@
 import Link from "next/link";
 import { getCachedTrendingSidebar, getCachedTopContributors } from "@/lib/cached-data";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { FollowButton } from "@/components/users/FollowButton";
 import { ToolsSidebar } from "./ToolsSidebar";
 
 export async function RightSidebar() {
-  const [trending, topUsers] = await Promise.all([
+  const [session, trending, topUsers] = await Promise.all([
+    auth(),
     getCachedTrendingSidebar(),
     getCachedTopContributors(),
   ]);
+
+  const currentUserId = session?.user?.id ?? null;
+
+  // Per-request (not cached): which of the listed users does the viewer follow?
+  let followingSet = new Set<string>();
+  if (currentUserId && topUsers.length > 0) {
+    const rows = await db.follow.findMany({
+      where: { followerId: currentUserId, followingId: { in: topUsers.map((u) => u.id) } },
+      select: { followingId: true },
+    });
+    followingSet = new Set(rows.map((r) => r.followingId));
+  }
 
   return (
     <aside style={{ fontFamily: "var(--font-manrope)" }}>
@@ -56,10 +72,12 @@ export async function RightSidebar() {
           <div className="flex flex-col gap-[3px]">
             {topUsers.map((user, i) => {
               const initial = (user.name ?? user.username ?? "?")[0].toUpperCase();
+              const handle = user.username ?? user.id;
+              const isSelf = currentUserId === user.id;
               return (
                 <div
                   key={user.id}
-                  className="flex items-center gap-3 px-1.5 py-2 rounded-[8px]"
+                  className="flex items-center gap-2.5 px-1.5 py-2 rounded-[8px] hover:bg-zinc-50 transition-colors"
                 >
                   <span
                     className="font-bold w-4 shrink-0"
@@ -67,20 +85,32 @@ export async function RightSidebar() {
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <div
-                    className="flex items-center justify-center rounded-full shrink-0 text-white font-bold"
-                    style={{ width: 28, height: 28, background: "#0A0A0A", fontSize: 11 }}
-                  >
-                    {initial}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-[13.5px] text-zinc-900 truncate">
-                      {user.name ?? user.username ?? "Usuario"}
+                  <Link href={`/u/${handle}`} className="flex items-center gap-2.5 flex-1 min-w-0">
+                    {user.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={user.image} alt="" className="rounded-full shrink-0 object-cover" style={{ width: 28, height: 28 }} />
+                    ) : (
+                      <div
+                        className="flex items-center justify-center rounded-full shrink-0 text-white font-bold"
+                        style={{ width: 28, height: 28, background: "#0A0A0A", fontSize: 11 }}
+                      >
+                        {initial}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-[13.5px] text-zinc-900 truncate">
+                        {user.name ?? user.username ?? "Usuario"}
+                      </div>
+                      <div style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, color: "#A1A1AA" }}>
+                        {user.karma} pts
+                      </div>
                     </div>
-                  </div>
-                  <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, color: "#A1A1AA", whiteSpace: "nowrap" }}>
-                    {user.karma} pts
-                  </span>
+                  </Link>
+                  {!isSelf && (
+                    <div className="shrink-0">
+                      <FollowButton targetUserId={user.id} initialFollowing={followingSet.has(user.id)} isLoggedIn={!!session} size="sm" />
+                    </div>
+                  )}
                 </div>
               );
             })}
