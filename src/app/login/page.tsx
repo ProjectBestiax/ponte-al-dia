@@ -44,6 +44,15 @@ export default function LoginPage() {
             </svg>
             Continuar con GitHub
           </button>
+
+          {process.env.NODE_ENV === "development" && (
+            <a
+              href="/api/dev/login"
+              className="w-full flex items-center justify-center gap-2 border border-dashed border-amber-400 bg-amber-50 rounded-lg px-4 py-3 text-sm font-semibold text-amber-700 hover:bg-amber-100 transition-colors"
+            >
+              🔧 Entrar como admin (solo dev)
+            </a>
+          )}
         </div>
 
         <p className="text-center text-xs text-zinc-400 mt-4">
