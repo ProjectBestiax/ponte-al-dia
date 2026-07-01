@@ -37,6 +37,25 @@ export function commentEmail(opts: {
   };
 }
 
+/** Email sent when someone starts following you. */
+export function followEmail(opts: {
+  actorName: string;
+  actorHandle: string;
+  unsubLink: string;
+}): { subject: string; html: string } {
+  const profileUrl = `${APP_URL}/u/${opts.actorHandle}`;
+  const body = `
+    <p style="margin:0 0 18px;font-size:15px;line-height:1.55;color:#3f3f46;">
+      <strong>${opts.actorName}</strong> ha empezado a seguirte en Ponte al dIA.
+    </p>
+    ${ctaButton(profileUrl, "Ver su perfil")}
+  `;
+  return {
+    subject: `${opts.actorName} ha empezado a seguirte`,
+    html: emailLayout({ heading: "Tienes un nuevo seguidor", body, unsubLink: opts.unsubLink, unsubLabel: "Dejar de recibir estos avisos" }),
+  };
+}
+
 export interface DigestPost {
   title: string;
   slug: string;

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { sendEmail, getUnsubscribeToken, unsubscribeUrl } from "@/lib/email";
-import { commentEmail } from "@/lib/email-templates";
+import { commentEmail, followEmail } from "@/lib/email-templates";
 
 type CommentNotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT";
 
@@ -92,6 +92,45 @@ export async function sendCommentEmail(params: {
       unsubLink: unsubscribeUrl(token, "replies"),
     });
 
+    await sendEmail({ to: recipient.email, subject, html });
+  } catch {
+    // never break anything on email failure
+  }
+}
+
+/**
+ * Creates the in-app FOLLOW notification for the followed user. Awaited (single
+ * insert). Swallows its own errors so it can't break the follow action.
+ */
+export async function notifyOnFollow(params: { followerId: string; followingId: string }): Promise<void> {
+  try {
+    await db.notification.create({
+      data: { type: "FOLLOW", userId: params.followingId, actorId: params.followerId },
+    });
+  } catch {
+    // ignore
+  }
+}
+
+/**
+ * Sends the "new follower" email, respecting the recipient's emailReplies
+ * preference (the general interactions bucket). Run via after(). Swallows errors.
+ */
+export async function sendFollowEmail(params: { followerId: string; followingId: string }): Promise<void> {
+  try {
+    const [recipient, actor] = await Promise.all([
+      db.user.findUnique({ where: { id: params.followingId }, select: { email: true, emailReplies: true } }),
+      db.user.findUnique({ where: { id: params.followerId }, select: { name: true, username: true, id: true } }),
+    ]);
+    if (!recipient?.email || !recipient.emailReplies || !actor) return;
+
+    const token = await getUnsubscribeToken(params.followingId);
+    const actorName = actor.username ?? actor.name ?? "Alguien";
+    const { subject, html } = followEmail({
+      actorName,
+      actorHandle: actor.username ?? actor.id,
+      unsubLink: unsubscribeUrl(token, "replies"),
+    });
     await sendEmail({ to: recipient.email, subject, html });
   } catch {
     // never break anything on email failure

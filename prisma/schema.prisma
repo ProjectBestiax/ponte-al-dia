@@ -41,6 +41,8 @@ model User {
   bookmarks         Bookmark[]
   notifications      Notification[] @relation("UserNotifications")
   actorNotifications Notification[] @relation("ActorNotifications")
+  following          Follow[]       @relation("Following") // users this user follows
+  followers          Follow[]       @relation("Followers") // users who follow this user
 
   @@map("users")
 }
@@ -266,6 +268,22 @@ enum ReactionType {
 enum NotificationType {
   COMMENT_ON_POST
   REPLY_TO_COMMENT
+  FOLLOW
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String // the user who follows
+  followingId String // the user being followed
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followingId])
+  @@index([followerId])
+  @@map("follows")
 }
 
 model Notification {

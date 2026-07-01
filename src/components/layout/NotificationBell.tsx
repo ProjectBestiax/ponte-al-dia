@@ -2,28 +2,30 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, MessageSquare, CornerDownRight } from "lucide-react";
+import { Bell, MessageSquare, CornerDownRight, UserPlus } from "lucide-react";
 import { timeAgo } from "@/lib/utils";
 
-type NotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT";
+type NotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT" | "FOLLOW";
 
 interface NotificationItem {
   id: string;
   type: NotificationType;
   read: boolean;
   createdAt: string;
-  actor: { name: string | null; username: string | null; image: string | null } | null;
+  actor: { id: string; name: string | null; username: string | null; image: string | null } | null;
   post: { slug: string; title: string } | null;
 }
 
 const MESSAGES: Record<NotificationType, string> = {
   COMMENT_ON_POST: "comentó en tu publicación",
   REPLY_TO_COMMENT: "respondió a tu comentario",
+  FOLLOW: "ha empezado a seguirte",
 };
 
 const ICONS: Record<NotificationType, typeof MessageSquare> = {
   COMMENT_ON_POST: MessageSquare,
   REPLY_TO_COMMENT: CornerDownRight,
+  FOLLOW: UserPlus,
 };
 
 export function NotificationBell() {
@@ -80,7 +82,11 @@ export function NotificationBell() {
 
   function goTo(n: NotificationItem) {
     setOpen(false);
-    if (n.post) router.push(`/p/${n.post.slug}#comentarios`);
+    if (n.type === "FOLLOW" && n.actor) {
+      router.push(`/u/${n.actor.username ?? n.actor.id}`);
+    } else if (n.post) {
+      router.push(`/p/${n.post.slug}#comentarios`);
+    }
   }
 
   return (

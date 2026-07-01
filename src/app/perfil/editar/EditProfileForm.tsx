@@ -201,8 +201,8 @@ export function EditProfileForm({ user }: Props) {
               className="mt-0.5 w-[18px] h-[18px] accent-blue-600 cursor-pointer"
             />
             <span>
-              <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Respuestas y comentarios</span>
-              <span className="block text-zinc-400" style={{ fontSize: 12 }}>Cuando alguien responde a tu comentario o comenta tu publicación.</span>
+              <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Interacciones</span>
+              <span className="block text-zinc-400" style={{ fontSize: 12 }}>Cuando responden a tu comentario, comentan tu publicación o te siguen.</span>
             </span>
           </label>
 

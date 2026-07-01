@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { FollowButton } from "@/components/users/FollowButton";
 
 interface TrendingPost {
   id: string;
@@ -17,11 +18,22 @@ interface TopUser {
   username: string | null;
   image: string | null;
   karma: number;
+  isFollowing: boolean;
 }
 
 type View = "tendencias" | "contribuidores";
 
-export function RankingTabs({ trending, topUsers }: { trending: TrendingPost[]; topUsers: TopUser[] }) {
+export function RankingTabs({
+  trending,
+  topUsers,
+  currentUserId,
+  isLoggedIn,
+}: {
+  trending: TrendingPost[];
+  topUsers: TopUser[];
+  currentUserId?: string | null;
+  isLoggedIn: boolean;
+}) {
   const [view, setView] = useState<View>("tendencias");
 
   const seg = (active: boolean) =>
@@ -83,36 +95,42 @@ export function RankingTabs({ trending, topUsers }: { trending: TrendingPost[]; 
         <div className="flex flex-col gap-[2px]">
           {topUsers.map((user, i) => {
             const initial = (user.name ?? user.username ?? "?")[0].toUpperCase();
+            const handle = user.username ?? user.id;
+            const isSelf = currentUserId === user.id;
             return (
-              <div key={user.id} className="flex items-center gap-3 px-1.5 py-2.5 rounded-[8px]">
+              <div key={user.id} className="flex items-center gap-3 px-1.5 py-2.5 rounded-[8px] hover:bg-zinc-50 transition-colors">
                 <span
                   className="font-bold w-5 shrink-0"
                   style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 14, color: "#D4D4D8" }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                {user.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={user.image} alt="" className="rounded-full shrink-0 object-cover" style={{ width: 32, height: 32 }} />
-                ) : (
-                  <div
-                    className="flex items-center justify-center rounded-full shrink-0 text-white font-bold"
-                    style={{ width: 32, height: 32, background: "#0A0A0A", fontSize: 12 }}
-                  >
-                    {initial}
+                <Link href={`/u/${handle}`} className="flex items-center gap-3 flex-1 min-w-0">
+                  {user.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={user.image} alt="" className="rounded-full shrink-0 object-cover" style={{ width: 32, height: 32 }} />
+                  ) : (
+                    <div
+                      className="flex items-center justify-center rounded-full shrink-0 text-white font-bold"
+                      style={{ width: 32, height: 32, background: "#0A0A0A", fontSize: 12 }}
+                    >
+                      {initial}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-[14.5px] text-zinc-900 truncate">
+                      {user.name ?? user.username ?? "Usuario"}
+                    </div>
+                    <div className="text-zinc-400 text-[12px] truncate">
+                      {user.username ? `@${user.username} · ` : ""}{user.karma} {user.karma === 1 ? "pt" : "pts"}
+                    </div>
+                  </div>
+                </Link>
+                {!isSelf && (
+                  <div className="shrink-0">
+                    <FollowButton targetUserId={user.id} initialFollowing={user.isFollowing} isLoggedIn={isLoggedIn} size="sm" />
                   </div>
                 )}
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-[14.5px] text-zinc-900 truncate">
-                    {user.name ?? user.username ?? "Usuario"}
-                  </div>
-                  {user.username && (
-                    <div className="text-zinc-400 text-[12px] truncate">@{user.username}</div>
-                  )}
-                </div>
-                <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 12, color: "#A1A1AA", whiteSpace: "nowrap" }}>
-                  {user.karma} {user.karma === 1 ? "pt" : "pts"}
-                </span>
               </div>
             );
           })}

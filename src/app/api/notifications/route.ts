@@ -16,7 +16,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
       take: 20,
       include: {
-        actor: { select: { name: true, username: true, image: true } },
+        actor: { select: { id: true, name: true, username: true, image: true } },
         post: { select: { slug: true, title: true } },
       },
     }),

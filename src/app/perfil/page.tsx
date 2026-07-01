@@ -39,12 +39,16 @@ export default async function PerfilPage({ searchParams }: PageProps) {
 
   if (!user) redirect("/login");
 
-  const [postCount, voteCount, commentCount, bookmarkCount] = await Promise.all([
+  const [postCount, voteCount, commentCount, bookmarkCount, followerCount, followingCount] = await Promise.all([
     db.post.count({ where: { userId: user.id, status: "ACTIVE" } }),
     db.vote.count({ where: { userId: user.id } }),
     db.comment.count({ where: { userId: user.id } }),
     db.bookmark.count({ where: { userId: user.id } }),
+    db.follow.count({ where: { followingId: user.id } }),
+    db.follow.count({ where: { followerId: user.id } }),
   ]);
+
+  const handleSlug = user.username ?? user.id;
 
   // Fetch only the active tab's data
   const posts =
@@ -179,6 +183,15 @@ export default async function PerfilPage({ searchParams }: PageProps) {
             </span>
             <span className="text-zinc-300">·</span>
             <span className="text-zinc-400">Miembro {memberSince}</span>
+          </div>
+
+          <div className="flex items-center gap-4 mt-2.5" style={{ fontSize: 13.5 }}>
+            <Link href={`/u/${handleSlug}/seguidores`} className="text-zinc-600 hover:text-zinc-900 transition-colors">
+              <span className="font-extrabold text-zinc-950">{followerCount}</span> seguidores
+            </Link>
+            <Link href={`/u/${handleSlug}/siguiendo`} className="text-zinc-600 hover:text-zinc-900 transition-colors">
+              <span className="font-extrabold text-zinc-950">{followingCount}</span> siguiendo
+            </Link>
           </div>
         </div>
       </div>
