@@ -17,7 +17,15 @@ export function BottomNav() {
   return (
     <nav
       className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-100"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)", fontFamily: "var(--font-manrope)" }}
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+        fontFamily: "var(--font-manrope)",
+        // iOS Safari repaint fix: promote to its own GPU layer so the icons/labels
+        // don't vanish during momentum scroll (fixed elements aren't repainted mid-scroll).
+        transform: "translateZ(0)",
+        WebkitBackfaceVisibility: "hidden",
+        willChange: "transform",
+      }}
     >
       <div className="flex items-stretch h-[58px]">
         {TABS.map((tab) => {
