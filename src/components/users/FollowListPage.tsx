@@ -16,19 +16,27 @@ export async function FollowListPage({ handle, mode }: { handle: string; mode: "
   const displayName = profile.name ?? profile.username ?? "Usuario";
 
   // followers → users who follow the profile; following → users the profile follows.
-  const follows = await db.follow.findMany({
-    where: mode === "followers" ? { followingId: profile.id } : { followerId: profile.id },
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    select: {
-      follower: mode === "followers" ? { select: { id: true, name: true, username: true, image: true, bio: true } } : false,
-      following: mode === "following" ? { select: { id: true, name: true, username: true, image: true, bio: true } } : false,
-    },
-  });
-
-  const users: RowUser[] = follows
-    .map((f) => (mode === "followers" ? f.follower : f.following))
-    .filter((u): u is RowUser => !!u);
+  // Two clean queries keep the selected types narrow (a conditional relation
+  // select with `false` produces an unusable union type).
+  const rowUserSelect = { id: true, name: true, username: true, image: true, bio: true } as const;
+  let users: RowUser[];
+  if (mode === "followers") {
+    const rows = await db.follow.findMany({
+      where: { followingId: profile.id },
+      orderBy: { createdAt: "desc" },
+      take: 100,
+      select: { follower: { select: rowUserSelect } },
+    });
+    users = rows.map((r) => r.follower);
+  } else {
+    const rows = await db.follow.findMany({
+      where: { followerId: profile.id },
+      orderBy: { createdAt: "desc" },
+      take: 100,
+      select: { following: { select: rowUserSelect } },
+    });
+    users = rows.map((r) => r.following);
+  }
 
   // Which of these does the viewer already follow (to seed the buttons)?
   let viewerFollowSet = new Set<string>();
