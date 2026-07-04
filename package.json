@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "node ./node_modules/eslint/bin/eslint.js .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.105.0",

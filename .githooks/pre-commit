@@ -1,0 +1,29 @@
+#!/bin/sh
+# ─────────────────────────────────────────────────────────────────────────────
+# Gate automático pre-commit del proyecto. Bloquea el commit si algo falla.
+#   1. typecheck (tsc --noEmit)  → caza errores de tipos que rompen `next build`
+#   2. eslint sobre ficheros staged → el código nuevo entra limpio
+#   3. aviso si cambia el schema  → recuerda RLS + db-guardian
+# Activado vía `git config core.hooksPath .githooks` (script prepare de npm).
+# Saltar en una emergencia: git commit --no-verify
+# ─────────────────────────────────────────────────────────────────────────────
+set -e
+
+echo "▶ pre-commit · typecheck…"
+npm run --silent typecheck
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx)$' || true)
+if [ -n "$staged" ]; then
+  echo "▶ pre-commit · eslint (ficheros en staging)…"
+  # shellcheck disable=SC2086
+  node ./node_modules/eslint/bin/eslint.js $staged
+fi
+
+if git diff --cached --name-only | grep -q "prisma/schema.prisma"; then
+  echo ""
+  echo "⚠  schema.prisma ha cambiado."
+  echo "   → Activa RLS en tablas nuevas (prisma/security/enable-rls.sql)."
+  echo "   → Pasa el agente db-guardian antes de dar por hecho el cambio."
+fi
+
+echo "✓ pre-commit OK"
