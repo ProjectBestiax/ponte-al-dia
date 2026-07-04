@@ -4,7 +4,7 @@ import { randomBytes } from "crypto";
 
 const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM ?? "Ponte al dIA <onboarding@resend.dev>";
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://ponte-al-dia.vercel.app";
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://ponte-al-dia.com";
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Ponte al dIA";
 
 // Test mode:

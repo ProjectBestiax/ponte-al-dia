@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
             ▲ {votes} votos
           </div>
           <div style={{ color: "#94a3b8", fontSize: "16px" }}>
-            pontealdia.com · Comunidad de IA en español
+            ponte-al-dia.com · Comunidad de IA en español
           </div>
         </div>
       </div>
