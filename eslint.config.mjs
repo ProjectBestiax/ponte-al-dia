@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Node tooling scripts — not app code, don't lint with the Next config.
+    ".githooks/**",
+    "src/generated/**",
   ]),
 ]);
 

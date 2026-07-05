@@ -23,8 +23,8 @@ En cada commit, `.githooks/pre-commit` ejecuta y **bloquea** si falla:
 1. `npm run typecheck` (`tsc --noEmit`) — **imprescindible**: caza errores de tipos que
    rompen `next build` (el `next.config` NO ignora errores de tipos). Un error de tipos aquí
    = deploy fallido en Vercel.
-2. `eslint` sobre los ficheros `.ts/.tsx` en staging — el código nuevo entra limpio sin
-   arrastrar la deuda de lint preexistente del repo.
+2. `eslint` **diff-aware** (`.githooks/lint-staged-diff.cjs`) — solo bloquea por errores en
+   las **líneas que cambiaste**; la deuda de lint preexistente en un fichero tocado no bloquea.
 3. Aviso (no bloqueante) si cambió `prisma/schema.prisma` → recordatorio de RLS + `db-guardian`.
 
 Saltar en emergencia: `git commit --no-verify` (evítalo).
