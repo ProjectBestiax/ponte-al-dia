@@ -156,8 +156,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
       <article
         className="flex gap-3 sm:gap-4 rounded-[14px] p-4 sm:p-[22px] mt-[18px] mb-2"
         style={{
-          border: "1px solid #DCE6FF",
-          background: "linear-gradient(180deg,#F7FAFF 0%,#FFFFFF 70%)",
+          border: "1px solid var(--color-accent-200)",
+          background: "linear-gradient(180deg,var(--color-accent-50) 0%,#FFFFFF 70%)",
           fontFamily: "var(--font-manrope)",
         }}
       >
@@ -167,14 +167,14 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             onClick={() => handleVote(1)}
             className={cn(
               "flex items-center justify-center rounded-[8px] transition-colors",
-              userVote === 1 ? "bg-blue-600" : "bg-transparent hover:bg-blue-50"
+              userVote === 1 ? "bg-accent-400" : "bg-transparent hover:bg-accent-50"
             )}
             style={{ width: 30, height: 30, border: "none" }}
             aria-label="Votar positivo"
           >
-            <ArrowUp className={cn("w-[17px] h-[17px]", userVote === 1 ? "text-white" : "text-blue-600")} strokeWidth={2.4} />
+            <ArrowUp className={cn("w-[17px] h-[17px]", userVote === 1 ? "text-accent-950" : "text-accent-700")} strokeWidth={2.4} />
           </button>
-          <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontWeight: 700, fontSize: 14, color: "#2563EB" }}>
+          <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontWeight: 700, fontSize: 14, color: "var(--color-accent-700)" }}>
             {formatNumber(votes)}
           </span>
           <button
@@ -200,9 +200,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         <div className="flex-1 min-w-0">
           <div
             className="flex items-center gap-2 mb-2.5"
-            style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, letterSpacing: "0.05em", textTransform: "uppercase", color: "#2563EB", fontWeight: 600 }}
+            style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--color-accent-700)", fontWeight: 600 }}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#2563EB" stroke="none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--color-accent-600)" stroke="none">
               <path d="m12 2 2.6 6.9L22 9.2l-5.6 4.7L18.1 22 12 17.8 5.9 22l1.7-8.1L2 9.2l7.4-.3z"/>
             </svg>
             IA destacada hoy
@@ -242,7 +242,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </Link>
             <button
               onClick={handleBookmark}
-              className={cn("flex items-center gap-1.5 text-[13.5px] font-semibold transition-colors", bookmarked ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900")}
+              className={cn("flex items-center gap-1.5 text-[13.5px] font-semibold transition-colors", bookmarked ? "text-accent-700" : "text-zinc-500 hover:text-zinc-900")}
             >
               <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}
@@ -282,7 +282,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         onClick={() => handleVote(1)}
         className={cn(
           "flex items-center justify-center rounded-[8px] transition-colors",
-          userVote === 1 ? "bg-blue-50 text-blue-600" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-blue-600"
+          userVote === 1 ? "bg-accent-50 text-accent-700" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-accent-700"
         )}
         style={{ width: 30, height: 30, border: "none" }}
         aria-label="Votar positivo"
@@ -387,7 +387,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           {/* CTA */}
           <Link
             href={`/p/${post.slug}`}
-            className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors"
             style={{ fontSize: 12.5, fontWeight: 700 }}
           >
             Ir al post
@@ -469,7 +469,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </Link>
             <button
               onClick={handleBookmark}
-              className={cn("flex items-center gap-1.5 text-[13px] font-semibold transition-colors", bookmarked ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900")}
+              className={cn("flex items-center gap-1.5 text-[13px] font-semibold transition-colors", bookmarked ? "text-accent-700" : "text-zinc-500 hover:text-zinc-900")}
             >
               <Bookmark className="w-4 h-4" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}

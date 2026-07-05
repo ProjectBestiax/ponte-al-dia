@@ -51,7 +51,7 @@ export default async function HomePage({ searchParams }: PageProps) {
               {q ? (
                 <>
                   <p className="text-lg font-medium">Sin resultados para &ldquo;{q}&rdquo;</p>
-                  <p className="text-sm mt-1">Prueba con otras palabras o <a href="/" className="text-blue-600 hover:underline">ve al inicio</a>.</p>
+                  <p className="text-sm mt-1">Prueba con otras palabras o <a href="/" className="text-accent-700 hover:underline">ve al inicio</a>.</p>
                 </>
               ) : (
                 <>

@@ -14,7 +14,7 @@ export default function PrivacidadPage() {
       <section className="mb-6">
         <h2 className="text-lg font-semibold text-zinc-800 mb-2">1. Responsable del tratamiento</h2>
         <p className="text-zinc-600 text-sm">
-          El responsable del tratamiento de los datos personales recogidos en <strong>Ponte al dIA</strong> ({appUrl}) es el titular del sitio web. Para cualquier consulta relacionada con la privacidad, puedes contactarnos en <a href={`mailto:${email}`} className="text-blue-600 hover:underline">{email}</a>.
+          El responsable del tratamiento de los datos personales recogidos en <strong>Ponte al dIA</strong> ({appUrl}) es el titular del sitio web. Para cualquier consulta relacionada con la privacidad, puedes contactarnos en <a href={`mailto:${email}`} className="text-accent-700 hover:underline">{email}</a>.
         </p>
       </section>
 
@@ -58,7 +58,7 @@ export default function PrivacidadPage() {
       <section className="mb-6">
         <h2 className="text-lg font-semibold text-zinc-800 mb-2">6. Conservación de datos</h2>
         <p className="text-zinc-600 text-sm">
-          Conservamos tus datos mientras mantengas una cuenta activa. Puedes solicitar la eliminación de tu cuenta en cualquier momento escribiéndonos a <a href={`mailto:${email}`} className="text-blue-600 hover:underline">{email}</a>.
+          Conservamos tus datos mientras mantengas una cuenta activa. Puedes solicitar la eliminación de tu cuenta en cualquier momento escribiéndonos a <a href={`mailto:${email}`} className="text-accent-700 hover:underline">{email}</a>.
         </p>
       </section>
 
@@ -75,7 +75,7 @@ export default function PrivacidadPage() {
           <li>Presentar una reclamación ante la AEPD (aepd.es).</li>
         </ul>
         <p className="text-zinc-600 text-sm mt-2">
-          Para ejercer tus derechos, escríbenos a <a href={`mailto:${email}`} className="text-blue-600 hover:underline">{email}</a>.
+          Para ejercer tus derechos, escríbenos a <a href={`mailto:${email}`} className="text-accent-700 hover:underline">{email}</a>.
         </p>
       </section>
     </div>

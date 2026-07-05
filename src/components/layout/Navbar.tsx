@@ -64,8 +64,8 @@ export function Navbar() {
               <Link
                 href="/publicar"
                 aria-label="Publicar"
-                className="flex items-center justify-center sm:justify-start gap-2 text-white text-sm font-bold rounded-[11px] px-3 sm:px-4 h-[42px] transition-colors shrink-0"
-                style={{ background: "#2563EB", fontFamily: "var(--font-manrope)", fontSize: 14.5 }}
+                className="flex items-center justify-center sm:justify-start gap-2 text-accent-950 text-sm font-bold rounded-[11px] px-3 sm:px-4 h-[42px] transition-colors shrink-0"
+                style={{ background: "var(--color-accent-400)", fontFamily: "var(--font-manrope)", fontSize: 14.5 }}
               >
                 <Plus className="w-[17px] h-[17px]" strokeWidth={2.2} />
                 <span className="hidden sm:inline">Publicar</span>

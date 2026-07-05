@@ -99,7 +99,7 @@ export function NotificationBell() {
         <Bell className="w-[19px] h-[19px] text-zinc-600" strokeWidth={1.8} />
         {unread > 0 && (
           <span
-            className="absolute -top-1 -right-1 flex items-center justify-center text-white font-bold rounded-full bg-blue-600 border-2 border-white"
+            className="absolute -top-1 -right-1 flex items-center justify-center text-accent-950 font-bold rounded-full bg-accent-400 border-2 border-white"
             style={{ minWidth: 18, height: 18, fontSize: 10, padding: "0 4px" }}
           >
             {unread > 9 ? "9+" : unread}
@@ -134,7 +134,7 @@ export function NotificationBell() {
                     key={n.id}
                     onClick={() => goTo(n)}
                     className={`flex items-start gap-3 w-full text-left px-4 py-3 border-b border-zinc-50 hover:bg-zinc-50 transition-colors ${
-                      n.read ? "" : "bg-blue-50/50"
+                      n.read ? "" : "bg-accent-50/50"
                     }`}
                   >
                     <span className="relative shrink-0 mt-0.5">
@@ -146,8 +146,8 @@ export function NotificationBell() {
                           {actorName[0].toUpperCase()}
                         </span>
                       )}
-                      <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-blue-600 border-2 border-white">
-                        <Icon className="w-2.5 h-2.5 text-white" strokeWidth={2.4} />
+                      <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-accent-400 border-2 border-white">
+                        <Icon className="w-2.5 h-2.5 text-accent-950" strokeWidth={2.4} />
                       </span>
                     </span>
                     <span className="flex-1 min-w-0">
@@ -159,7 +159,7 @@ export function NotificationBell() {
                       )}
                       <span className="block text-[11px] text-zinc-400 mt-0.5">{timeAgo(new Date(n.createdAt))}</span>
                     </span>
-                    {!n.read && <span className="shrink-0 mt-2 w-2 h-2 rounded-full bg-blue-600" />}
+                    {!n.read && <span className="shrink-0 mt-2 w-2 h-2 rounded-full bg-accent-400" />}
                   </button>
                 );
               })

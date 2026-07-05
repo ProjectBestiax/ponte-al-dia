@@ -29,7 +29,7 @@ export async function RightSidebar() {
       {/* Tendencias */}
       <div className="border border-zinc-100 rounded-[14px] p-[18px] mb-[18px]">
         <div className="flex items-center gap-2 mb-4">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-600)" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
             <path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>
           </svg>
           <span className="font-extrabold text-[15px] text-zinc-950">Tendencias</span>
@@ -48,7 +48,7 @@ export async function RightSidebar() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-[14px] text-blue-600 group-hover:text-blue-700 truncate" style={{ color: "#2563EB" }}>
+                <div className="font-bold text-[14px] text-accent-700 group-hover:text-accent-800 truncate" style={{ color: "var(--color-accent-700)" }}>
                   {post.title.replace(/^\[.*?\]\s*/, "").slice(0, 40)}{post.title.length > 40 ? "…" : ""}
                 </div>
                 <div style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, color: "#A1A1AA", marginTop: 2 }}>

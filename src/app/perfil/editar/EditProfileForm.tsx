@@ -198,7 +198,7 @@ export function EditProfileForm({ user }: Props) {
               type="checkbox"
               name="emailReplies"
               defaultChecked={user.emailReplies}
-              className="mt-0.5 w-[18px] h-[18px] accent-blue-600 cursor-pointer"
+              className="mt-0.5 w-[18px] h-[18px] accent-[var(--color-accent-600)] cursor-pointer"
             />
             <span>
               <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Interacciones</span>
@@ -211,7 +211,7 @@ export function EditProfileForm({ user }: Props) {
               type="checkbox"
               name="emailDigest"
               defaultChecked={user.emailDigest}
-              className="mt-0.5 w-[18px] h-[18px] accent-blue-600 cursor-pointer"
+              className="mt-0.5 w-[18px] h-[18px] accent-[var(--color-accent-600)] cursor-pointer"
             />
             <span>
               <span className="block font-semibold text-zinc-700" style={{ fontSize: 14 }}>Resumen semanal</span>

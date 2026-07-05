@@ -146,9 +146,9 @@ export function PublishForm({ categories }: { categories: Category[] }) {
             type="url"
             placeholder="https://..."
             onChange={handleUrlChange}
-            className="w-full border border-zinc-300 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-zinc-300 rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
           />
-          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 animate-spin" />}
+          {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-accent-600 animate-spin" />}
         </div>
 
         {/* Indicador de embed detectado */}
@@ -193,7 +193,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
               </button>
             </div>
           ) : (
-            <label className="flex items-center gap-2 w-fit cursor-pointer px-3 py-2 border border-dashed border-zinc-300 rounded-lg text-sm text-zinc-500 hover:border-blue-400 hover:text-blue-600 transition-colors">
+            <label className="flex items-center gap-2 w-fit cursor-pointer px-3 py-2 border border-dashed border-zinc-300 rounded-lg text-sm text-zinc-500 hover:border-accent-400 hover:text-accent-700 transition-colors">
               {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
               {uploading ? "Subiendo..." : "Subir imagen"}
               <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={handleImageUpload} disabled={uploading} />
@@ -206,7 +206,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-zinc-700 mb-1">
           Título <span className="text-red-500">*</span>
-          {fetching && <span className="ml-2 text-xs text-blue-500 font-normal">Detectando…</span>}
+          {fetching && <span className="ml-2 text-xs text-accent-700 font-normal">Detectando…</span>}
         </label>
         <input
           id="title"
@@ -216,7 +216,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           onChange={e => setTitle(e.target.value)}
           maxLength={100}
           placeholder="Ej: Claude 4 ya puede usar computadoras de forma autónoma"
-          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
           required
         />
       </div>
@@ -234,7 +234,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           rows={3}
           maxLength={500}
           placeholder="Explica en 2-3 frases por qué esto es interesante para la comunidad..."
-          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent resize-none"
         />
       </div>
 
@@ -247,7 +247,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           {categories.map((cat) => (
             <label
               key={cat.id}
-              className="flex items-center gap-2 p-2.5 border border-zinc-200 rounded-lg cursor-pointer hover:border-blue-300 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 transition-colors"
+              className="flex items-center gap-2 p-2.5 border border-zinc-200 rounded-lg cursor-pointer hover:border-accent-300 has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50 transition-colors"
             >
               <input
                 type="radio"
@@ -302,7 +302,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-medium py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-accent-400 text-accent-950 font-semibold py-2.5 rounded-lg hover:bg-accent-500 disabled:opacity-60 transition-colors"
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
         {loading ? "Publicando..." : "Publicar"}

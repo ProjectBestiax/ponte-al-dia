@@ -246,7 +246,7 @@ export default async function PerfilPage({ searchParams }: PageProps) {
           {posts.length === 0 ? (
             <div className="py-12 text-center text-zinc-400">
               <p className="font-medium">Aún no has publicado nada.</p>
-              <Link href="/publicar" className="mt-2 inline-block text-blue-600 text-sm hover:underline">
+              <Link href="/publicar" className="mt-2 inline-block text-accent-700 text-sm hover:underline">
                 Publicar algo →
               </Link>
             </div>

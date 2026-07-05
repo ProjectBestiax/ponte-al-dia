@@ -54,7 +54,7 @@ function ToolCard({ tool }: { tool: typeof TOOLS[0] }) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="text-lg">{tool.emoji}</span>
-          <span className="font-medium text-sm text-zinc-900 group-hover:text-blue-600">
+          <span className="font-medium text-sm text-zinc-900 group-hover:text-accent-700">
             {tool.name}
           </span>
         </div>
@@ -67,7 +67,7 @@ function ToolCard({ tool }: { tool: typeof TOOLS[0] }) {
       <p className="text-xs text-zinc-500 mt-1.5 leading-relaxed">
         {tool.description}
       </p>
-      <span className="inline-block mt-2 text-xs font-medium text-blue-600 group-hover:underline">
+      <span className="inline-block mt-2 text-xs font-medium text-accent-700 group-hover:underline">
         {tool.cta} →
       </span>
     </a>

@@ -62,7 +62,7 @@ export function TopLoader() {
         left: 0,
         height: 2,
         width: "0%",
-        background: "#2563EB",
+        background: "var(--color-accent-500)",
         zIndex: 9999,
         opacity: 0,
         pointerEvents: "none",

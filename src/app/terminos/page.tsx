@@ -82,7 +82,7 @@ export default function TerminosPage() {
         <h2 className="text-lg font-semibold text-zinc-800 mb-2">9. Contacto</h2>
         <p className="text-zinc-600 leading-relaxed">
           Para cualquier consulta sobre estos términos, escríbenos a{" "}
-          <a href={`mailto:${email}`} className="text-blue-600 hover:underline">{email}</a>.
+          <a href={`mailto:${email}`} className="text-accent-700 hover:underline">{email}</a>.
         </p>
       </section>
     </div>

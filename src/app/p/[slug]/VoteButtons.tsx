@@ -49,7 +49,7 @@ export function VoteButtons({ postId, initialVotes, initialUserVote, isLoggedIn 
         disabled={loading}
         className={cn(
           "p-1.5 rounded transition-colors",
-          userVote === 1 ? "text-blue-600 bg-blue-50" : "text-zinc-400 hover:text-blue-600 hover:bg-blue-50"
+          userVote === 1 ? "text-accent-700 bg-accent-50" : "text-zinc-400 hover:text-accent-700 hover:bg-accent-50"
         )}
         aria-label="Votar positivo"
       >
@@ -57,7 +57,7 @@ export function VoteButtons({ postId, initialVotes, initialUserVote, isLoggedIn 
       </button>
       <span className={cn(
         "text-lg font-bold tabular-nums",
-        votes > 0 ? "text-blue-600" : votes < 0 ? "text-red-500" : "text-zinc-400"
+        votes > 0 ? "text-accent-700" : votes < 0 ? "text-red-500" : "text-zinc-400"
       )}>
         {votes}
       </span>

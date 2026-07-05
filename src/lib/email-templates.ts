@@ -25,7 +25,7 @@ export function commentEmail(opts: {
       <strong>${opts.actorName}</strong> ${action}:
     </p>
     <p style="margin:0 0 6px;font-size:13px;color:#71717a;">${opts.postTitle}</p>
-    <blockquote style="margin:0 0 20px;padding:12px 14px;background:#f4f4f5;border-left:3px solid #2563eb;border-radius:8px;font-size:14px;color:#3f3f46;line-height:1.5;">
+    <blockquote style="margin:0 0 20px;padding:12px 14px;background:#f4f4f5;border-left:3px solid #84cc16;border-radius:8px;font-size:14px;color:#3f3f46;line-height:1.5;">
       ${opts.snippet}
     </blockquote>
     ${ctaButton(postUrl, "Ver y responder")}

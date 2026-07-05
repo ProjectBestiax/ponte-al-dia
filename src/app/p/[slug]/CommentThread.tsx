@@ -113,7 +113,7 @@ export function CommentThread({ comment, postId, isLoggedIn, currentUserId, dept
                   title={isLoggedIn ? undefined : "Entra para reaccionar"}
                   className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full transition-colors ${
                     mine
-                      ? "bg-blue-100 ring-1 ring-blue-300"
+                      ? "bg-accent-200 ring-1 ring-accent-300"
                       : "hover:bg-zinc-100"
                   } ${!isLoggedIn ? "cursor-default opacity-60" : "cursor-pointer"}`}
                   style={{ fontSize: 15, lineHeight: 1 }}
@@ -121,7 +121,7 @@ export function CommentThread({ comment, postId, isLoggedIn, currentUserId, dept
                   <span>{emoji}</span>
                   {count > 0 && (
                     <span
-                      className={`font-semibold ml-0.5 ${mine ? "text-blue-700" : "text-zinc-500"}`}
+                      className={`font-semibold ml-0.5 ${mine ? "text-accent-800" : "text-zinc-500"}`}
                       style={{ fontSize: 11 }}
                     >
                       {count}
@@ -147,7 +147,7 @@ export function CommentThread({ comment, postId, isLoggedIn, currentUserId, dept
 
       {/* Inline reply form */}
       {showReply && (
-        <div className="mt-2 ml-6 pl-3 border-l-2 border-blue-200">
+        <div className="mt-2 ml-6 pl-3 border-l-2 border-accent-300">
           <textarea
             value={replyContent}
             onChange={e => setReplyContent(e.target.value)}

@@ -31,7 +31,7 @@ export function BottomNav() {
         {TABS.map((tab) => {
           const active = tab.match(pathname);
           const Icon = tab.icon;
-          const color = active ? "#2563EB" : "#A1A1AA";
+          const color = active ? "var(--color-accent-700)" : "#A1A1AA";
           return (
             <Link
               key={tab.href}

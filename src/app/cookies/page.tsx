@@ -40,7 +40,7 @@ export default function CookiesPage() {
               </tr>
               <tr>
                 <td className="px-3 py-2 text-zinc-600 font-mono text-xs">_ga, _gid</td>
-                <td className="px-3 py-2"><span className="bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded-full">Analítica</span></td>
+                <td className="px-3 py-2"><span className="bg-accent-50 text-accent-800 text-xs px-2 py-0.5 rounded-full">Analítica</span></td>
                 <td className="px-3 py-2 text-zinc-600">Google Analytics — estadísticas de uso anónimas. Solo si aceptas.</td>
               </tr>
               <tr>
@@ -62,9 +62,9 @@ export default function CookiesPage() {
           También puedes desactivar las cookies directamente desde la configuración de tu navegador:
         </p>
         <ul className="text-zinc-600 text-sm mt-2 space-y-1 list-disc pl-5">
-          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Google Chrome</a></li>
-          <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Mozilla Firefox</a></li>
-          <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Safari</a></li>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-accent-700 hover:underline">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies" target="_blank" rel="noopener noreferrer" className="text-accent-700 hover:underline">Mozilla Firefox</a></li>
+          <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-accent-700 hover:underline">Safari</a></li>
         </ul>
       </section>
 
@@ -72,7 +72,7 @@ export default function CookiesPage() {
         <h2 className="text-lg font-semibold text-zinc-800 mb-2">Cookies de terceros</h2>
         <p className="text-zinc-600 text-sm">
           Google AdSense puede utilizar cookies para mostrar anuncios basados en tus visitas previas a este y otros sitios web. Puedes optar por no recibir publicidad personalizada en{" "}
-          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-accent-700 hover:underline">
             Configuración de anuncios de Google
           </a>.
         </p>

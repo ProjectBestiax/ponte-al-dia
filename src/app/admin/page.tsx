@@ -45,11 +45,11 @@ export default async function AdminPage() {
           <div className="text-2xl font-bold text-green-700">{recentPosts.length}</div>
           <div className="text-sm text-green-600">Activos recientes</div>
         </div>
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
-          <div className="text-2xl font-bold text-blue-700">
+        <div className="bg-accent-50 border border-accent-300 rounded-xl p-4 text-center">
+          <div className="text-2xl font-bold text-accent-800">
             {pendingPosts.length + recentPosts.length}
           </div>
-          <div className="text-sm text-blue-600">Total revisados hoy</div>
+          <div className="text-sm text-accent-700">Total revisados hoy</div>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ export default async function AdminPage() {
                   <h3 className="font-semibold text-zinc-900 text-sm">{post.title}</h3>
                   {post.url && (
                     <a href={post.url} target="_blank" rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:underline mt-0.5 block truncate">
+                      className="text-xs text-accent-700 hover:underline mt-0.5 block truncate">
                       {post.url}
                     </a>
                   )}

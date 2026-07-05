@@ -12,7 +12,7 @@ function page(message: string): Response {
     <div style="font-size:34px;margin-bottom:12px;">✅</div>
     <h1 style="font-size:18px;color:#0a0a0a;margin:0 0 8px;">${message}</h1>
     <p style="font-size:14px;color:#71717a;margin:0 0 20px;">Puedes volver a activarlas cuando quieras desde tu perfil.</p>
-    <a href="/" style="display:inline-block;background:#2563eb;color:#fff;font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;">Volver a Ponte al dIA</a>
+    <a href="/" style="display:inline-block;background:#a3e635;color:#1a2e05;font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;">Volver a Ponte al dIA</a>
   </div>
 </div></body></html>`;
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });

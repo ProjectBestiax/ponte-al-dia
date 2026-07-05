@@ -211,8 +211,8 @@ export default async function PostPage({ params }: PageProps) {
             )}
 
             {post.aiSummary && (
-              <div className="mt-4 bg-blue-50 border border-blue-100 rounded-lg p-3">
-                <p className="text-xs font-semibold text-blue-600 mb-1">🤖 Resumen IA</p>
+              <div className="mt-4 bg-accent-50 border border-accent-200 rounded-lg p-3">
+                <p className="text-xs font-semibold text-accent-700 mb-1">🤖 Resumen IA</p>
                 <p className="text-sm text-zinc-700">{post.aiSummary}</p>
               </div>
             )}
@@ -239,11 +239,11 @@ export default async function PostPage({ params }: PageProps) {
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 flex items-center justify-center gap-2.5 w-full px-5 py-3.5 bg-blue-600 text-white rounded-[12px] hover:bg-blue-700 transition-colors group"
+                className="mt-5 flex items-center justify-center gap-2.5 w-full px-5 py-3.5 bg-accent-400 text-accent-950 rounded-[12px] hover:bg-accent-500 transition-colors group"
               >
-                  <ExternalLink className="w-4 h-4 shrink-0 text-blue-200" />
+                  <ExternalLink className="w-4 h-4 shrink-0 text-accent-800" />
                   <span className="font-bold text-[14px]">Ver fuente original</span>
-                  <span className="text-blue-300 text-[12px] truncate hidden sm:block">
+                  <span className="text-accent-800 text-[12px] truncate hidden sm:block">
                     {new URL(post.url).hostname.replace("www.", "")}
                   </span>
               </a>
@@ -276,7 +276,7 @@ export default async function PostPage({ params }: PageProps) {
           <CommentForm postId={post.id} />
         ) : (
           <div className="mb-6 p-4 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-600 text-center">
-            <Link href="/login" className="text-blue-600 font-medium hover:underline">Entra</Link> para comentar
+            <Link href="/login" className="text-accent-700 font-medium hover:underline">Entra</Link> para comentar
           </div>
         )}
 

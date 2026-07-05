@@ -75,7 +75,7 @@ export function RankingTabs({
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-[14.5px] text-blue-600 group-hover:text-blue-700 leading-snug" style={{ color: "#2563EB" }}>
+                <div className="font-bold text-[14.5px] text-accent-700 group-hover:text-accent-800 leading-snug" style={{ color: "var(--color-accent-700)" }}>
                   {post.title.replace(/^\[.*?\]\s*/, "")}
                 </div>
                 <div style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA", marginTop: 2 }}>

@@ -96,5 +96,5 @@ export function emailLayout(opts: { heading: string; body: string; unsubLink?: s
 }
 
 export function ctaButton(href: string, label: string): string {
-  return `<a href="${href}" style="display:inline-block;background:#2563eb;color:#fff;font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;">${label}</a>`;
+  return `<a href="${href}" style="display:inline-block;background:#a3e635;color:#1a2e05;font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;">${label}</a>`;
 }

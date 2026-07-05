@@ -63,7 +63,7 @@ export function FollowButton({ targetUserId, initialFollowing, isLoggedIn, size 
   return (
     <button
       onClick={toggle}
-      className={`inline-flex items-center justify-center gap-1.5 rounded-full font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors ${pad}`}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-full font-bold bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors ${pad}`}
       style={{ fontFamily: "var(--font-manrope)", minWidth: size === "sm" ? 96 : 112 }}
     >
       <UserPlus className="w-3.5 h-3.5" strokeWidth={2.4} /> Seguir

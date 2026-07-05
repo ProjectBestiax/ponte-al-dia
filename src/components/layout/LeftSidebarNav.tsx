@@ -55,7 +55,7 @@ export function LeftSidebarNav() {
               active
                 ? "bg-zinc-950 text-white font-bold"
                 : item.blue
-                ? "text-blue-600 font-semibold hover:bg-zinc-100"
+                ? "text-accent-700 font-semibold hover:bg-zinc-100"
                 : "text-zinc-600 font-semibold hover:bg-zinc-100"
             )}
           >
