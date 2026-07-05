@@ -6,6 +6,7 @@ import { Providers } from "@/components/layout/Providers";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { TopLoader } from "@/components/layout/TopLoader";
+import { Analytics } from "@vercel/analytics/next";
 
 const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
 
@@ -86,6 +87,7 @@ export default function RootLayout({
           </main>
           <BottomNav />
           <CookieBanner />
+          <Analytics />
         </Providers>
       </body>
     </html>

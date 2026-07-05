@@ -29,6 +29,12 @@ En cada commit, `.githooks/pre-commit` ejecuta y **bloquea** si falla:
 
 Saltar en emergencia: `git commit --no-verify` (evítalo).
 
+## Agentes on-demand (fuera del gate)
+- `analytics`: analista de producto. Consulta la Postgres del proyecto (read-only) para
+  growth / engagement / retención / funnel / contenido. Vercel Web Analytics (tráfico) es
+  dashboard-first: se le pasan capturas/exports o un token de Vercel. Invócalo cuando el
+  usuario quiera "cómo va el producto", no para números sueltos.
+
 ## Reglas de plataforma que no se negocian
 - **Prisma**: tras editar el schema → `db push` + `generate` + **reiniciar el dev server**
   (el proceso vivo mantiene el cliente viejo en memoria).
