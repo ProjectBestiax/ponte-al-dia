@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Política de Privacidad" };
 
 export default function PrivacidadPage() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://ponte-al-dia.com";
-  const email = "hola@ponte-al-dia.com";
+  const email = "projectbestiax@gmail.com";
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8 prose prose-sm prose-gray">
