@@ -277,7 +277,7 @@ export default async function PostPage({ params }: PageProps) {
                 <MessageSquare className="w-3.5 h-3.5" />
                 {post.commentCount} comentarios
               </span>
-              <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
+              <ShareMenu title={post.title} slug={post.slug} />
             </div>
           </div>
         </div>
