@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
-import { generateAiSummary } from "@/lib/ai-summary";
+import { AI_PERSONAS } from "@/lib/ai-personas";
+import { curate } from "@/lib/ai-curator";
+
+export const maxDuration = 60;
 
 const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
+
+// Leo curates open-source: publish few, well-titled repos worth trying.
+const PERSONA = AI_PERSONAS.leo;
+const MAX_PUBLISH = 3;
 
 const AI_KEYWORDS = ["llm", "ai", "gpt", "claude", "gemini", "diffusion", "transformer",
   "embedding", "rag", "agent", "langchain", "openai", "anthropic", "ollama", "ml",
@@ -74,52 +81,62 @@ async function runBot(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const category = await db.category.findFirst({ where: { slug: "open-source" } });
+  const category = await db.category.findFirst({ where: { slug: PERSONA.categorySlug } });
   if (!category) return NextResponse.json({ error: "Category not found" }, { status: 500 });
 
-  let botUser = await db.user.findFirst({ where: { email: "bot@pontealdia.com" } });
-  if (!botUser) {
-    botUser = await db.user.create({
-      data: { email: "bot@pontealdia.com", name: "Bot Ponte al dIA", username: "bot", role: "USER" },
+  let author = await db.user.findFirst({ where: { email: PERSONA.email } });
+  if (!author) {
+    author = await db.user.create({
+      data: {
+        email: PERSONA.email, username: PERSONA.username, name: PERSONA.name,
+        bio: PERSONA.bio, isAI: true, aiPersona: PERSONA.key, role: "USER",
+      },
     });
   }
 
   const repos = await fetchGitHubAIRepos();
-  const created: string[] = [];
-  const skipped: string[] = [];
+  let published = 0, rejected = 0, skipped = 0;
 
   for (const repo of repos) {
-    const exists = await db.post.findFirst({ where: { url: repo.url } });
-    if (exists) { skipped.push(repo.url); continue; }
+    if (published >= MAX_PUBLISH) break;
+    if (await db.post.findFirst({ where: { url: repo.url } })) { skipped++; continue; }
 
-    let slug = slugify(repo.title.slice(0, 80));
-    const existing = await db.post.findUnique({ where: { slug } });
-    if (existing) slug = `${slug}-${Date.now()}`;
-
-    const aiSummary = await generateAiSummary({
-      title: repo.title,
-      description: repo.description,
-      url: repo.url,
+    const c = await curate({
+      kind: "repo",
+      rawTitle: repo.title,
+      rawText: repo.description ?? "",
+      personaAngle: PERSONA.angle,
     });
+
+    let title: string, aiSummary: string | null;
+    if (c) {
+      if (!c.accept) { rejected++; continue; }
+      title = c.title;
+      aiSummary = c.summary;
+    } else {
+      title = repo.title.slice(0, 120);
+      aiSummary = null;
+    }
+
+    let slug = slugify(title.slice(0, 80));
+    if (await db.post.findUnique({ where: { slug } })) slug = `${slug}-${Date.now()}`;
 
     await db.post.create({
       data: {
-        title: repo.title,
-        slug,
-        url: repo.url,
+        title, slug, url: repo.url,
         description: repo.description || null,
         aiSummary,
         categoryId: category.id,
-        userId: botUser.id,
+        userId: author.id,
         status: "ACTIVE",
         publishedAt: new Date(),
         score: 0,
       },
     });
-    created.push(repo.url);
+    published++;
   }
 
-  return NextResponse.json({ created: created.length, skipped: skipped.length, total: repos.length });
+  return NextResponse.json({ persona: PERSONA.key, published, rejected, skipped });
 }
 
 export async function POST(req: NextRequest) { return runBot(req); }

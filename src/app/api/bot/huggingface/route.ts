@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
+import { AI_PERSONAS } from "@/lib/ai-personas";
+import { curate } from "@/lib/ai-curator";
+
+export const maxDuration = 60;
 
 const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
+
+// Nora curates research: publish few, high-signal, well-titled papers.
+const PERSONA = AI_PERSONAS.nora;
+const MAX_CANDIDATES = 8; // bound curation cost
+const MAX_PUBLISH = 3; // few but good
 
 function isAuthorized(req: NextRequest): boolean {
   const botSecret = req.headers.get("x-bot-secret");
@@ -13,66 +22,81 @@ function isAuthorized(req: NextRequest): boolean {
   return false;
 }
 
+async function getPersonaUser() {
+  const existing = await db.user.findFirst({ where: { email: PERSONA.email } });
+  if (existing) return existing;
+  return db.user.create({
+    data: {
+      email: PERSONA.email, username: PERSONA.username, name: PERSONA.name,
+      bio: PERSONA.bio, isAI: true, aiPersona: PERSONA.key, role: "USER",
+    },
+  });
+}
+
 async function runBot(req: NextRequest) {
   if (!isAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // HuggingFace Daily Papers API
   const res = await fetch("https://huggingface.co/api/daily_papers?limit=20", {
     headers: { "User-Agent": "PonteAlDIA/1.0" },
     signal: AbortSignal.timeout(10000),
   });
-
   if (!res.ok) return NextResponse.json({ error: "HF API error" }, { status: 502 });
 
   const papers = await res.json() as Array<{
-    paper: { id: string; title: string; summary: string; authors: Array<{ name: string }> };
+    paper: { id: string; title: string; summary: string };
     publishedAt: string;
   }>;
 
-  const category = await db.category.findFirst({ where: { slug: "modelos-y-llms" } });
+  const category = await db.category.findFirst({ where: { slug: PERSONA.categorySlug } });
   if (!category) return NextResponse.json({ error: "Category not found" }, { status: 500 });
+  const author = await getPersonaUser();
 
-  let botUser = await db.user.findFirst({ where: { email: "bot@pontealdia.com" } });
-  if (!botUser) {
-    botUser = await db.user.create({
-      data: { email: "bot@pontealdia.com", name: "Bot Ponte al dIA", username: "bot", role: "USER" },
-    });
-  }
+  let published = 0, rejected = 0, skipped = 0;
 
-  const created: string[] = [];
-  const skipped: string[] = [];
-
-  for (const item of papers.slice(0, 10)) {
+  for (const item of papers.slice(0, MAX_CANDIDATES)) {
+    if (published >= MAX_PUBLISH) break;
     const paperUrl = `https://huggingface.co/papers/${item.paper.id}`;
-    const exists = await db.post.findFirst({ where: { url: paperUrl } });
-    if (exists) { skipped.push(paperUrl); continue; }
+    if (await db.post.findFirst({ where: { url: paperUrl } })) { skipped++; continue; }
 
-    const title = `[Paper] ${item.paper.title}`.slice(0, 200);
-    const description = item.paper.summary?.slice(0, 500) ?? "";
+    const c = await curate({
+      kind: "paper",
+      rawTitle: item.paper.title,
+      rawText: item.paper.summary ?? "",
+      personaAngle: PERSONA.angle,
+    });
+
+    let title: string, aiSummary: string | null;
+    if (c) {
+      if (!c.accept) { rejected++; continue; }
+      title = c.title;
+      aiSummary = c.summary;
+    } else {
+      // No API key / curation failed → publish a clean version anyway (no "[Paper]" noise).
+      title = item.paper.title.slice(0, 120);
+      aiSummary = null;
+    }
 
     let slug = slugify(title.slice(0, 80));
-    const existing = await db.post.findUnique({ where: { slug } });
-    if (existing) slug = `${slug}-${Date.now()}`;
+    if (await db.post.findUnique({ where: { slug } })) slug = `${slug}-${Date.now()}`;
 
     await db.post.create({
       data: {
-        title,
-        slug,
-        url: paperUrl,
-        description,
+        title, slug, url: paperUrl,
+        description: item.paper.summary?.slice(0, 500) ?? "",
+        aiSummary,
         categoryId: category.id,
-        userId: botUser.id,
+        userId: author.id,
         status: "ACTIVE",
         publishedAt: new Date(item.publishedAt),
         score: 0,
       },
     });
-    created.push(paperUrl);
+    published++;
   }
 
-  return NextResponse.json({ created: created.length, skipped: skipped.length });
+  return NextResponse.json({ persona: PERSONA.key, published, rejected, skipped });
 }
 
 export async function POST(req: NextRequest) { return runBot(req); }

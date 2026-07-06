@@ -72,12 +72,14 @@ export async function sendCommentEmail(params: {
       }),
       db.user.findUnique({
         where: { id: params.actorId },
-        select: { name: true, username: true },
+        select: { name: true, username: true, isAI: true },
       }),
       db.post.findUnique({ where: { id: params.postId }, select: { title: true, slug: true } }),
     ]);
 
     if (!recipient?.email || !recipient.emailReplies || !post) return;
+    // Don't email "an AI replied to you" — the in-app notification (badged) is enough.
+    if (actor?.isAI) return;
 
     const token = await getUnsubscribeToken(params.recipientId);
     const actorName = actor?.username ?? actor?.name ?? "Alguien";
