@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2, ChevronRight } from "lucide-react";
+import { ArrowUp, ArrowDown, MessageSquare, Bookmark, ChevronRight } from "lucide-react";
+import { ShareMenu } from "@/components/posts/ShareMenu";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
 import { tagStyle } from "@/lib/tool-tags";
 import { AiBadge } from "@/components/users/AiBadge";
@@ -80,7 +81,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   const [votes, setVotes] = useState(post.voteCount);
   const [userVote, setUserVote] = useState(post.userVote ?? 0);
   const [bookmarked, setBookmarked] = useState(post.userBookmarked ?? false);
-  const [copied, setCopied] = useState(false);
 
   // userVoteRef holds the live vote so clicks never read a stale closure;
   // the network call is debounced so rapid clicks (vote → unvote) are never
@@ -135,20 +135,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
     }
   }
 
-  async function handleShare() {
-    const url = `${window.location.origin}/p/${post.slug}`;
-    if (typeof navigator.share === "function") {
-      try {
-        await navigator.share({ title: post.title, url });
-        return;
-      } catch {
-        // cancelled or not supported — fall through to clipboard
-      }
-    }
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
 
   const domain = post.url ? (() => { try { return new URL(post.url).hostname.replace("www.", ""); } catch { return ""; } })() : "";
   const summary = post.aiSummary?.trim() || null;
@@ -249,13 +235,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-1.5 text-[13.5px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
-            >
-              <Share2 className="w-[17px] h-[17px]" strokeWidth={1.9} />
-              {copied ? "¡Copiado!" : "Compartir"}
-            </button>
+            <ShareMenu title={post.title} slug={post.slug} />
           </div>
         </div>
 
@@ -351,6 +331,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               >
                 <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
               </button>
+              <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
             </div>
           </div>
 
@@ -496,13 +477,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <Bookmark className="w-4 h-4" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
-            >
-              <Share2 className="w-4 h-4" strokeWidth={1.9} />
-              {copied ? "¡Copiado!" : "Compartir"}
-            </button>
+            <ShareMenu title={post.title} slug={post.slug} size="sm" />
           </div>
         </div>
       </article>

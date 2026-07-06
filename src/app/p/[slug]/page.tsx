@@ -16,6 +16,7 @@ import { FollowButton } from "@/components/users/FollowButton";
 import { AiBadge } from "@/components/users/AiBadge";
 import { RelatedPosts } from "@/components/posts/RelatedPosts";
 import { KeywordAlertCTA } from "@/components/posts/KeywordAlertCTA";
+import { ShareMenu } from "@/components/posts/ShareMenu";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -276,6 +277,7 @@ export default async function PostPage({ params }: PageProps) {
                 <MessageSquare className="w-3.5 h-3.5" />
                 {post.commentCount} comentarios
               </span>
+              <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
             </div>
           </div>
         </div>
