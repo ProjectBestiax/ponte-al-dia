@@ -5,6 +5,7 @@ import { slugify } from "@/lib/utils";
 import { AI_PERSONAS } from "@/lib/ai-personas";
 import { curate } from "@/lib/ai-curator";
 import { notifyKeywordMatches } from "@/lib/notifications";
+import { fetchOgImage } from "@/lib/og-image";
 
 export const maxDuration = 60;
 
@@ -83,11 +84,13 @@ async function runBot(req: NextRequest) {
     let slug = slugify(title.slice(0, 80));
     if (await db.post.findUnique({ where: { slug } })) slug = `${slug}-${Date.now()}`;
 
+    const imageUrl = await fetchOgImage(paperUrl);
+
     const created = await db.post.create({
       data: {
         title, slug, url: paperUrl,
         description: item.paper.summary?.slice(0, 500) ?? "",
-        aiSummary,
+        aiSummary, imageUrl,
         categoryId: category.id,
         userId: author.id,
         status: "ACTIVE",

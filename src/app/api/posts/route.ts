@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
+import { fetchOgImage } from "@/lib/og-image";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -43,16 +44,21 @@ export async function POST(req: NextRequest) {
   const existing = await db.post.findUnique({ where: { slug } });
   if (existing) slug = `${slug}-${Date.now()}`;
 
+  let finalImage = imageUrl ?? null;
+  if (!finalImage && url) {
+    finalImage = await fetchOgImage(url);
+  }
+
   const post = await db.post.create({
     data: {
       title,
       slug,
       url: url || null,
       description: description || null,
-      imageUrl: imageUrl ?? null,
+      imageUrl: finalImage,
       categoryId,
       userId: session.user.id,
-      status: "PENDING", // Requiere moderación
+      status: "PENDING",
     },
   });
 
