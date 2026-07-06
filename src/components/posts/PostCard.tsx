@@ -318,21 +318,40 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         className="flex flex-col sm:hidden py-4 px-2 border-b border-zinc-100"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Top: votes+image left | content right */}
+        {/* Top: left column (votes, image, actions) | right column (content) */}
         <div className="flex gap-3">
-          {/* Left column: votes + image */}
-          <div className="flex flex-col items-center gap-2.5 shrink-0">
+          {/* Left column: votes → image → comments+bookmark */}
+          <div className="flex flex-col items-center gap-2 shrink-0" style={{ width: 96 }}>
             <div className="flex items-center gap-1">{renderVoteButtons()}</div>
-            {post.imageUrl && (
-              <Link href={`/p/${post.slug}`} className="block">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+            <Link href={`/p/${post.slug}`} className="block">
+              {post.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={post.imageUrl}
                   alt={post.title}
-                  className="w-[86px] h-[86px] object-cover rounded-[11px] border border-zinc-100"
+                  className="w-[90px] h-[90px] object-cover rounded-[11px] border border-zinc-100"
                 />
+              ) : (
+                <div
+                  className="flex items-center justify-center w-[90px] h-[90px] rounded-[11px] border border-zinc-100"
+                  style={{ backgroundColor: post.category.color + "15" }}
+                >
+                  <span style={{ fontSize: 32 }}>{post.category.emoji}</span>
+                </div>
+              )}
+            </Link>
+            <div className="flex items-center gap-3 mt-0.5">
+              <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
+                <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
+                <span className="font-semibold">{formatNumber(post.commentCount)}</span>
               </Link>
-            )}
+              <button
+                onClick={handleBookmark}
+                className={cn("flex items-center transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
+              >
+                <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
+              </button>
+            </div>
           </div>
 
           {/* Right column: category, title, summary, source, author */}
@@ -386,21 +405,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </div>
         </div>
 
-        {/* Bottom row: comments+bookmark left | CTA right (full width, like Chollometro) */}
-        <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-zinc-50">
-          <div className="flex items-center gap-4">
-            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1.5 text-zinc-400" style={{ fontSize: 12.5 }}>
-              <MessageSquare className="w-4 h-4" strokeWidth={1.8} />
-              <span className="font-semibold">{formatNumber(post.commentCount)}</span>
-            </Link>
-            <button
-              onClick={handleBookmark}
-              className={cn("flex items-center gap-1 transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
-              style={{ fontSize: 12.5 }}
-            >
-              <Bookmark className="w-4 h-4" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
-            </button>
-          </div>
+        {/* Bottom row: CTA right-aligned */}
+        <div className="flex justify-end mt-2.5">
           <Link
             href={`/p/${post.slug}`}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors"
