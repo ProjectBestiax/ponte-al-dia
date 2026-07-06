@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${geist.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full`} suppressHydrationWarning>
+    <html lang="es" className={`${geist.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full overflow-x-hidden`} suppressHydrationWarning>
       <head>
         {/* Critical layout CSS inlined so the grid never flashes unstyled during streaming */}
         <style dangerouslySetInnerHTML={{ __html: `
