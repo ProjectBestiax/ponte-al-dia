@@ -14,6 +14,7 @@ import { detectEmbed } from "@/lib/embed";
 import { tagStyle } from "@/lib/tool-tags";
 import { FollowButton } from "@/components/users/FollowButton";
 import { AiBadge } from "@/components/users/AiBadge";
+import { RelatedPosts } from "@/components/posts/RelatedPosts";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -135,6 +136,17 @@ export default async function PostPage({ params }: PageProps) {
     });
     isFollowingAuthor = !!f;
   }
+
+  // Related posts: same category, most upvoted, excluding this one.
+  const related = await db.post.findMany({
+    where: { status: "ACTIVE", categoryId: post.categoryId, id: { not: post.id } },
+    orderBy: [{ score: "desc" }, { createdAt: "desc" }],
+    take: 5,
+    select: {
+      slug: true, title: true, voteCount: true, commentCount: true,
+      category: { select: { name: true, emoji: true, color: true } },
+    },
+  });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -267,6 +279,8 @@ export default async function PostPage({ params }: PageProps) {
           </div>
         </div>
       </div>
+
+      <RelatedPosts posts={related} />
 
       {/* Comments */}
       <div id="comentarios" className="mt-8">
