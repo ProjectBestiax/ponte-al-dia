@@ -313,84 +313,97 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
   return (
     <>
-      {/* ─── Mobile layout (< sm): votes + square image on the left, content on the right ─── */}
+      {/* ─── Mobile layout (< sm): Chollometro-style card ─── */}
       <article
-        className="flex sm:hidden gap-3 py-4 px-2 border-b border-zinc-100"
+        className="flex flex-col sm:hidden py-4 px-2 border-b border-zinc-100"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Left column: votes (top, horizontal) + image (bottom) */}
-        <div className="flex flex-col items-center gap-2.5 shrink-0">
-          <div className="flex items-center gap-1">{renderVoteButtons()}</div>
-          {post.imageUrl && (
-            <Link href={`/p/${post.slug}`} className="block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={post.imageUrl}
-                alt={post.title}
-                className="w-[86px] h-[86px] object-cover rounded-[11px] border border-zinc-100"
-              />
-            </Link>
-          )}
-        </div>
-
-        {/* Right column: category + time, title, source, author, CTA */}
-        <div className="flex-1 min-w-0">
-          {/* Category + time */}
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span
-              className="rounded-full font-medium shrink-0"
-              style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
-            >
-              {post.category.emoji} {post.category.name}
-            </span>
-            <ToolTags tags={post.tags} />
-            <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
-            <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
-              {timeAgo(new Date(post.createdAt))}
-            </span>
+        {/* Top: votes+image left | content right */}
+        <div className="flex gap-3">
+          {/* Left column: votes + image */}
+          <div className="flex flex-col items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-1">{renderVoteButtons()}</div>
+            {post.imageUrl && (
+              <Link href={`/p/${post.slug}`} className="block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  className="w-[86px] h-[86px] object-cover rounded-[11px] border border-zinc-100"
+                />
+              </Link>
+            )}
           </div>
 
-          {/* Title */}
-          <Link href={`/p/${post.slug}`}>
-            <h3
-              className="hover:opacity-75 transition-opacity"
-              style={{ margin: 0, fontWeight: 700, fontSize: 17, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
-            >
-              {post.title}
-            </h3>
-          </Link>
-
-          {/* AI summary */}
-          {summary && (
-            <p className="line-clamp-2 mt-1.5" style={{ fontSize: 13, lineHeight: 1.45, color: "#71717A" }}>
-              {summary}
-            </p>
-          )}
-
-          {/* Source */}
-          {domain && (
-            <div className="flex items-center gap-1.5 mt-2">
-              {post.url && <DomainIcon url={post.url} />}
-              <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+          {/* Right column: category, title, summary, source, author */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <span
+                className="rounded-full font-medium shrink-0"
+                style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
+              >
+                {post.category.emoji} {post.category.name}
+              </span>
+              <ToolTags tags={post.tags} />
+              <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+              <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
+                {timeAgo(new Date(post.createdAt))}
+              </span>
             </div>
-          )}
 
-          {/* Author */}
-          {post.user.username || post.user.id ? (
-            <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-flex items-center gap-1.5 hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
-              <span>por <span className="font-semibold text-zinc-600">{authorName}</span></span>
-              {post.user.isAI && <AiBadge size="xs" />}
+            <Link href={`/p/${post.slug}`}>
+              <h3
+                className="hover:opacity-75 transition-opacity"
+                style={{ margin: 0, fontWeight: 700, fontSize: 17, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+              >
+                {post.title}
+              </h3>
             </Link>
-          ) : (
-            <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
-              por <span className="font-semibold text-zinc-600">{authorName}</span>
-            </p>
-          )}
 
-          {/* CTA */}
+            {summary && (
+              <p className="line-clamp-2 mt-1.5" style={{ fontSize: 13, lineHeight: 1.45, color: "#71717A" }}>
+                {summary}
+              </p>
+            )}
+
+            {domain && (
+              <div className="flex items-center gap-1.5 mt-2">
+                {post.url && <DomainIcon url={post.url} />}
+                <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
+              </div>
+            )}
+
+            {post.user.username || post.user.id ? (
+              <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-flex items-center gap-1.5 hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
+                <span>por <span className="font-semibold text-zinc-600">{authorName}</span></span>
+                {post.user.isAI && <AiBadge size="xs" />}
+              </Link>
+            ) : (
+              <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
+                por <span className="font-semibold text-zinc-600">{authorName}</span>
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom row: comments+bookmark left | CTA right (full width, like Chollometro) */}
+        <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-zinc-50">
+          <div className="flex items-center gap-4">
+            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1.5 text-zinc-400" style={{ fontSize: 12.5 }}>
+              <MessageSquare className="w-4 h-4" strokeWidth={1.8} />
+              <span className="font-semibold">{formatNumber(post.commentCount)}</span>
+            </Link>
+            <button
+              onClick={handleBookmark}
+              className={cn("flex items-center gap-1 transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
+              style={{ fontSize: 12.5 }}
+            >
+              <Bookmark className="w-4 h-4" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
+            </button>
+          </div>
           <Link
             href={`/p/${post.slug}`}
-            className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors"
             style={{ fontSize: 12.5, fontWeight: 700 }}
           >
             Ir al post
