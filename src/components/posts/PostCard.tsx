@@ -156,7 +156,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
   if (featured) {
     return (
       <article
-        className="flex gap-3 sm:gap-4 rounded-[14px] p-4 sm:p-[22px] mt-[18px] mb-2"
+        className="flex gap-2.5 sm:gap-4 rounded-[14px] p-3 sm:p-[22px] mt-[18px] mb-2"
         style={{
           border: "1px solid var(--color-accent-200)",
           background: "linear-gradient(180deg,var(--color-accent-50) 0%,#FFFFFF 70%)",
@@ -164,7 +164,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         }}
       >
         {/* Votes */}
-        <div className="flex flex-col items-center gap-[3px] min-w-[46px] pt-0.5">
+        <div className="flex flex-col items-center gap-[3px] min-w-[36px] sm:min-w-[46px] pt-0.5">
           <button
             onClick={() => handleVote(1)}
             className={cn(
