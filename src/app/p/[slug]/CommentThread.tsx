@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
+import { AiBadge } from "@/components/users/AiBadge";
 
 const REACTIONS = [
   { type: "THUMBS_UP",    emoji: "👍" },
@@ -23,7 +24,7 @@ interface CommentData {
   id: string;
   content: string;
   createdAt: string; // ISO string from server
-  user: { name: string | null; username: string | null; image: string | null };
+  user: { name: string | null; username: string | null; image: string | null; isAI?: boolean | null };
   reactions: ReactionData[];
   replies?: Omit<CommentData, "replies">[];
 }
@@ -88,6 +89,7 @@ export function CommentThread({ comment, postId, isLoggedIn, currentUserId, dept
             {authorName[0].toUpperCase()}
           </div>
           <span className="font-semibold text-zinc-700">{authorName}</span>
+          {comment.user.isAI && <AiBadge size="xs" />}
           <span className="text-zinc-400">{timeAgo(new Date(comment.createdAt))}</span>
         </div>
 

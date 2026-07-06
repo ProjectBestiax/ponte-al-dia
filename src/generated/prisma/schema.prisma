@@ -22,6 +22,9 @@ model User {
   role          UserRole  @default(USER)
   isPremium     Boolean   @default(false)
   premiumUntil  DateTime?
+  isAI          Boolean   @default(false) // transparent AI curator/editor account
+
+  aiPersona String? // persona key (see src/lib/ai-personas.ts) for AI accounts
 
   // Email preferences
   emailReplies     Boolean @default(true) // comments/replies on your content

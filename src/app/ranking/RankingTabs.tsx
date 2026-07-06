@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FollowButton } from "@/components/users/FollowButton";
+import { AiBadge } from "@/components/users/AiBadge";
 
 interface TrendingPost {
   id: string;
@@ -19,6 +20,7 @@ interface TopUser {
   image: string | null;
   karma: number;
   isFollowing: boolean;
+  isAI?: boolean | null;
 }
 
 type View = "tendencias" | "contribuidores";
@@ -118,8 +120,11 @@ export function RankingTabs({
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-[14.5px] text-zinc-900 truncate">
-                      {user.name ?? user.username ?? "Usuario"}
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="font-semibold text-[14.5px] text-zinc-900 truncate">
+                        {user.name ?? user.username ?? "Usuario"}
+                      </span>
+                      {user.isAI && <AiBadge size="xs" />}
                     </div>
                     <div className="text-zinc-400 text-[12px] truncate">
                       {user.username ? `@${user.username} · ` : ""}{user.karma} {user.karma === 1 ? "pt" : "pts"}

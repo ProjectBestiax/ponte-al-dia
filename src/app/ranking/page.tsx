@@ -21,7 +21,7 @@ export default async function RankingPage() {
       where: { karma: { gt: 0 } },
       orderBy: { karma: "desc" },
       take: 20,
-      select: { id: true, name: true, username: true, image: true, karma: true },
+      select: { id: true, name: true, username: true, image: true, karma: true, isAI: true },
     }),
   ]);
 

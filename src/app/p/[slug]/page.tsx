@@ -13,6 +13,7 @@ import { EmbedPlayer } from "@/components/posts/EmbedPlayer";
 import { detectEmbed } from "@/lib/embed";
 import { tagStyle } from "@/lib/tool-tags";
 import { FollowButton } from "@/components/users/FollowButton";
+import { AiBadge } from "@/components/users/AiBadge";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,17 +63,17 @@ export default async function PostPage({ params }: PageProps) {
   const post = await db.post.findUnique({
     where: { slug },
     include: {
-      user: { select: { id: true, name: true, username: true, image: true } },
+      user: { select: { id: true, name: true, username: true, image: true, isAI: true } },
       category: true,
       tags: { include: { tag: { select: { name: true, slug: true } } } },
       comments: {
         where: { parentId: null },
         include: {
-          user: { select: { name: true, username: true, image: true } },
+          user: { select: { name: true, username: true, image: true, isAI: true } },
           reactions: { select: { type: true, userId: true } },
           replies: {
             include: {
-              user: { select: { name: true, username: true, image: true } },
+              user: { select: { name: true, username: true, image: true, isAI: true } },
               reactions: { select: { type: true, userId: true } },
             },
             orderBy: { createdAt: "asc" },
@@ -250,8 +251,9 @@ export default async function PostPage({ params }: PageProps) {
             )}
 
             <div className="mt-4 flex items-center gap-3 flex-wrap text-xs text-zinc-400">
-              <Link href={`/u/${authorHandle}`} className="hover:text-zinc-700 transition-colors">
-                por <span className="font-medium text-zinc-600">{authorName}</span>
+              <Link href={`/u/${authorHandle}`} className="inline-flex items-center gap-1.5 hover:text-zinc-700 transition-colors">
+                <span>por <span className="font-medium text-zinc-600">{authorName}</span></span>
+                {post.user.isAI && <AiBadge size="xs" />}
               </Link>
               {!isAuthorSelf && (
                 <FollowButton targetUserId={post.user.id} initialFollowing={isFollowingAuthor} isLoggedIn={!!session} size="sm" />

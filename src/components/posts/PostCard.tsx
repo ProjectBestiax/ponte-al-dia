@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUp, ArrowDown, MessageSquare, Bookmark, Share2, ChevronRight } from "lucide-react";
 import { timeAgo, formatNumber, cn } from "@/lib/utils";
 import { tagStyle } from "@/lib/tool-tags";
+import { AiBadge } from "@/components/users/AiBadge";
 import { useState, useRef } from "react";
 
 interface PostCardProps {
@@ -25,6 +26,7 @@ interface PostCardProps {
       name?: string | null;
       username?: string | null;
       image?: string | null;
+      isAI?: boolean | null;
     };
     category: {
       name: string;
@@ -375,8 +377,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
           {/* Author */}
           {post.user.username || post.user.id ? (
-            <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-block hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
-              por <span className="font-semibold text-zinc-600">{authorName}</span>
+            <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-flex items-center gap-1.5 hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
+              <span>por <span className="font-semibold text-zinc-600">{authorName}</span></span>
+              {post.user.isAI && <AiBadge size="xs" />}
             </Link>
           ) : (
             <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>

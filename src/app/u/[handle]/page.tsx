@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import type { Metadata } from "next";
 import { FollowButton } from "@/components/users/FollowButton";
+import { AiBadge } from "@/components/users/AiBadge";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ async function resolveUser(handle: string) {
   return db.user.findFirst({
     where: { OR: [{ username: handle }, { id: handle }] },
     select: {
-      id: true, name: true, username: true, image: true, bio: true, karma: true, createdAt: true,
+      id: true, name: true, username: true, image: true, bio: true, karma: true, createdAt: true, isAI: true,
     },
   });
 }
@@ -80,7 +81,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h1 className="font-extrabold text-zinc-950 truncate" style={{ fontSize: 22 }}>{displayName}</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="font-extrabold text-zinc-950 truncate" style={{ fontSize: 22 }}>{displayName}</h1>
+                {user.isAI && <AiBadge />}
+              </div>
               {user.username && <p className="text-zinc-400 font-medium" style={{ fontSize: 14 }}>@{user.username}</p>}
             </div>
             {isSelf ? (

@@ -29,7 +29,7 @@ export const getCachedTopContributors = unstable_cache(
       where: { karma: { gt: 0 } },
       orderBy: { karma: "desc" },
       take: 5,
-      select: { id: true, name: true, username: true, image: true, karma: true },
+      select: { id: true, name: true, username: true, image: true, karma: true, isAI: true },
     }),
   ["top-contributors"],
   { revalidate: 3600, tags: ["users"] }

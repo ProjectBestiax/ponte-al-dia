@@ -3,6 +3,7 @@ import { getCachedTrendingSidebar, getCachedTopContributors } from "@/lib/cached
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { FollowButton } from "@/components/users/FollowButton";
+import { AiBadge } from "@/components/users/AiBadge";
 import { ToolsSidebar } from "./ToolsSidebar";
 
 export async function RightSidebar() {
@@ -98,8 +99,11 @@ export async function RightSidebar() {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-[13.5px] text-zinc-900 truncate">
-                        {user.name ?? user.username ?? "Usuario"}
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="font-semibold text-[13.5px] text-zinc-900 truncate">
+                          {user.name ?? user.username ?? "Usuario"}
+                        </span>
+                        {user.isAI && <AiBadge size="xs" />}
                       </div>
                       <div style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10.5, color: "#A1A1AA" }}>
                         {user.karma} pts

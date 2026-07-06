@@ -134,6 +134,8 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   isPremium: 'isPremium',
   premiumUntil: 'premiumUntil',
+  isAI: 'isAI',
+  aiPersona: 'aiPersona',
   emailReplies: 'emailReplies',
   emailDigest: 'emailDigest',
   unsubscribeToken: 'unsubscribeToken',
