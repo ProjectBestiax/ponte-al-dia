@@ -79,6 +79,11 @@ export type Bookmark = $Result.DefaultSelection<Prisma.$BookmarkPayload>
  */
 export type CommentVote = $Result.DefaultSelection<Prisma.$CommentVotePayload>
 /**
+ * Model AlertKeyword
+ * 
+ */
+export type AlertKeyword = $Result.DefaultSelection<Prisma.$AlertKeywordPayload>
+/**
  * Model Follow
  * 
  */
@@ -126,7 +131,8 @@ export type ReactionType = (typeof ReactionType)[keyof typeof ReactionType]
 export const NotificationType: {
   COMMENT_ON_POST: 'COMMENT_ON_POST',
   REPLY_TO_COMMENT: 'REPLY_TO_COMMENT',
-  FOLLOW: 'FOLLOW'
+  FOLLOW: 'FOLLOW',
+  KEYWORD_ALERT: 'KEYWORD_ALERT'
 };
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -401,6 +407,16 @@ export class PrismaClient<
     * ```
     */
   get commentVote(): Prisma.CommentVoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.alertKeyword`: Exposes CRUD operations for the **AlertKeyword** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AlertKeywords
+    * const alertKeywords = await prisma.alertKeyword.findMany()
+    * ```
+    */
+  get alertKeyword(): Prisma.AlertKeywordDelegate<ExtArgs>;
 
   /**
    * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
@@ -875,6 +891,7 @@ export namespace Prisma {
     CommentReaction: 'CommentReaction',
     Bookmark: 'Bookmark',
     CommentVote: 'CommentVote',
+    AlertKeyword: 'AlertKeyword',
     Follow: 'Follow',
     Notification: 'Notification'
   };
@@ -892,7 +909,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "follow" | "notification"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "follow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1806,6 +1823,76 @@ export namespace Prisma {
           }
         }
       }
+      AlertKeyword: {
+        payload: Prisma.$AlertKeywordPayload<ExtArgs>
+        fields: Prisma.AlertKeywordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AlertKeywordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AlertKeywordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          findFirst: {
+            args: Prisma.AlertKeywordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AlertKeywordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          findMany: {
+            args: Prisma.AlertKeywordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>[]
+          }
+          create: {
+            args: Prisma.AlertKeywordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          createMany: {
+            args: Prisma.AlertKeywordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AlertKeywordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>[]
+          }
+          delete: {
+            args: Prisma.AlertKeywordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          update: {
+            args: Prisma.AlertKeywordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          deleteMany: {
+            args: Prisma.AlertKeywordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AlertKeywordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AlertKeywordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertKeywordPayload>
+          }
+          aggregate: {
+            args: Prisma.AlertKeywordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAlertKeyword>
+          }
+          groupBy: {
+            args: Prisma.AlertKeywordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AlertKeywordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AlertKeywordCountArgs<ExtArgs>
+            result: $Utils.Optional<AlertKeywordCountAggregateOutputType> | number
+          }
+        }
+      }
       Follow: {
         payload: Prisma.$FollowPayload<ExtArgs>
         fields: Prisma.FollowFieldRefs
@@ -2119,6 +2206,7 @@ export namespace Prisma {
     actorNotifications: number
     following: number
     followers: number
+    alertKeywords: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2134,6 +2222,7 @@ export namespace Prisma {
     actorNotifications?: boolean | UserCountOutputTypeCountActorNotificationsArgs
     following?: boolean | UserCountOutputTypeCountFollowingArgs
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
+    alertKeywords?: boolean | UserCountOutputTypeCountAlertKeywordsArgs
   }
 
   // Custom InputTypes
@@ -2229,6 +2318,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFollowersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FollowWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAlertKeywordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertKeywordWhereInput
   }
 
 
@@ -2728,6 +2824,7 @@ export namespace Prisma {
     actorNotifications?: boolean | User$actorNotificationsArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
+    alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2786,6 +2883,7 @@ export namespace Prisma {
     actorNotifications?: boolean | User$actorNotificationsArgs<ExtArgs>
     following?: boolean | User$followingArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
+    alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2805,6 +2903,7 @@ export namespace Prisma {
       actorNotifications: Prisma.$NotificationPayload<ExtArgs>[]
       following: Prisma.$FollowPayload<ExtArgs>[]
       followers: Prisma.$FollowPayload<ExtArgs>[]
+      alertKeywords: Prisma.$AlertKeywordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3201,6 +3300,7 @@ export namespace Prisma {
     actorNotifications<T extends User$actorNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$actorNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany"> | Null>
     following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany"> | Null>
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany"> | Null>
+    alertKeywords<T extends User$alertKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, User$alertKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3799,6 +3899,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FollowScalarFieldEnum | FollowScalarFieldEnum[]
+  }
+
+  /**
+   * User.alertKeywords
+   */
+  export type User$alertKeywordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    where?: AlertKeywordWhereInput
+    orderBy?: AlertKeywordOrderByWithRelationInput | AlertKeywordOrderByWithRelationInput[]
+    cursor?: AlertKeywordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AlertKeywordScalarFieldEnum | AlertKeywordScalarFieldEnum[]
   }
 
   /**
@@ -15631,6 +15751,939 @@ export namespace Prisma {
 
 
   /**
+   * Model AlertKeyword
+   */
+
+  export type AggregateAlertKeyword = {
+    _count: AlertKeywordCountAggregateOutputType | null
+    _min: AlertKeywordMinAggregateOutputType | null
+    _max: AlertKeywordMaxAggregateOutputType | null
+  }
+
+  export type AlertKeywordMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    keyword: string | null
+    notifyEmail: boolean | null
+    createdAt: Date | null
+  }
+
+  export type AlertKeywordMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    keyword: string | null
+    notifyEmail: boolean | null
+    createdAt: Date | null
+  }
+
+  export type AlertKeywordCountAggregateOutputType = {
+    id: number
+    userId: number
+    keyword: number
+    notifyEmail: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AlertKeywordMinAggregateInputType = {
+    id?: true
+    userId?: true
+    keyword?: true
+    notifyEmail?: true
+    createdAt?: true
+  }
+
+  export type AlertKeywordMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    keyword?: true
+    notifyEmail?: true
+    createdAt?: true
+  }
+
+  export type AlertKeywordCountAggregateInputType = {
+    id?: true
+    userId?: true
+    keyword?: true
+    notifyEmail?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AlertKeywordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertKeyword to aggregate.
+     */
+    where?: AlertKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertKeywords to fetch.
+     */
+    orderBy?: AlertKeywordOrderByWithRelationInput | AlertKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AlertKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AlertKeywords
+    **/
+    _count?: true | AlertKeywordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AlertKeywordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AlertKeywordMaxAggregateInputType
+  }
+
+  export type GetAlertKeywordAggregateType<T extends AlertKeywordAggregateArgs> = {
+        [P in keyof T & keyof AggregateAlertKeyword]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAlertKeyword[P]>
+      : GetScalarType<T[P], AggregateAlertKeyword[P]>
+  }
+
+
+
+
+  export type AlertKeywordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertKeywordWhereInput
+    orderBy?: AlertKeywordOrderByWithAggregationInput | AlertKeywordOrderByWithAggregationInput[]
+    by: AlertKeywordScalarFieldEnum[] | AlertKeywordScalarFieldEnum
+    having?: AlertKeywordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AlertKeywordCountAggregateInputType | true
+    _min?: AlertKeywordMinAggregateInputType
+    _max?: AlertKeywordMaxAggregateInputType
+  }
+
+  export type AlertKeywordGroupByOutputType = {
+    id: string
+    userId: string
+    keyword: string
+    notifyEmail: boolean
+    createdAt: Date
+    _count: AlertKeywordCountAggregateOutputType | null
+    _min: AlertKeywordMinAggregateOutputType | null
+    _max: AlertKeywordMaxAggregateOutputType | null
+  }
+
+  type GetAlertKeywordGroupByPayload<T extends AlertKeywordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AlertKeywordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AlertKeywordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AlertKeywordGroupByOutputType[P]>
+            : GetScalarType<T[P], AlertKeywordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AlertKeywordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    keyword?: boolean
+    notifyEmail?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertKeyword"]>
+
+  export type AlertKeywordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    keyword?: boolean
+    notifyEmail?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertKeyword"]>
+
+  export type AlertKeywordSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    keyword?: boolean
+    notifyEmail?: boolean
+    createdAt?: boolean
+  }
+
+  export type AlertKeywordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AlertKeywordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AlertKeywordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AlertKeyword"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      keyword: string
+      notifyEmail: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["alertKeyword"]>
+    composites: {}
+  }
+
+  type AlertKeywordGetPayload<S extends boolean | null | undefined | AlertKeywordDefaultArgs> = $Result.GetResult<Prisma.$AlertKeywordPayload, S>
+
+  type AlertKeywordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AlertKeywordFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AlertKeywordCountAggregateInputType | true
+    }
+
+  export interface AlertKeywordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AlertKeyword'], meta: { name: 'AlertKeyword' } }
+    /**
+     * Find zero or one AlertKeyword that matches the filter.
+     * @param {AlertKeywordFindUniqueArgs} args - Arguments to find a AlertKeyword
+     * @example
+     * // Get one AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AlertKeywordFindUniqueArgs>(args: SelectSubset<T, AlertKeywordFindUniqueArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AlertKeyword that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AlertKeywordFindUniqueOrThrowArgs} args - Arguments to find a AlertKeyword
+     * @example
+     * // Get one AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AlertKeywordFindUniqueOrThrowArgs>(args: SelectSubset<T, AlertKeywordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AlertKeyword that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordFindFirstArgs} args - Arguments to find a AlertKeyword
+     * @example
+     * // Get one AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AlertKeywordFindFirstArgs>(args?: SelectSubset<T, AlertKeywordFindFirstArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AlertKeyword that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordFindFirstOrThrowArgs} args - Arguments to find a AlertKeyword
+     * @example
+     * // Get one AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AlertKeywordFindFirstOrThrowArgs>(args?: SelectSubset<T, AlertKeywordFindFirstOrThrowArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AlertKeywords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AlertKeywords
+     * const alertKeywords = await prisma.alertKeyword.findMany()
+     * 
+     * // Get first 10 AlertKeywords
+     * const alertKeywords = await prisma.alertKeyword.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const alertKeywordWithIdOnly = await prisma.alertKeyword.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AlertKeywordFindManyArgs>(args?: SelectSubset<T, AlertKeywordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AlertKeyword.
+     * @param {AlertKeywordCreateArgs} args - Arguments to create a AlertKeyword.
+     * @example
+     * // Create one AlertKeyword
+     * const AlertKeyword = await prisma.alertKeyword.create({
+     *   data: {
+     *     // ... data to create a AlertKeyword
+     *   }
+     * })
+     * 
+     */
+    create<T extends AlertKeywordCreateArgs>(args: SelectSubset<T, AlertKeywordCreateArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AlertKeywords.
+     * @param {AlertKeywordCreateManyArgs} args - Arguments to create many AlertKeywords.
+     * @example
+     * // Create many AlertKeywords
+     * const alertKeyword = await prisma.alertKeyword.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AlertKeywordCreateManyArgs>(args?: SelectSubset<T, AlertKeywordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AlertKeywords and returns the data saved in the database.
+     * @param {AlertKeywordCreateManyAndReturnArgs} args - Arguments to create many AlertKeywords.
+     * @example
+     * // Create many AlertKeywords
+     * const alertKeyword = await prisma.alertKeyword.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AlertKeywords and only return the `id`
+     * const alertKeywordWithIdOnly = await prisma.alertKeyword.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AlertKeywordCreateManyAndReturnArgs>(args?: SelectSubset<T, AlertKeywordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AlertKeyword.
+     * @param {AlertKeywordDeleteArgs} args - Arguments to delete one AlertKeyword.
+     * @example
+     * // Delete one AlertKeyword
+     * const AlertKeyword = await prisma.alertKeyword.delete({
+     *   where: {
+     *     // ... filter to delete one AlertKeyword
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AlertKeywordDeleteArgs>(args: SelectSubset<T, AlertKeywordDeleteArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AlertKeyword.
+     * @param {AlertKeywordUpdateArgs} args - Arguments to update one AlertKeyword.
+     * @example
+     * // Update one AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AlertKeywordUpdateArgs>(args: SelectSubset<T, AlertKeywordUpdateArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AlertKeywords.
+     * @param {AlertKeywordDeleteManyArgs} args - Arguments to filter AlertKeywords to delete.
+     * @example
+     * // Delete a few AlertKeywords
+     * const { count } = await prisma.alertKeyword.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AlertKeywordDeleteManyArgs>(args?: SelectSubset<T, AlertKeywordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlertKeywords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AlertKeywords
+     * const alertKeyword = await prisma.alertKeyword.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AlertKeywordUpdateManyArgs>(args: SelectSubset<T, AlertKeywordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AlertKeyword.
+     * @param {AlertKeywordUpsertArgs} args - Arguments to update or create a AlertKeyword.
+     * @example
+     * // Update or create a AlertKeyword
+     * const alertKeyword = await prisma.alertKeyword.upsert({
+     *   create: {
+     *     // ... data to create a AlertKeyword
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AlertKeyword we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AlertKeywordUpsertArgs>(args: SelectSubset<T, AlertKeywordUpsertArgs<ExtArgs>>): Prisma__AlertKeywordClient<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AlertKeywords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordCountArgs} args - Arguments to filter AlertKeywords to count.
+     * @example
+     * // Count the number of AlertKeywords
+     * const count = await prisma.alertKeyword.count({
+     *   where: {
+     *     // ... the filter for the AlertKeywords we want to count
+     *   }
+     * })
+    **/
+    count<T extends AlertKeywordCountArgs>(
+      args?: Subset<T, AlertKeywordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AlertKeywordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AlertKeyword.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AlertKeywordAggregateArgs>(args: Subset<T, AlertKeywordAggregateArgs>): Prisma.PrismaPromise<GetAlertKeywordAggregateType<T>>
+
+    /**
+     * Group by AlertKeyword.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertKeywordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AlertKeywordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AlertKeywordGroupByArgs['orderBy'] }
+        : { orderBy?: AlertKeywordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AlertKeywordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAlertKeywordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AlertKeyword model
+   */
+  readonly fields: AlertKeywordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AlertKeyword.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AlertKeywordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AlertKeyword model
+   */ 
+  interface AlertKeywordFieldRefs {
+    readonly id: FieldRef<"AlertKeyword", 'String'>
+    readonly userId: FieldRef<"AlertKeyword", 'String'>
+    readonly keyword: FieldRef<"AlertKeyword", 'String'>
+    readonly notifyEmail: FieldRef<"AlertKeyword", 'Boolean'>
+    readonly createdAt: FieldRef<"AlertKeyword", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AlertKeyword findUnique
+   */
+  export type AlertKeywordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertKeyword to fetch.
+     */
+    where: AlertKeywordWhereUniqueInput
+  }
+
+  /**
+   * AlertKeyword findUniqueOrThrow
+   */
+  export type AlertKeywordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertKeyword to fetch.
+     */
+    where: AlertKeywordWhereUniqueInput
+  }
+
+  /**
+   * AlertKeyword findFirst
+   */
+  export type AlertKeywordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertKeyword to fetch.
+     */
+    where?: AlertKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertKeywords to fetch.
+     */
+    orderBy?: AlertKeywordOrderByWithRelationInput | AlertKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertKeywords.
+     */
+    cursor?: AlertKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertKeywords.
+     */
+    distinct?: AlertKeywordScalarFieldEnum | AlertKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * AlertKeyword findFirstOrThrow
+   */
+  export type AlertKeywordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertKeyword to fetch.
+     */
+    where?: AlertKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertKeywords to fetch.
+     */
+    orderBy?: AlertKeywordOrderByWithRelationInput | AlertKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertKeywords.
+     */
+    cursor?: AlertKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertKeywords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertKeywords.
+     */
+    distinct?: AlertKeywordScalarFieldEnum | AlertKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * AlertKeyword findMany
+   */
+  export type AlertKeywordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertKeywords to fetch.
+     */
+    where?: AlertKeywordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertKeywords to fetch.
+     */
+    orderBy?: AlertKeywordOrderByWithRelationInput | AlertKeywordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AlertKeywords.
+     */
+    cursor?: AlertKeywordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertKeywords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertKeywords.
+     */
+    skip?: number
+    distinct?: AlertKeywordScalarFieldEnum | AlertKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * AlertKeyword create
+   */
+  export type AlertKeywordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AlertKeyword.
+     */
+    data: XOR<AlertKeywordCreateInput, AlertKeywordUncheckedCreateInput>
+  }
+
+  /**
+   * AlertKeyword createMany
+   */
+  export type AlertKeywordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AlertKeywords.
+     */
+    data: AlertKeywordCreateManyInput | AlertKeywordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AlertKeyword createManyAndReturn
+   */
+  export type AlertKeywordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AlertKeywords.
+     */
+    data: AlertKeywordCreateManyInput | AlertKeywordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlertKeyword update
+   */
+  export type AlertKeywordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AlertKeyword.
+     */
+    data: XOR<AlertKeywordUpdateInput, AlertKeywordUncheckedUpdateInput>
+    /**
+     * Choose, which AlertKeyword to update.
+     */
+    where: AlertKeywordWhereUniqueInput
+  }
+
+  /**
+   * AlertKeyword updateMany
+   */
+  export type AlertKeywordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AlertKeywords.
+     */
+    data: XOR<AlertKeywordUpdateManyMutationInput, AlertKeywordUncheckedUpdateManyInput>
+    /**
+     * Filter which AlertKeywords to update
+     */
+    where?: AlertKeywordWhereInput
+  }
+
+  /**
+   * AlertKeyword upsert
+   */
+  export type AlertKeywordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AlertKeyword to update in case it exists.
+     */
+    where: AlertKeywordWhereUniqueInput
+    /**
+     * In case the AlertKeyword found by the `where` argument doesn't exist, create a new AlertKeyword with this data.
+     */
+    create: XOR<AlertKeywordCreateInput, AlertKeywordUncheckedCreateInput>
+    /**
+     * In case the AlertKeyword was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AlertKeywordUpdateInput, AlertKeywordUncheckedUpdateInput>
+  }
+
+  /**
+   * AlertKeyword delete
+   */
+  export type AlertKeywordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+    /**
+     * Filter which AlertKeyword to delete.
+     */
+    where: AlertKeywordWhereUniqueInput
+  }
+
+  /**
+   * AlertKeyword deleteMany
+   */
+  export type AlertKeywordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertKeywords to delete
+     */
+    where?: AlertKeywordWhereInput
+  }
+
+  /**
+   * AlertKeyword without action
+   */
+  export type AlertKeywordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertKeyword
+     */
+    select?: AlertKeywordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertKeywordInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Follow
    */
 
@@ -17752,6 +18805,17 @@ export namespace Prisma {
   export type CommentVoteScalarFieldEnum = (typeof CommentVoteScalarFieldEnum)[keyof typeof CommentVoteScalarFieldEnum]
 
 
+  export const AlertKeywordScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    keyword: 'keyword',
+    notifyEmail: 'notifyEmail',
+    createdAt: 'createdAt'
+  };
+
+  export type AlertKeywordScalarFieldEnum = (typeof AlertKeywordScalarFieldEnum)[keyof typeof AlertKeywordScalarFieldEnum]
+
+
   export const FollowScalarFieldEnum: {
     id: 'id',
     followerId: 'followerId',
@@ -17961,6 +19025,7 @@ export namespace Prisma {
     actorNotifications?: NotificationListRelationFilter
     following?: FollowListRelationFilter
     followers?: FollowListRelationFilter
+    alertKeywords?: AlertKeywordListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -17994,6 +19059,7 @@ export namespace Prisma {
     actorNotifications?: NotificationOrderByRelationAggregateInput
     following?: FollowOrderByRelationAggregateInput
     followers?: FollowOrderByRelationAggregateInput
+    alertKeywords?: AlertKeywordOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -18030,6 +19096,7 @@ export namespace Prisma {
     actorNotifications?: NotificationListRelationFilter
     following?: FollowListRelationFilter
     followers?: FollowListRelationFilter
+    alertKeywords?: AlertKeywordListRelationFilter
   }, "id" | "email" | "username" | "unsubscribeToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -18876,6 +19943,62 @@ export namespace Prisma {
     commentId?: StringWithAggregatesFilter<"CommentVote"> | string
   }
 
+  export type AlertKeywordWhereInput = {
+    AND?: AlertKeywordWhereInput | AlertKeywordWhereInput[]
+    OR?: AlertKeywordWhereInput[]
+    NOT?: AlertKeywordWhereInput | AlertKeywordWhereInput[]
+    id?: StringFilter<"AlertKeyword"> | string
+    userId?: StringFilter<"AlertKeyword"> | string
+    keyword?: StringFilter<"AlertKeyword"> | string
+    notifyEmail?: BoolFilter<"AlertKeyword"> | boolean
+    createdAt?: DateTimeFilter<"AlertKeyword"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AlertKeywordOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    keyword?: SortOrder
+    notifyEmail?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AlertKeywordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_keyword?: AlertKeywordUserIdKeywordCompoundUniqueInput
+    AND?: AlertKeywordWhereInput | AlertKeywordWhereInput[]
+    OR?: AlertKeywordWhereInput[]
+    NOT?: AlertKeywordWhereInput | AlertKeywordWhereInput[]
+    userId?: StringFilter<"AlertKeyword"> | string
+    keyword?: StringFilter<"AlertKeyword"> | string
+    notifyEmail?: BoolFilter<"AlertKeyword"> | boolean
+    createdAt?: DateTimeFilter<"AlertKeyword"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId_keyword">
+
+  export type AlertKeywordOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    keyword?: SortOrder
+    notifyEmail?: SortOrder
+    createdAt?: SortOrder
+    _count?: AlertKeywordCountOrderByAggregateInput
+    _max?: AlertKeywordMaxOrderByAggregateInput
+    _min?: AlertKeywordMinOrderByAggregateInput
+  }
+
+  export type AlertKeywordScalarWhereWithAggregatesInput = {
+    AND?: AlertKeywordScalarWhereWithAggregatesInput | AlertKeywordScalarWhereWithAggregatesInput[]
+    OR?: AlertKeywordScalarWhereWithAggregatesInput[]
+    NOT?: AlertKeywordScalarWhereWithAggregatesInput | AlertKeywordScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AlertKeyword"> | string
+    userId?: StringWithAggregatesFilter<"AlertKeyword"> | string
+    keyword?: StringWithAggregatesFilter<"AlertKeyword"> | string
+    notifyEmail?: BoolWithAggregatesFilter<"AlertKeyword"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"AlertKeyword"> | Date | string
+  }
+
   export type FollowWhereInput = {
     AND?: FollowWhereInput | FollowWhereInput[]
     OR?: FollowWhereInput[]
@@ -19037,6 +20160,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -19070,6 +20194,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -19103,6 +20228,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -19136,6 +20262,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -19995,6 +21122,61 @@ export namespace Prisma {
     commentId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type AlertKeywordCreateInput = {
+    id?: string
+    keyword: string
+    notifyEmail?: boolean
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAlertKeywordsInput
+  }
+
+  export type AlertKeywordUncheckedCreateInput = {
+    id?: string
+    userId: string
+    keyword: string
+    notifyEmail?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AlertKeywordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAlertKeywordsNestedInput
+  }
+
+  export type AlertKeywordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertKeywordCreateManyInput = {
+    id?: string
+    userId: string
+    keyword: string
+    notifyEmail?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AlertKeywordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertKeywordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FollowCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -20251,6 +21433,12 @@ export namespace Prisma {
     none?: FollowWhereInput
   }
 
+  export type AlertKeywordListRelationFilter = {
+    every?: AlertKeywordWhereInput
+    some?: AlertKeywordWhereInput
+    none?: AlertKeywordWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20293,6 +21481,10 @@ export namespace Prisma {
   }
 
   export type FollowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AlertKeywordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21013,6 +22205,35 @@ export namespace Prisma {
     value?: SortOrder
   }
 
+  export type AlertKeywordUserIdKeywordCompoundUniqueInput = {
+    userId: string
+    keyword: string
+  }
+
+  export type AlertKeywordCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    keyword?: SortOrder
+    notifyEmail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlertKeywordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    keyword?: SortOrder
+    notifyEmail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlertKeywordMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    keyword?: SortOrder
+    notifyEmail?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
     followerId: string
     followingId: string
@@ -21183,6 +22404,13 @@ export namespace Prisma {
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
   }
 
+  export type AlertKeywordCreateNestedManyWithoutUserInput = {
+    create?: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput> | AlertKeywordCreateWithoutUserInput[] | AlertKeywordUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertKeywordCreateOrConnectWithoutUserInput | AlertKeywordCreateOrConnectWithoutUserInput[]
+    createMany?: AlertKeywordCreateManyUserInputEnvelope
+    connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -21265,6 +22493,13 @@ export namespace Prisma {
     connectOrCreate?: FollowCreateOrConnectWithoutFollowingInput | FollowCreateOrConnectWithoutFollowingInput[]
     createMany?: FollowCreateManyFollowingInputEnvelope
     connect?: FollowWhereUniqueInput | FollowWhereUniqueInput[]
+  }
+
+  export type AlertKeywordUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput> | AlertKeywordCreateWithoutUserInput[] | AlertKeywordUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertKeywordCreateOrConnectWithoutUserInput | AlertKeywordCreateOrConnectWithoutUserInput[]
+    createMany?: AlertKeywordCreateManyUserInputEnvelope
+    connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -21467,6 +22702,20 @@ export namespace Prisma {
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
   }
 
+  export type AlertKeywordUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput> | AlertKeywordCreateWithoutUserInput[] | AlertKeywordUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertKeywordCreateOrConnectWithoutUserInput | AlertKeywordCreateOrConnectWithoutUserInput[]
+    upsert?: AlertKeywordUpsertWithWhereUniqueWithoutUserInput | AlertKeywordUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AlertKeywordCreateManyUserInputEnvelope
+    set?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    disconnect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    delete?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    update?: AlertKeywordUpdateWithWhereUniqueWithoutUserInput | AlertKeywordUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AlertKeywordUpdateManyWithWhereWithoutUserInput | AlertKeywordUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -21633,6 +22882,20 @@ export namespace Prisma {
     update?: FollowUpdateWithWhereUniqueWithoutFollowingInput | FollowUpdateWithWhereUniqueWithoutFollowingInput[]
     updateMany?: FollowUpdateManyWithWhereWithoutFollowingInput | FollowUpdateManyWithWhereWithoutFollowingInput[]
     deleteMany?: FollowScalarWhereInput | FollowScalarWhereInput[]
+  }
+
+  export type AlertKeywordUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput> | AlertKeywordCreateWithoutUserInput[] | AlertKeywordUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertKeywordCreateOrConnectWithoutUserInput | AlertKeywordCreateOrConnectWithoutUserInput[]
+    upsert?: AlertKeywordUpsertWithWhereUniqueWithoutUserInput | AlertKeywordUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AlertKeywordCreateManyUserInputEnvelope
+    set?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    disconnect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    delete?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+    update?: AlertKeywordUpdateWithWhereUniqueWithoutUserInput | AlertKeywordUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AlertKeywordUpdateManyWithWhereWithoutUserInput | AlertKeywordUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -22317,6 +23580,20 @@ export namespace Prisma {
     upsert?: CommentUpsertWithoutVotesInput
     connect?: CommentWhereUniqueInput
     update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutVotesInput, CommentUpdateWithoutVotesInput>, CommentUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type UserCreateNestedOneWithoutAlertKeywordsInput = {
+    create?: XOR<UserCreateWithoutAlertKeywordsInput, UserUncheckedCreateWithoutAlertKeywordsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlertKeywordsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAlertKeywordsNestedInput = {
+    create?: XOR<UserCreateWithoutAlertKeywordsInput, UserUncheckedCreateWithoutAlertKeywordsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlertKeywordsInput
+    upsert?: UserUpsertWithoutAlertKeywordsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAlertKeywordsInput, UserUpdateWithoutAlertKeywordsInput>, UserUncheckedUpdateWithoutAlertKeywordsInput>
   }
 
   export type UserCreateNestedOneWithoutFollowingInput = {
@@ -23032,6 +24309,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AlertKeywordCreateWithoutUserInput = {
+    id?: string
+    keyword: string
+    notifyEmail?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AlertKeywordUncheckedCreateWithoutUserInput = {
+    id?: string
+    keyword: string
+    notifyEmail?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AlertKeywordCreateOrConnectWithoutUserInput = {
+    where: AlertKeywordWhereUniqueInput
+    create: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput>
+  }
+
+  export type AlertKeywordCreateManyUserInputEnvelope = {
+    data: AlertKeywordCreateManyUserInput | AlertKeywordCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -23355,6 +24656,33 @@ export namespace Prisma {
     data: XOR<FollowUpdateManyMutationInput, FollowUncheckedUpdateManyWithoutFollowingInput>
   }
 
+  export type AlertKeywordUpsertWithWhereUniqueWithoutUserInput = {
+    where: AlertKeywordWhereUniqueInput
+    update: XOR<AlertKeywordUpdateWithoutUserInput, AlertKeywordUncheckedUpdateWithoutUserInput>
+    create: XOR<AlertKeywordCreateWithoutUserInput, AlertKeywordUncheckedCreateWithoutUserInput>
+  }
+
+  export type AlertKeywordUpdateWithWhereUniqueWithoutUserInput = {
+    where: AlertKeywordWhereUniqueInput
+    data: XOR<AlertKeywordUpdateWithoutUserInput, AlertKeywordUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AlertKeywordUpdateManyWithWhereWithoutUserInput = {
+    where: AlertKeywordScalarWhereInput
+    data: XOR<AlertKeywordUpdateManyMutationInput, AlertKeywordUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AlertKeywordScalarWhereInput = {
+    AND?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
+    OR?: AlertKeywordScalarWhereInput[]
+    NOT?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
+    id?: StringFilter<"AlertKeyword"> | string
+    userId?: StringFilter<"AlertKeyword"> | string
+    keyword?: StringFilter<"AlertKeyword"> | string
+    notifyEmail?: BoolFilter<"AlertKeyword"> | boolean
+    createdAt?: DateTimeFilter<"AlertKeyword"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -23385,6 +24713,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -23417,6 +24746,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -23465,6 +24795,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -23497,6 +24828,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -23529,6 +24861,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -23561,6 +24894,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -23609,6 +24943,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -23641,6 +24976,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCreateWithoutCategoryInput = {
@@ -23751,6 +25087,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -23783,6 +25120,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -23986,6 +25324,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -24018,6 +25357,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutPostsInput = {
@@ -24363,6 +25703,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVotesInput = {
@@ -24395,6 +25736,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVotesInput = {
@@ -24500,6 +25842,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotesInput = {
@@ -24532,6 +25875,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutVotesInput = {
@@ -24627,6 +25971,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -24659,6 +26004,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -24877,6 +26223,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -24909,6 +26256,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -25089,6 +26437,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -25121,6 +26470,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -25200,6 +26550,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -25232,6 +26583,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutReactionsInput = {
@@ -25301,6 +26653,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -25333,6 +26686,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -25438,6 +26792,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -25470,6 +26825,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutBookmarksInput = {
@@ -25565,6 +26921,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentVotesInput = {
@@ -25597,6 +26954,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentVotesInput = {
@@ -25676,6 +27034,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentVotesInput = {
@@ -25708,6 +27067,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutVotesInput = {
@@ -25747,6 +27107,154 @@ export namespace Prisma {
     reactions?: CommentReactionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
+  export type UserCreateWithoutAlertKeywordsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationCreateNestedManyWithoutActorInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserUncheckedCreateWithoutAlertKeywordsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteUncheckedCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionUncheckedCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserCreateOrConnectWithoutAlertKeywordsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAlertKeywordsInput, UserUncheckedCreateWithoutAlertKeywordsInput>
+  }
+
+  export type UserUpsertWithoutAlertKeywordsInput = {
+    update: XOR<UserUpdateWithoutAlertKeywordsInput, UserUncheckedUpdateWithoutAlertKeywordsInput>
+    create: XOR<UserCreateWithoutAlertKeywordsInput, UserUncheckedCreateWithoutAlertKeywordsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAlertKeywordsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAlertKeywordsInput, UserUncheckedUpdateWithoutAlertKeywordsInput>
+  }
+
+  export type UserUpdateWithoutAlertKeywordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAlertKeywordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+  }
+
   export type UserCreateWithoutFollowingInput = {
     id?: string
     name?: string | null
@@ -25777,6 +27285,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -25809,6 +27318,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -25846,6 +27356,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -25878,6 +27389,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -25926,6 +27438,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -25958,6 +27471,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutFollowersInput = {
@@ -26001,6 +27515,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -26033,6 +27548,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -26065,6 +27581,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -26097,6 +27614,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -26134,6 +27652,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActorNotificationsInput = {
@@ -26166,6 +27685,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActorNotificationsInput = {
@@ -26271,6 +27791,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -26303,6 +27824,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutActorNotificationsInput = {
@@ -26346,6 +27868,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActorNotificationsInput = {
@@ -26378,6 +27901,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutNotificationsInput = {
@@ -26547,6 +28071,13 @@ export namespace Prisma {
   export type FollowCreateManyFollowingInput = {
     id?: string
     followerId: string
+    createdAt?: Date | string
+  }
+
+  export type AlertKeywordCreateManyUserInput = {
+    id?: string
+    keyword: string
+    notifyEmail?: boolean
     createdAt?: Date | string
   }
 
@@ -26884,6 +28415,27 @@ export namespace Prisma {
   export type FollowUncheckedUpdateManyWithoutFollowingInput = {
     id?: StringFieldUpdateOperationsInput | string
     followerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertKeywordUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertKeywordUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertKeywordUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    keyword?: StringFieldUpdateOperationsInput | string
+    notifyEmail?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27326,6 +28878,10 @@ export namespace Prisma {
      * @deprecated Use CommentVoteDefaultArgs instead
      */
     export type CommentVoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CommentVoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AlertKeywordDefaultArgs instead
+     */
+    export type AlertKeywordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AlertKeywordDefaultArgs<ExtArgs>
     /**
      * @deprecated Use FollowDefaultArgs instead
      */

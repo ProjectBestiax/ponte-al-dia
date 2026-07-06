@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, MessageSquare, CornerDownRight, UserPlus } from "lucide-react";
+import { Bell, MessageSquare, CornerDownRight, UserPlus, Zap } from "lucide-react";
 import { timeAgo } from "@/lib/utils";
 
-type NotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT" | "FOLLOW";
+type NotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT" | "FOLLOW" | "KEYWORD_ALERT";
 
 interface NotificationItem {
   id: string;
@@ -20,12 +20,14 @@ const MESSAGES: Record<NotificationType, string> = {
   COMMENT_ON_POST: "comentó en tu publicación",
   REPLY_TO_COMMENT: "respondió a tu comentario",
   FOLLOW: "ha empezado a seguirte",
+  KEYWORD_ALERT: "coincide con tu alerta",
 };
 
 const ICONS: Record<NotificationType, typeof MessageSquare> = {
   COMMENT_ON_POST: MessageSquare,
   REPLY_TO_COMMENT: CornerDownRight,
   FOLLOW: UserPlus,
+  KEYWORD_ALERT: Zap,
 };
 
 export function NotificationBell() {
@@ -85,7 +87,7 @@ export function NotificationBell() {
     if (n.type === "FOLLOW" && n.actor) {
       router.push(`/u/${n.actor.username ?? n.actor.id}`);
     } else if (n.post) {
-      router.push(`/p/${n.post.slug}#comentarios`);
+      router.push(`/p/${n.post.slug}${n.type === "KEYWORD_ALERT" ? "" : "#comentarios"}`);
     }
   }
 
@@ -127,8 +129,9 @@ export function NotificationBell() {
               </div>
             ) : (
               items.map((n) => {
-                const Icon = ICONS[n.type];
+                const Icon = ICONS[n.type] ?? Zap;
                 const actorName = n.actor?.username ?? n.actor?.name ?? "Alguien";
+                const isAlert = n.type === "KEYWORD_ALERT";
                 return (
                   <button
                     key={n.id}
@@ -138,7 +141,11 @@ export function NotificationBell() {
                     }`}
                   >
                     <span className="relative shrink-0 mt-0.5">
-                      {n.actor?.image ? (
+                      {isAlert ? (
+                        <span className="flex items-center justify-center w-9 h-9 rounded-full bg-accent-100 text-accent-700 font-bold text-sm">
+                          <Zap className="w-4 h-4" strokeWidth={2.2} />
+                        </span>
+                      ) : n.actor?.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={n.actor.image} alt="" className="w-9 h-9 rounded-full object-cover" />
                       ) : (
@@ -146,13 +153,19 @@ export function NotificationBell() {
                           {actorName[0].toUpperCase()}
                         </span>
                       )}
-                      <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-accent-400 border-2 border-white">
-                        <Icon className="w-2.5 h-2.5 text-accent-950" strokeWidth={2.4} />
-                      </span>
+                      {!isAlert && (
+                        <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-accent-400 border-2 border-white">
+                          <Icon className="w-2.5 h-2.5 text-accent-950" strokeWidth={2.4} />
+                        </span>
+                      )}
                     </span>
                     <span className="flex-1 min-w-0">
                       <span className="block text-sm text-zinc-800 leading-snug">
-                        <span className="font-semibold">{actorName}</span> {MESSAGES[n.type]}
+                        {isAlert ? (
+                          <>Nuevo post {MESSAGES[n.type]}</>
+                        ) : (
+                          <><span className="font-semibold">{actorName}</span> {MESSAGES[n.type]}</>
+                        )}
                       </span>
                       {n.post && (
                         <span className="block text-xs text-zinc-500 truncate mt-0.5">{n.post.title}</span>

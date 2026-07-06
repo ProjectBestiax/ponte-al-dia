@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
 import { AI_PERSONAS } from "@/lib/ai-personas";
 import { curate } from "@/lib/ai-curator";
+import { notifyKeywordMatches } from "@/lib/notifications";
 
 export const maxDuration = 60;
 
@@ -81,7 +83,7 @@ async function runBot(req: NextRequest) {
     let slug = slugify(title.slice(0, 80));
     if (await db.post.findUnique({ where: { slug } })) slug = `${slug}-${Date.now()}`;
 
-    await db.post.create({
+    const created = await db.post.create({
       data: {
         title, slug, url: paperUrl,
         description: item.paper.summary?.slice(0, 500) ?? "",
@@ -93,6 +95,7 @@ async function runBot(req: NextRequest) {
         score: 0,
       },
     });
+    after(() => notifyKeywordMatches({ id: created.id, title, description: created.description, userId: author.id }));
     published++;
   }
 

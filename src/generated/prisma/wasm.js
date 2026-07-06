@@ -253,6 +253,14 @@ exports.Prisma.CommentVoteScalarFieldEnum = {
   commentId: 'commentId'
 };
 
+exports.Prisma.AlertKeywordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  keyword: 'keyword',
+  notifyEmail: 'notifyEmail',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FollowScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -309,7 +317,8 @@ exports.ReactionType = exports.$Enums.ReactionType = {
 exports.NotificationType = exports.$Enums.NotificationType = {
   COMMENT_ON_POST: 'COMMENT_ON_POST',
   REPLY_TO_COMMENT: 'REPLY_TO_COMMENT',
-  FOLLOW: 'FOLLOW'
+  FOLLOW: 'FOLLOW',
+  KEYWORD_ALERT: 'KEYWORD_ALERT'
 };
 
 exports.Prisma.ModelName = {
@@ -326,6 +335,7 @@ exports.Prisma.ModelName = {
   CommentReaction: 'CommentReaction',
   Bookmark: 'Bookmark',
   CommentVote: 'CommentVote',
+  AlertKeyword: 'AlertKeyword',
   Follow: 'Follow',
   Notification: 'Notification'
 };

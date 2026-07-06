@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateAiSummary } from "@/lib/ai-summary";
+import { notifyKeywordMatches } from "@/lib/notifications";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -32,17 +34,19 @@ export async function POST(
     data: { status, publishedAt },
   });
 
-  // On approval, generate a neutral one-sentence summary if missing.
   if (parsed.data.action === "approve") {
     const post = await db.post.findUnique({
       where: { id },
-      select: { title: true, description: true, url: true, aiSummary: true },
+      select: { title: true, description: true, url: true, aiSummary: true, userId: true },
     });
-    if (post && !post.aiSummary) {
-      const summary = await generateAiSummary(post);
-      if (summary) {
-        await db.post.update({ where: { id }, data: { aiSummary: summary } });
+    if (post) {
+      if (!post.aiSummary) {
+        const summary = await generateAiSummary(post);
+        if (summary) {
+          await db.post.update({ where: { id }, data: { aiSummary: summary } });
+        }
       }
+      after(() => notifyKeywordMatches({ id, title: post.title, description: post.description, userId: post.userId }));
     }
   }
 

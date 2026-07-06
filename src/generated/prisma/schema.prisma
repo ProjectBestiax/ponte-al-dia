@@ -46,6 +46,7 @@ model User {
   actorNotifications Notification[]    @relation("ActorNotifications")
   following          Follow[]          @relation("Following") // users this user follows
   followers          Follow[]          @relation("Followers") // users who follow this user
+  alertKeywords      AlertKeyword[]
 
   @@map("users")
 }
@@ -272,6 +273,21 @@ enum NotificationType {
   COMMENT_ON_POST
   REPLY_TO_COMMENT
   FOLLOW
+  KEYWORD_ALERT
+}
+
+model AlertKeyword {
+  id          String   @id @default(cuid())
+  userId      String
+  keyword     String // lowercased, e.g. "gpt-5", "agentes"
+  notifyEmail Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, keyword])
+  @@index([keyword])
+  @@map("alert_keywords")
 }
 
 model Follow {

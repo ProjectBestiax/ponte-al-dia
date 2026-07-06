@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { sendEmail, getUnsubscribeToken, unsubscribeUrl } from "@/lib/email";
-import { commentEmail, followEmail } from "@/lib/email-templates";
+import { commentEmail, followEmail, alertEmail } from "@/lib/email-templates";
 
 type CommentNotificationType = "COMMENT_ON_POST" | "REPLY_TO_COMMENT";
 
@@ -137,4 +137,71 @@ export async function sendFollowEmail(params: { followerId: string; followingId:
   } catch {
     // never break anything on email failure
   }
+}
+
+/**
+ * Checks all users' alert keywords against a newly-published post and creates
+ * KEYWORD_ALERT notifications (+ optional email) for each match.
+ * Call this wherever a post becomes ACTIVE (bot routes, moderation approval).
+ * Skips the post's own author. Swallows its own errors.
+ */
+export async function notifyKeywordMatches(post: {
+  id: string;
+  title: string;
+  description?: string | null;
+  userId: string;
+}): Promise<number> {
+  try {
+    const text = `${post.title} ${post.description ?? ""}`.toLowerCase();
+
+    const allKeywords = await db.alertKeyword.findMany({
+      where: { NOT: { userId: post.userId } },
+      select: { userId: true, keyword: true, notifyEmail: true },
+    });
+
+    const matchesByUser = new Map<string, { keyword: string; notifyEmail: boolean }>();
+    for (const ak of allKeywords) {
+      if (text.includes(ak.keyword)) {
+        if (!matchesByUser.has(ak.userId)) {
+          matchesByUser.set(ak.userId, { keyword: ak.keyword, notifyEmail: ak.notifyEmail });
+        }
+      }
+    }
+
+    if (matchesByUser.size === 0) return 0;
+
+    await db.notification.createMany({
+      data: [...matchesByUser.entries()].map(([userId]) => ({
+        type: "KEYWORD_ALERT" as const,
+        userId,
+        postId: post.id,
+      })),
+    });
+
+    for (const [userId, { keyword, notifyEmail }] of matchesByUser) {
+      if (!notifyEmail) continue;
+      sendAlertEmail({ userId, postId: post.id, keyword }).catch(() => {});
+    }
+
+    return matchesByUser.size;
+  } catch {
+    return 0;
+  }
+}
+
+async function sendAlertEmail(params: { userId: string; postId: string; keyword: string }): Promise<void> {
+  const [user, post] = await Promise.all([
+    db.user.findUnique({ where: { id: params.userId }, select: { email: true, emailReplies: true } }),
+    db.post.findUnique({ where: { id: params.postId }, select: { title: true, slug: true } }),
+  ]);
+  if (!user?.email || !user.emailReplies || !post) return;
+
+  const token = await getUnsubscribeToken(params.userId);
+  const { subject, html } = alertEmail({
+    keyword: params.keyword,
+    postTitle: post.title,
+    postSlug: post.slug,
+    unsubLink: unsubscribeUrl(token, "replies"),
+  });
+  await sendEmail({ to: user.email, subject, html });
 }

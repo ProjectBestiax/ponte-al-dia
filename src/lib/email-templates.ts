@@ -99,3 +99,27 @@ export function digestEmail(opts: {
     html: emailLayout({ heading: "Tu resumen semanal de IA", body, unsubLink: opts.unsubLink, unsubLabel: "Darme de baja del resumen semanal" }),
   };
 }
+
+/** Email sent when a post matches one of the user's keyword alerts. */
+export function alertEmail(opts: {
+  keyword: string;
+  postTitle: string;
+  postSlug: string;
+  unsubLink: string;
+}): { subject: string; html: string } {
+  const postUrl = `${APP_URL}/p/${opts.postSlug}`;
+  const body = `
+    <p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:#3f3f46;">
+      Se ha publicado un post que coincide con tu alerta
+      <strong style="color:#0a0a0a;">"${opts.keyword}"</strong>:
+    </p>
+    <p style="margin:0 0 20px;font-size:16px;font-weight:700;color:#0a0a0a;line-height:1.35;">
+      ${opts.postTitle}
+    </p>
+    ${ctaButton(postUrl, "Ver publicación")}
+  `;
+  return {
+    subject: `🔔 Alerta: "${opts.keyword}" — ${opts.postTitle}`,
+    html: emailLayout({ heading: "Alerta de palabra clave", body, unsubLink: opts.unsubLink, unsubLabel: "Dejar de recibir alertas por email" }),
+  };
+}

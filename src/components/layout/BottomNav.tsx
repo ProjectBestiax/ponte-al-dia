@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, TrendingUp, Wrench, PlusCircle } from "lucide-react";
+import { Home, TrendingUp, Zap, Wrench, PlusCircle } from "lucide-react";
 
 const TABS = [
   { href: "/", label: "Feed", icon: Home, match: (p: string) => p === "/" || p === "/tendencias" || p === "/populares" },
   { href: "/ranking", label: "Ranking", icon: TrendingUp, match: (p: string) => p === "/ranking" },
-  { href: "/herramientas", label: "Herramientas IA", icon: Wrench, match: (p: string) => p === "/herramientas" },
+  { href: "/alertas", label: "Alertas", icon: Zap, match: (p: string) => p === "/alertas" },
+  { href: "/herramientas", label: "IA Tools", icon: Wrench, match: (p: string) => p === "/herramientas" },
   { href: "/publicar", label: "Publicar", icon: PlusCircle, match: (p: string) => p === "/publicar" },
 ];
 

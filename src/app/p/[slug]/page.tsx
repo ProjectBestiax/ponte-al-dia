@@ -15,6 +15,7 @@ import { tagStyle } from "@/lib/tool-tags";
 import { FollowButton } from "@/components/users/FollowButton";
 import { AiBadge } from "@/components/users/AiBadge";
 import { RelatedPosts } from "@/components/posts/RelatedPosts";
+import { KeywordAlertCTA } from "@/components/posts/KeywordAlertCTA";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -281,6 +282,15 @@ export default async function PostPage({ params }: PageProps) {
       </div>
 
       <RelatedPosts posts={related} />
+
+      {session && (
+        <KeywordAlertCTA
+          suggestions={[
+            post.category.name.toLowerCase(),
+            ...post.tags.map(({ tag }) => tag.name.toLowerCase()),
+          ].slice(0, 5)}
+        />
+      )}
 
       {/* Comments */}
       <div id="comentarios" className="mt-8">
