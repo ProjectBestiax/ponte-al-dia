@@ -38,7 +38,55 @@ const TOOLS = [
     emoji: "📝",
     description: "Tu workspace con IA integrada. Escribe, resume y organiza 10x más rápido.",
     cta: "Pruébalo gratis",
-    href: "https://notion.so", // sustituye por tu link de afiliado
+    href: "https://notion.so", // sustituye por tu link de afiliado (PartnerStack)
+    badge: null,
+  },
+  {
+    name: "Copy.ai",
+    emoji: "✍️",
+    description: "Genera textos de marketing, emails y contenido en segundos con IA.",
+    cta: "Pruébalo gratis",
+    href: "https://www.copy.ai", // sustituye por tu link de afiliado (45% recurrente)
+    badge: null,
+  },
+  {
+    name: "Jasper",
+    emoji: "💡",
+    description: "IA para marketing: crea campañas, copies y contenido de marca a escala.",
+    cta: "Pruébalo gratis",
+    href: "https://www.jasper.ai", // sustituye por tu link de afiliado (Impact, 25% recurrente)
+    badge: null,
+  },
+  {
+    name: "HeyGen",
+    emoji: "🎬",
+    description: "Crea vídeos con avatares IA. Traduce y clona tu voz a cualquier idioma.",
+    cta: "Pruébalo gratis",
+    href: "https://www.heygen.com", // sustituye por tu link de afiliado (20-25% recurrente)
+    badge: null,
+  },
+  {
+    name: "Synthesia",
+    emoji: "🎥",
+    description: "Genera vídeos profesionales con presentadores IA. Sin cámaras ni actores.",
+    cta: "Pruébalo",
+    href: "https://www.synthesia.io", // sustituye por tu link de afiliado (Rewardful, hasta $267/venta)
+    badge: null,
+  },
+  {
+    name: "Lovable",
+    emoji: "💜",
+    description: "Construye apps completas con IA. De idea a producto en minutos, sin código.",
+    cta: "Pruébalo gratis",
+    href: "https://lovable.dev", // sustituye por tu link de afiliado (20-30% recurrente)
+    badge: null,
+  },
+  {
+    name: "Writesonic",
+    emoji: "⚡",
+    description: "Escritura y SEO con IA. Artículos, landing pages y chatbots en un clic.",
+    cta: "Pruébalo gratis",
+    href: "https://writesonic.com", // sustituye por tu link de afiliado (20-30% recurrente, aprobación inmediata)
     badge: null,
   },
 ];
