@@ -180,7 +180,7 @@ export default async function PostPage({ params }: PageProps) {
       </div>
 
       {/* Post header */}
-      <div className="bg-white border border-zinc-200 rounded-2xl p-6">
+      <div className="bg-white border border-zinc-200 rounded-2xl p-6 overflow-hidden">
         <div className="flex gap-4">
           {/* Votes */}
           <VoteButtons
