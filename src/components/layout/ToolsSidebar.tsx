@@ -10,7 +10,8 @@ const TOOLS = [
     icon: favicon("cursor.com"),
     description: "El editor de código con IA más potente. Autocompleta, refactoriza y explica tu código.",
     cta: "Pruébalo gratis",
-    href: "https://cursor.com", // sustituye por tu link de afiliado
+    url: "https://cursor.com",
+    affiliate: false,
     badge: "⭐ Favorito",
   },
   {
@@ -18,7 +19,8 @@ const TOOLS = [
     icon: favicon("perplexity.ai"),
     description: "Búsqueda con IA que cita fuentes reales. Respuestas sin alucinaciones.",
     cta: "Pruébalo",
-    href: "https://perplexity.ai", // sustituye por tu link de afiliado
+    url: "https://perplexity.ai",
+    affiliate: false, // pendiente: link de Dub.co
     badge: null,
   },
   {
@@ -26,7 +28,8 @@ const TOOLS = [
     icon: favicon("elevenlabs.io"),
     description: "Voz artificial más realista del mercado. Clona tu voz en minutos.",
     cta: "Pruébalo gratis",
-    href: "https://elevenlabs.io", // sustituye por tu link de afiliado
+    url: "https://elevenlabs.io",
+    affiliate: false, // pendiente: link de PartnerStack
     badge: null,
   },
   {
@@ -34,7 +37,8 @@ const TOOLS = [
     icon: favicon("claude.ai"),
     description: "El modelo de IA más capaz para razonamiento, escritura y análisis.",
     cta: "Pruébalo",
-    href: "https://claude.ai", // sustituye por tu link de afiliado
+    url: "https://claude.ai",
+    affiliate: false,
     badge: null,
   },
   {
@@ -42,7 +46,8 @@ const TOOLS = [
     icon: favicon("notion.so"),
     description: "Tu workspace con IA integrada. Escribe, resume y organiza 10x más rápido.",
     cta: "Pruébalo gratis",
-    href: "https://notion.so", // sustituye por tu link de afiliado (PartnerStack)
+    url: "https://notion.so",
+    affiliate: false, // pendiente: link de PartnerStack
     badge: null,
   },
   {
@@ -50,7 +55,8 @@ const TOOLS = [
     icon: favicon("copy.ai"),
     description: "Genera textos de marketing, emails y contenido en segundos con IA.",
     cta: "Pruébalo gratis",
-    href: "https://www.copy.ai", // sustituye por tu link de afiliado (45% recurrente)
+    url: "https://www.copy.ai",
+    affiliate: false, // pendiente: 45% recurrente
     badge: null,
   },
   {
@@ -58,7 +64,8 @@ const TOOLS = [
     icon: favicon("jasper.ai"),
     description: "IA para marketing: crea campañas, copies y contenido de marca a escala.",
     cta: "Pruébalo gratis",
-    href: "https://www.jasper.ai", // sustituye por tu link de afiliado (Impact, 25% recurrente)
+    url: "https://www.jasper.ai",
+    affiliate: false, // pendiente: Impact, 25% recurrente
     badge: null,
   },
   {
@@ -66,7 +73,8 @@ const TOOLS = [
     icon: favicon("heygen.com"),
     description: "Crea vídeos con avatares IA. Traduce y clona tu voz a cualquier idioma.",
     cta: "Pruébalo gratis",
-    href: "https://www.heygen.com", // sustituye por tu link de afiliado (20-25% recurrente)
+    url: "https://www.heygen.com",
+    affiliate: false, // pendiente: 20-25% recurrente
     badge: null,
   },
   {
@@ -74,7 +82,8 @@ const TOOLS = [
     icon: favicon("synthesia.io"),
     description: "Genera vídeos profesionales con presentadores IA. Sin cámaras ni actores.",
     cta: "Pruébalo",
-    href: "https://www.synthesia.io", // sustituye por tu link de afiliado (Rewardful, hasta $267/venta)
+    url: "https://www.synthesia.io",
+    affiliate: false, // pendiente: Rewardful, hasta $267/venta
     badge: null,
   },
   {
@@ -82,7 +91,8 @@ const TOOLS = [
     icon: favicon("lovable.dev"),
     description: "Construye apps completas con IA. De idea a producto en minutos, sin código.",
     cta: "Pruébalo gratis",
-    href: "https://lovable.dev", // sustituye por tu link de afiliado (20-30% recurrente)
+    url: "https://lovable.dev",
+    affiliate: false, // pendiente: 20-30% recurrente
     badge: null,
   },
   {
@@ -90,17 +100,26 @@ const TOOLS = [
     icon: favicon("writesonic.com"),
     description: "Escritura y SEO con IA. Artículos, landing pages y chatbots en un clic.",
     cta: "Pruébalo gratis",
-    href: "https://writesonic.com", // sustituye por tu link de afiliado (20-30% recurrente, aprobación inmediata)
+    url: "https://writesonic.com",
+    affiliate: false, // pendiente: 20-30% recurrente, aprobación inmediata
     badge: null,
   },
 ];
 
+function toolHref(tool: typeof TOOLS[0]) {
+  if (tool.affiliate) return tool.url;
+  return `/out?url=${encodeURIComponent(tool.url)}`;
+}
+
 function ToolCard({ tool }: { tool: typeof TOOLS[0] }) {
+  const href = toolHref(tool);
+  const isExternal = tool.affiliate;
+
   return (
     <a
-      href={tool.href}
-      target="_blank"
-      rel="noopener noreferrer sponsored"
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer sponsored" : undefined}
       className="block bg-white border border-gray-200 rounded-lg p-3 hover:border-zinc-400 transition-all group"
     >
       <div className="flex items-start justify-between gap-2">
