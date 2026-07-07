@@ -48,6 +48,19 @@ export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuP
 
   const text = `${title} — Ponte al dIA`;
 
+  async function handleClick() {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: text, url: postUrl });
+        return;
+      } catch {
+        // user cancelled — do nothing
+        return;
+      }
+    }
+    setOpen((o) => !o);
+  }
+
   async function copyLink() {
     await navigator.clipboard.writeText(postUrl);
     setCopied(true);
@@ -77,7 +90,7 @@ export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuP
   return (
     <div className="relative" ref={ref}>
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={handleClick}
         className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer"
         style={size === "sm" ? { fontSize: 12.5 } : { fontSize: 13.5 }}
       >
