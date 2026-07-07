@@ -4,21 +4,25 @@ import { PostCard } from "@/components/posts/PostCard";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
-import { getTrendingPosts } from "@/lib/posts";
+import { getTopPosts, type TopPeriod } from "@/lib/posts";
+import { TopPeriodFilter } from "./TopPeriodFilter";
 
 interface PageProps {
-  searchParams: Promise<{ categoria?: string; pagina?: string }>;
+  searchParams: Promise<{ categoria?: string; pagina?: string; periodo?: string }>;
 }
 
 export const metadata = {
-  title: "Destacados · Ponte al dIA",
-  description: "Los posts de IA destacados por la comunidad hispanohablante. Herramientas, papers, tutoriales y repos que de verdad merecen la pena.",
+  title: "Más votados · Ponte al dIA",
+  description: "Los posts de IA más votados de todos los tiempos por la comunidad hispanohablante.",
 };
 
-export default async function TrendingPage({ searchParams }: PageProps) {
-  const { categoria, pagina } = await searchParams;
+const VALID_PERIODS: TopPeriod[] = ["day", "week", "month", "all"];
+
+export default async function TopPage({ searchParams }: PageProps) {
+  const { categoria, pagina, periodo } = await searchParams;
   const page = parseInt(pagina ?? "1");
-  const posts = await getTrendingPosts(categoria, page);
+  const period: TopPeriod = VALID_PERIODS.includes(periodo as TopPeriod) ? (periodo as TopPeriod) : "all";
+  const posts = await getTopPosts(period, categoria, page);
 
   return (
     <div className="feed-wrapper">
@@ -31,14 +35,18 @@ export default async function TrendingPage({ searchParams }: PageProps) {
 
         <main style={{ minWidth: 0 }}>
           <Suspense>
-            <MobileCategoryBar activeCategory={categoria} basePath="/populares" />
+            <MobileCategoryBar activeCategory={categoria} basePath="/top" />
           </Suspense>
           <FeedTabs />
 
+          <Suspense>
+            <TopPeriodFilter />
+          </Suspense>
+
           {posts.length === 0 ? (
             <div className="text-center py-16 text-zinc-400">
-              <p className="text-lg font-medium">Aún no hay nada popular.</p>
-              <p className="text-sm mt-1">¡Publica algo y consigue votos!</p>
+              <p className="text-lg font-medium">Sin posts en este período.</p>
+              <p className="text-sm mt-1">Prueba con otro rango de tiempo.</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3 sm:gap-3.5">
@@ -59,7 +67,7 @@ export default async function TrendingPage({ searchParams }: PageProps) {
           {posts.length === 20 && (
             <div className="mt-8 flex justify-center">
               <a
-                href={`/populares?${categoria ? `categoria=${categoria}&` : ""}pagina=${page + 1}`}
+                href={`/top?${categoria ? `categoria=${categoria}&` : ""}periodo=${period}&pagina=${page + 1}`}
                 className="px-6 py-2 border border-zinc-200 rounded-lg text-sm font-medium text-zinc-700 hover:bg-zinc-50"
               >
                 Ver más →

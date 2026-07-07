@@ -5,9 +5,10 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const tabs = [
-  { href: "/populares", label: "Populares" },
-  { href: "/", label: "Recientes" },
-  { href: "/tendencias", label: "Tendencias" },
+  { href: "/", label: "Nuevos" },
+  { href: "/tendencias", label: "Subiendo" },
+  { href: "/populares", label: "Destacados" },
+  { href: "/top", label: "Top" },
 ];
 
 export function FeedTabs() {

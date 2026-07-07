@@ -10,7 +10,10 @@ interface PageProps {
   searchParams: Promise<{ categoria?: string }>;
 }
 
-export const metadata = { title: "Tendencias · Ponte al dIA" };
+export const metadata = {
+  title: "Subiendo · Ponte al dIA",
+  description: "Posts de IA que están ganando tracción ahora mismo. Lo que la comunidad está votando en las últimas 24h.",
+};
 
 export default async function RisingPage({ searchParams }: PageProps) {
   const { categoria } = await searchParams;

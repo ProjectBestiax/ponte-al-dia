@@ -124,6 +124,41 @@ export async function getRisingPosts(categorySlug?: string, limit = 20) {
   return attachUserBookmarks(withVotes, userId);
 }
 
+export type TopPeriod = "day" | "week" | "month" | "all";
+
+export async function getTopPosts(period: TopPeriod = "all", categorySlug?: string, page = 1, limit = 20) {
+  const userId = await getSessionUserId();
+  const skip = (page - 1) * limit;
+
+  const sinceMap: Record<TopPeriod, Date | null> = {
+    day: new Date(Date.now() - 24 * 60 * 60 * 1000),
+    week: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    month: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    all: null,
+  };
+  const since = sinceMap[period];
+
+  const posts = await db.post.findMany({
+    where: {
+      status: "ACTIVE",
+      ...(categorySlug && { category: { slug: categorySlug } }),
+      ...(since && { createdAt: { gte: since } }),
+    },
+    include: POST_INCLUDE,
+    orderBy: [{ voteCount: "desc" }, { createdAt: "desc" }],
+    skip,
+    take: limit,
+  });
+
+  const normalized = posts.map((p) => ({
+    ...p,
+    commentCount: p._count.comments,
+  }));
+
+  const withVotes = await attachUserVotes(normalized, userId);
+  return attachUserBookmarks(withVotes, userId);
+}
+
 export async function getCategories() {
   return db.category.findMany({ orderBy: { order: "asc" } });
 }
