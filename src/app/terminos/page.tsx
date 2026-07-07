@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Términos de Uso · Ponte al dIA" };
+export const metadata: Metadata = {
+  title: "Términos de Uso · Ponte al dIA",
+  description: "Términos y condiciones de uso de Ponte al dIA, la comunidad de inteligencia artificial en español.",
+};
 
 export default function TerminosPage() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://ponte-al-dia.com";

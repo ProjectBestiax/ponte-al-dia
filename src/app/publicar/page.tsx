@@ -3,7 +3,10 @@ import { auth } from "@/lib/auth";
 import { PublishForm } from "./PublishForm";
 import { getCategories } from "@/lib/posts";
 
-export const metadata = { title: "Publicar" };
+export const metadata = {
+  title: "Publicar · Ponte al dIA",
+  description: "Comparte herramientas, papers, tutoriales o repos de IA con la comunidad hispanohablante. Publicar es gratis.",
+};
 
 export default async function PublishPage() {
   const session = await auth();

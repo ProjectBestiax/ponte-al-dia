@@ -10,7 +10,10 @@ interface PageProps {
   searchParams: Promise<{ categoria?: string; pagina?: string }>;
 }
 
-export const metadata = { title: "Populares · Ponte al dIA" };
+export const metadata = {
+  title: "Populares · Ponte al dIA",
+  description: "Los posts de IA más votados por la comunidad hispanohablante. Herramientas, papers, tutoriales y repos que de verdad merecen la pena.",
+};
 
 export default async function TrendingPage({ searchParams }: PageProps) {
   const { categoria, pagina } = await searchParams;

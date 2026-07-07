@@ -17,10 +17,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { slug: true },
   });
 
+  const users = await db.user.findMany({
+    where: { posts: { some: { status: "ACTIVE" } } },
+    select: { username: true, id: true },
+  });
+
   return [
     { url: base, lastModified: new Date(), changeFrequency: "hourly", priority: 1 },
     { url: `${base}/populares`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.9 },
-    { url: `${base}/tendencias`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.8 },
+    { url: `${base}/ranking`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     ...categories.map((cat) => ({
       url: `${base}/?categoria=${cat.slug}`,
       lastModified: new Date(),
@@ -32,6 +37,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: post.updatedAt,
       changeFrequency: "weekly" as const,
       priority: 0.6,
+    })),
+    ...users.map((user) => ({
+      url: `${base}/u/${user.username ?? user.id}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.4,
     })),
   ];
 }

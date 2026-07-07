@@ -26,7 +26,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "database",
   },
+  events: {
+    createUser() {
+      // Flag checked by the signIn callback to redirect new users to /bienvenida
+      (globalThis as Record<string, unknown>).__newUser = true;
+    },
+  },
   callbacks: {
+    async signIn() {
+      return true;
+    },
+    async redirect({ baseUrl }) {
+      if ((globalThis as Record<string, unknown>).__newUser) {
+        delete (globalThis as Record<string, unknown>).__newUser;
+        return `${baseUrl}/bienvenida`;
+      }
+      return baseUrl;
+    },
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;

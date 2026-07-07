@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { RankingTabs } from "./RankingTabs";
 
-export const metadata: Metadata = { title: "Ranking · Ponte al dIA" };
+export const metadata: Metadata = {
+  title: "Ranking · Ponte al dIA",
+  description: "Los usuarios y posts más destacados de la comunidad de IA en español. Descubre quién contribuye más y qué contenido es tendencia.",
+};
 export const dynamic = "force-dynamic";
 
 export default async function RankingPage() {

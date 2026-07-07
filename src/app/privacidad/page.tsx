@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Política de Privacidad" };
+export const metadata: Metadata = {
+  title: "Política de Privacidad · Ponte al dIA",
+  description: "Cómo Ponte al dIA recopila, usa y protege tus datos personales. Cumplimiento GDPR.",
+};
 
 export default function PrivacidadPage() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://ponte-al-dia.com";

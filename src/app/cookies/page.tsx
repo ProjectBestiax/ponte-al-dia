@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Política de Cookies" };
+export const metadata: Metadata = {
+  title: "Política de Cookies · Ponte al dIA",
+  description: "Información sobre las cookies que utiliza Ponte al dIA y cómo gestionarlas.",
+};
 
 export default function CookiesPage() {
   return (

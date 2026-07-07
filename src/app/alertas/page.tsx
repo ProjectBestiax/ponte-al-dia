@@ -4,7 +4,10 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { AlertasClient } from "./AlertasClient";
 
-export const metadata: Metadata = { title: "Alertas · Ponte al dIA" };
+export const metadata: Metadata = {
+  title: "Alertas · Ponte al dIA",
+  description: "Configura alertas de palabras clave para recibir notificaciones cuando se publique contenido de IA que te interese.",
+};
 export const dynamic = "force-dynamic";
 
 export default async function AlertasPage() {
