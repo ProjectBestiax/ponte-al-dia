@@ -301,7 +301,25 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         className="flex flex-col sm:hidden p-3.5 rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Row 1: category + tags + time */}
+        {/* Row 1: votes left + actions right */}
+        <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-zinc-100">
+          {renderVoteButtons("horizontal")}
+          <div className="flex items-center gap-4">
+            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
+              <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
+              <span className="font-semibold">{formatNumber(post.commentCount)}</span>
+            </Link>
+            <button
+              onClick={handleBookmark}
+              className={cn("flex items-center transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
+            >
+              <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
+            </button>
+            <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
+          </div>
+        </div>
+
+        {/* Row 2: category + tags + time */}
         <div className="flex items-center gap-2 mb-2 flex-wrap">
           <span
             className="rounded-full font-medium shrink-0"
@@ -316,8 +334,8 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </span>
         </div>
 
-        {/* Row 2: image + title/summary */}
-        <div className="flex gap-3 mb-2.5">
+        {/* Row 3: image + title/summary */}
+        <div className="flex gap-3">
           <Link href={`/p/${post.slug}`} className="shrink-0">
             {post.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -375,23 +393,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
           </div>
         </div>
 
-        {/* Row 3: votes left + actions right — aligned bottom bar */}
-        <div className="flex items-center justify-between pt-2 border-t border-zinc-100">
-          {renderVoteButtons("horizontal")}
-          <div className="flex items-center gap-4">
-            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
-              <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
-              <span className="font-semibold">{formatNumber(post.commentCount)}</span>
-            </Link>
-            <button
-              onClick={handleBookmark}
-              className={cn("flex items-center transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
-            >
-              <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
-            </button>
-            <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
-          </div>
-        </div>
       </article>
 
       {/* ─── Desktop / tablet layout (>= sm) ─── */}
