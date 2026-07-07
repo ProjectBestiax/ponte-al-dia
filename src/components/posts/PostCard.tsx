@@ -301,10 +301,84 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         className="flex flex-col sm:hidden p-3.5 rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Votes horizontal */}
-        <div className="flex items-center justify-between mb-2.5">
+        {/* Row 1: category + tags + time */}
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span
+            className="rounded-full font-medium shrink-0"
+            style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
+          >
+            {post.category.emoji} {post.category.name}
+          </span>
+          <ToolTags tags={post.tags} />
+          <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+          <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
+            {timeAgo(new Date(post.createdAt))}
+          </span>
+        </div>
+
+        {/* Row 2: image + title/summary */}
+        <div className="flex gap-3 mb-2.5">
+          <Link href={`/p/${post.slug}`} className="shrink-0">
+            {post.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="w-[82px] h-[82px] object-cover rounded-xl border border-zinc-100"
+              />
+            ) : (
+              <div
+                className="flex items-center justify-center w-[82px] h-[82px] rounded-xl border border-zinc-100"
+                style={{ backgroundColor: post.category.color + "15" }}
+              >
+                <span style={{ fontSize: 28 }}>{post.category.emoji}</span>
+              </div>
+            )}
+          </Link>
+          <div className="flex-1 min-w-0">
+            <Link href={`/p/${post.slug}`}>
+              <h3
+                className="hover:opacity-75 transition-opacity"
+                style={{ margin: 0, fontWeight: 700, fontSize: 16, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
+              >
+                {post.title}
+              </h3>
+            </Link>
+            {summary && (
+              <p className="line-clamp-2 mt-1" style={{ fontSize: 12.5, lineHeight: 1.4, color: "#71717A" }}>
+                {summary}
+              </p>
+            )}
+            {domain && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                {post.url && <DomainIcon url={post.url} />}
+                <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11, color: "#A1A1AA" }}>{domain}</span>
+                {(post.user.username || post.user.id) && (
+                  <>
+                    <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
+                    <span style={{ fontSize: 11, color: "#A1A1AA" }}>
+                      por <span className="font-semibold text-zinc-500">{authorName}</span>
+                    </span>
+                    {post.user.isAI && <AiBadge size="xs" />}
+                  </>
+                )}
+              </div>
+            )}
+            {!domain && (post.user.username || post.user.id) && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <span style={{ fontSize: 11, color: "#A1A1AA" }}>
+                  por <span className="font-semibold text-zinc-500">{authorName}</span>
+                </span>
+                {post.user.isAI && <AiBadge size="xs" />}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Row 3: votes left + actions right — aligned bottom bar */}
+        <div className="flex items-center justify-between pt-2 border-t border-zinc-100">
           {renderVoteButtons("horizontal")}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
               <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
               <span className="font-semibold">{formatNumber(post.commentCount)}</span>
@@ -317,92 +391,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             </button>
             <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
           </div>
-        </div>
-
-        {/* Image + content */}
-        <div className="flex gap-3">
-          {/* Left: image */}
-          <div className="flex flex-col items-center shrink-0" style={{ width: 90 }}>
-            <Link href={`/p/${post.slug}`} className="block">
-              {post.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={post.imageUrl}
-                  alt={post.title}
-                  className="w-[90px] h-[90px] object-cover rounded-[11px] border border-zinc-100"
-                />
-              ) : (
-                <div
-                  className="flex items-center justify-center w-[90px] h-[90px] rounded-[11px] border border-zinc-100"
-                  style={{ backgroundColor: post.category.color + "15" }}
-                >
-                  <span style={{ fontSize: 32 }}>{post.category.emoji}</span>
-                </div>
-              )}
-            </Link>
-          </div>
-
-          {/* Right column: category, title, summary, source, author */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span
-                className="rounded-full font-medium shrink-0"
-                style={{ backgroundColor: post.category.color + "20", color: post.category.color, fontSize: 11.5, padding: "2px 9px" }}
-              >
-                {post.category.emoji} {post.category.name}
-              </span>
-              <ToolTags tags={post.tags} />
-              <span className="w-[3px] h-[3px] rounded-full bg-zinc-300 shrink-0" />
-              <span className="whitespace-nowrap" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}>
-                {timeAgo(new Date(post.createdAt))}
-              </span>
-            </div>
-
-            <Link href={`/p/${post.slug}`}>
-              <h3
-                className="hover:opacity-75 transition-opacity"
-                style={{ margin: 0, fontWeight: 700, fontSize: 17, lineHeight: 1.3, color: "#0A0A0A", letterSpacing: "-0.01em" }}
-              >
-                {post.title}
-              </h3>
-            </Link>
-
-            {summary && (
-              <p className="line-clamp-2 mt-1.5" style={{ fontSize: 13, lineHeight: 1.45, color: "#71717A" }}>
-                {summary}
-              </p>
-            )}
-
-            {domain && (
-              <div className="flex items-center gap-1.5 mt-2">
-                {post.url && <DomainIcon url={post.url} />}
-                <span className="truncate" style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#71717A" }}>{domain}</span>
-              </div>
-            )}
-
-            {post.user.username || post.user.id ? (
-              <Link href={`/u/${post.user.username ?? post.user.id}`} className="mt-1.5 inline-flex items-center gap-1.5 hover:text-zinc-700 transition-colors" style={{ fontSize: 12, color: "#A1A1AA" }}>
-                <span>por <span className="font-semibold text-zinc-600">{authorName}</span></span>
-                {post.user.isAI && <AiBadge size="xs" />}
-              </Link>
-            ) : (
-              <p className="mt-1.5" style={{ fontSize: 12, color: "#A1A1AA" }}>
-                por <span className="font-semibold text-zinc-600">{authorName}</span>
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Bottom row: CTA right-aligned */}
-        <div className="flex justify-end mt-2.5">
-          <Link
-            href={`/p/${post.slug}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent-400 text-accent-950 hover:bg-accent-500 transition-colors"
-            style={{ fontSize: 12.5, fontWeight: 700 }}
-          >
-            Ir al post
-            <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.5} />
-          </Link>
         </div>
       </article>
 
