@@ -37,7 +37,7 @@ export default async function RisingPage({ searchParams }: PageProps) {
               <p className="text-sm mt-1">Vota los posts que te parezcan interesantes.</p>
             </div>
           ) : (
-            <div>
+            <div className="flex flex-col gap-3 sm:gap-3.5">
               {posts.map((post) => (
                 <PostCard
                   key={post.id}

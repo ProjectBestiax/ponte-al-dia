@@ -41,7 +41,7 @@ export default async function TrendingPage({ searchParams }: PageProps) {
               <p className="text-sm mt-1">¡Publica algo y consigue votos!</p>
             </div>
           ) : (
-            <div>
+            <div className="flex flex-col gap-3 sm:gap-3.5">
               {posts.map((post) => (
                 <PostCard
                   key={post.id}

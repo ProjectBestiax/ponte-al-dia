@@ -293,9 +293,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
   return (
     <>
-      {/* ─── Mobile layout (< sm): Chollometro-style card ─── */}
+      {/* ─── Mobile layout (< sm) ─── */}
       <article
-        className="flex flex-col sm:hidden py-4 px-2 border-b border-zinc-100"
+        className="flex flex-col sm:hidden p-3.5 rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
         {/* Top: left column (votes, image, actions) | right column (content) */}
@@ -399,9 +399,9 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         </div>
       </article>
 
-      {/* ─── Desktop / tablet layout (>= sm): unchanged ─── */}
+      {/* ─── Desktop / tablet layout (>= sm) ─── */}
       <article
-        className="hidden sm:flex gap-4 py-[18px] px-3 rounded-[12px] border-b border-zinc-50 hover:bg-zinc-50 transition-colors"
+        className="hidden sm:flex gap-4 p-4 rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.07)] transition-shadow"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
         {/* Votes */}

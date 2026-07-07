@@ -73,7 +73,7 @@ export default async function HomePage({ searchParams }: PageProps) {
                   featured
                 />
               )}
-              <div>
+              <div className="flex flex-col gap-3 sm:gap-3.5">
                 {rest.map((post) => (
                   <PostCard
                     key={post.id}
