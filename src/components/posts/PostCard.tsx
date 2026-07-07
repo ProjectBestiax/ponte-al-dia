@@ -258,37 +258,40 @@ export function PostCard({ post, featured = false }: PostCardProps) {
 
   // Vote buttons — rendered fresh in each layout (mobile + desktop) so React
   // never reuses a single element instance across two subtrees.
-  const renderVoteButtons = () => (
-    <>
+  const renderVoteButtons = (direction: "horizontal" | "vertical" = "vertical") => (
+    <div className={cn(
+      "flex items-center gap-0.5 rounded-xl border border-zinc-200 bg-zinc-50",
+      direction === "horizontal" ? "flex-row px-1 py-0.5" : "flex-col px-1.5 py-1"
+    )}>
       <button
         onClick={() => handleVote(1)}
         className={cn(
-          "flex items-center justify-center rounded-[8px] transition-colors",
-          userVote === 1 ? "bg-accent-50 text-accent-700" : "bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-accent-700"
+          "flex items-center justify-center rounded-lg transition-colors",
+          userVote === 1 ? "bg-accent-400 text-accent-950" : "bg-transparent text-zinc-400 hover:bg-white hover:text-accent-700"
         )}
-        style={{ width: 30, height: 30, border: "none" }}
+        style={{ width: 32, height: 28, border: "none" }}
         aria-label="Votar positivo"
       >
-        <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.2} />
+        <ArrowUp className="w-[17px] h-[17px]" strokeWidth={2.4} />
       </button>
       <span
-        className={cn("font-bold text-center", votes < 0 ? "text-red-500" : "text-zinc-950")}
-        style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 13.5, minWidth: 24 }}
+        className={cn("font-bold text-center", votes < 0 ? "text-red-500" : "text-zinc-900")}
+        style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 14, minWidth: 24 }}
       >
         {formatNumber(votes)}
       </span>
       <button
         onClick={() => handleVote(-1)}
         className={cn(
-          "flex items-center justify-center rounded-[8px] transition-colors",
-          userVote === -1 ? "bg-red-50 text-red-500" : "bg-transparent hover:bg-zinc-100"
+          "flex items-center justify-center rounded-lg transition-colors",
+          userVote === -1 ? "bg-red-100 text-red-500" : "bg-transparent text-zinc-300 hover:bg-white hover:text-red-400"
         )}
-        style={{ width: 30, height: 30, border: "none", color: "#C4C4CB" }}
+        style={{ width: 32, height: 28, border: "none" }}
         aria-label="Votar negativo"
       >
-        <ArrowDown className="w-[17px] h-[17px]" />
+        <ArrowDown className="w-[17px] h-[17px]" strokeWidth={2.2} />
       </button>
-    </>
+    </div>
   );
 
   return (
@@ -298,11 +301,28 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         className="flex flex-col sm:hidden p-3.5 rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
         style={{ fontFamily: "var(--font-manrope)" }}
       >
-        {/* Top: left column (votes, image, actions) | right column (content) */}
+        {/* Votes horizontal */}
+        <div className="flex items-center justify-between mb-2.5">
+          {renderVoteButtons("horizontal")}
+          <div className="flex items-center gap-3">
+            <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
+              <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
+              <span className="font-semibold">{formatNumber(post.commentCount)}</span>
+            </Link>
+            <button
+              onClick={handleBookmark}
+              className={cn("flex items-center transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
+            >
+              <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
+            </button>
+            <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
+          </div>
+        </div>
+
+        {/* Image + content */}
         <div className="flex gap-3">
-          {/* Left column: votes → image → comments+bookmark */}
-          <div className="flex flex-col items-center gap-2 shrink-0" style={{ width: 96 }}>
-            <div className="flex items-center gap-1">{renderVoteButtons()}</div>
+          {/* Left: image */}
+          <div className="flex flex-col items-center shrink-0" style={{ width: 90 }}>
             <Link href={`/p/${post.slug}`} className="block">
               {post.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -320,19 +340,6 @@ export function PostCard({ post, featured = false }: PostCardProps) {
                 </div>
               )}
             </Link>
-            <div className="flex items-center gap-3 mt-0.5">
-              <Link href={`/p/${post.slug}#comentarios`} className="flex items-center gap-1 text-zinc-400" style={{ fontSize: 11.5 }}>
-                <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.8} />
-                <span className="font-semibold">{formatNumber(post.commentCount)}</span>
-              </Link>
-              <button
-                onClick={handleBookmark}
-                className={cn("flex items-center transition-colors", bookmarked ? "text-accent-700" : "text-zinc-400")}
-              >
-                <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
-              </button>
-              <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
-            </div>
           </div>
 
           {/* Right column: category, title, summary, source, author */}
@@ -405,7 +412,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
         style={{ fontFamily: "var(--font-manrope)" }}
       >
         {/* Votes */}
-        <div className="flex flex-col items-center gap-0.5 min-w-[46px] pt-0.5">{renderVoteButtons()}</div>
+        <div className="flex flex-col items-center min-w-[46px] pt-0.5">{renderVoteButtons()}</div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
