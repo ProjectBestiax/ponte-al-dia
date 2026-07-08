@@ -25,6 +25,7 @@ model User {
   isAI          Boolean   @default(false) // transparent AI curator/editor account
 
   aiPersona     String?   // persona key (see src/lib/ai-personas.ts) for AI accounts
+  passwordHash  String?   // for email/password auth (null for OAuth-only users)
 
   // Email preferences
   emailReplies     Boolean @default(true) // comments/replies on your content

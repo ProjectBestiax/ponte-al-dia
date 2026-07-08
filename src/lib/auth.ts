@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyPrismaClient = any;
@@ -22,13 +24,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
       allowDangerousEmailAccountLinking: true,
     }),
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Contraseña", type: "password" },
+      },
+      async authorize(credentials) {
+        const email = credentials?.email as string | undefined;
+        const password = credentials?.password as string | undefined;
+        if (!email || !password) return null;
+
+        const user = await db.user.findUnique({ where: { email } });
+        if (!user?.passwordHash) return null;
+
+        const valid = await bcrypt.compare(password, user.passwordHash);
+        if (!valid) return null;
+
+        return { id: user.id, email: user.email, name: user.name, image: user.image };
+      },
+    }),
   ],
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
   events: {
     createUser() {
-      // Flag checked by the signIn callback to redirect new users to /bienvenida
       (globalThis as Record<string, unknown>).__newUser = true;
     },
   },
@@ -43,17 +63,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return baseUrl;
     },
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
+    async jwt({ token, user, trigger }) {
+      if (user) {
+        token.id = user.id;
+      }
+      if (trigger === "signIn" || trigger === "signUp" || !token.role) {
+        const dbUser = await db.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true, username: true, karma: true, isPremium: true },
+        });
+        if (dbUser) {
+          token.role = dbUser.role;
+          token.username = dbUser.username;
+          token.karma = dbUser.karma;
+          token.isPremium = dbUser.isPremium;
+        }
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (session.user && token) {
+        session.user.id = token.id as string;
         // @ts-expect-error extended fields
-        session.user.role = user.role;
+        session.user.role = token.role;
         // @ts-expect-error extended fields
-        session.user.username = user.username;
+        session.user.username = token.username;
         // @ts-expect-error extended fields
-        session.user.karma = user.karma;
+        session.user.karma = token.karma;
         // @ts-expect-error extended fields
-        session.user.isPremium = user.isPremium;
+        session.user.isPremium = token.isPremium;
       }
       return session;
     },
