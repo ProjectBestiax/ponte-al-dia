@@ -9,6 +9,10 @@
       "schedule": "0 9 * * *"
     },
     {
+      "path": "/api/bot/ai-news",
+      "schedule": "0 10 * * *"
+    },
+    {
       "path": "/api/cron/digest",
       "schedule": "0 9 * * 1"
     }

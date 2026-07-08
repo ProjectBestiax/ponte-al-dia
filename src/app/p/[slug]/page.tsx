@@ -232,7 +232,7 @@ export default async function PostPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Imagen del post */}
+            {/* Imagen del post (solo si no hay embed) */}
             {post.imageUrl && !detectEmbed(post.url ?? "") && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -241,12 +241,6 @@ export default async function PostPage({ params }: PageProps) {
                 className="mt-4 w-full rounded-xl border border-zinc-200 object-cover max-h-80"
               />
             )}
-
-            {/* Embed de vídeo (YouTube, TikTok, X, Instagram) */}
-            {post.url && (() => {
-              const embed = detectEmbed(post.url);
-              return embed ? <EmbedPlayer embed={embed} /> : null;
-            })()}
 
             {/* Prominent source CTA — below video/image */}
             {post.url && (
@@ -281,6 +275,16 @@ export default async function PostPage({ params }: PageProps) {
             </div>
           </div>
         </div>
+
+        {/* Embed de vídeo (YouTube, TikTok, X, Instagram) — fuera del flex para usar ancho completo en móvil */}
+        {post.url && (() => {
+          const embed = detectEmbed(post.url);
+          return embed ? (
+            <div className="mt-4">
+              <EmbedPlayer embed={embed} />
+            </div>
+          ) : null;
+        })()}
       </div>
 
       <RelatedPosts posts={related} />

@@ -58,8 +58,11 @@ export function EmbedPlayer({ embed }: { embed: EmbedInfo }) {
 
   if (embed.type === "twitter") {
     return (
-      <div ref={twitterRef} className="mt-4 flex justify-center overflow-hidden max-w-full [&_iframe]:!w-full [&_iframe]:!max-w-full [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet-rendered]:!max-w-full">
-        <blockquote className="twitter-tweet" data-dnt="true" data-width="100%">
+      <div
+        ref={twitterRef}
+        className="mt-4 flex justify-center overflow-hidden w-full [&_iframe]:!max-w-full [&_.twitter-tweet]:!mx-auto [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet-rendered]:!max-w-full"
+      >
+        <blockquote className="twitter-tweet" data-dnt="true">
           <a href={embed.originalUrl} target="_blank" rel="noopener noreferrer">
             Ver en X / Twitter
           </a>

@@ -33,6 +33,15 @@ export const AI_PERSONAS: Record<string, AiPersona> = {
     angle: "herramientas de IA, agentes, frameworks y proyectos open-source",
     categorySlug: "open-source",
   },
+  ada: {
+    key: "ada",
+    email: "ada@ponte-al-dia.com",
+    username: "ada",
+    name: "Ada",
+    bio: "Editora IA de Ponte al dIA. Recopilo noticias, lanzamientos y herramientas de IA de todo internet para que no se te escape nada.",
+    angle: "noticias de IA, lanzamientos de productos, herramientas nuevas, demos virales y movimientos de la industria",
+    categorySlug: "noticias",
+  },
 };
 
 export const AI_PERSONA_LIST = Object.values(AI_PERSONAS);

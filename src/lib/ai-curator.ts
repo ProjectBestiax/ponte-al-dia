@@ -11,27 +11,36 @@ export interface CuratedItem {
   accept: boolean; // false → don't publish (too niche / low signal)
   title: string; // Spanish headline, no "[Paper]" noise
   summary: string; // one sentence: why it matters
+  categorySlug?: string; // optional override when the bot covers multiple categories
 }
 
 export async function curate(input: {
-  kind: "paper" | "repo";
+  kind: "paper" | "repo" | "news";
   rawTitle: string;
   rawText: string; // abstract / repo description
   personaAngle: string;
+  categorySlugs?: string[];
 }): Promise<CuratedItem | null> {
   if (!client) return null;
 
-  const kindEs = input.kind === "paper" ? "un paper de investigación" : "un proyecto open-source";
+  const kindMap = { paper: "un paper de investigación", repo: "un proyecto open-source", news: "una noticia/recurso de IA" };
+  const kindEs = kindMap[input.kind];
+
+  const categoryInstruction = input.categorySlugs?.length
+    ? `\n- "categorySlug": elige la categoría más adecuada entre: ${input.categorySlugs.join(", ")}`
+    : "";
+  const categoryJson = input.categorySlugs?.length ? ', "categorySlug": "..."' : "";
+
   const system = `Eres un editor de una comunidad de IA en español (audiencia general hispanohablante interesada en IA, no solo académicos). Tu foco editorial: ${input.personaAngle}.
 
 Te doy ${kindEs}. Decide si merece publicarse para esta audiencia: ACEPTA lo relevante, útil o interesante; RECHAZA lo hiper-nicho, incremental o de baja señal.
 
 Si lo aceptas:
 - "title": un titular en español claro y atractivo. Sin "[Paper]", sin jerga innecesaria, sin comillas. Máximo 90 caracteres.
-- "summary": UNA frase de por qué importa. Máximo 25 palabras, neutral, sin marketing, sin emojis ni signos de exclamación.
+- "summary": UNA frase de por qué importa. Máximo 25 palabras, neutral, sin marketing, sin emojis ni signos de exclamación.${categoryInstruction}
 
 Responde ÚNICAMENTE con JSON válido, sin texto alrededor:
-{"accept": true|false, "title": "...", "summary": "..."}`;
+{"accept": true|false, "title": "...", "summary": "..."${categoryJson}}`;
 
   try {
     const msg = await client.messages.create({
@@ -61,6 +70,7 @@ Responde ÚNICAMENTE con JSON válido, sin texto alrededor:
       accept: true,
       title: parsed.title.replace(/^["']|["']$/g, "").slice(0, 120),
       summary: parsed.summary.replace(/^["']|["']$/g, "").slice(0, 280),
+      categorySlug: typeof parsed.categorySlug === "string" ? parsed.categorySlug : undefined,
     };
   } catch {
     return null;

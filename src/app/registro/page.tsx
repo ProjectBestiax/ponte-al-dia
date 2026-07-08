@@ -4,23 +4,52 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 
+const USERNAME_RE = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/;
+
+function validateUsername(v: string): string | null {
+  if (v.length < 3) return "Mínimo 3 caracteres";
+  if (v.length > 24) return "Máximo 24 caracteres";
+  if (/\s/.test(v)) return "Sin espacios";
+  if (!USERNAME_RE.test(v)) return "Solo letras minúsculas, números, puntos, guiones y _";
+  return null;
+}
+
 export default function RegistroPage() {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  function handleUsernameChange(raw: string) {
+    const v = raw.toLowerCase().replace(/\s/g, "");
+    setUsername(v);
+    if (v.length > 0) {
+      setUsernameError(validateUsername(v));
+    } else {
+      setUsernameError(null);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    const uErr = validateUsername(username);
+    if (uErr) {
+      setUsernameError(uErr);
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, username }),
       });
 
       if (!res.ok) {
@@ -76,6 +105,33 @@ export default function RegistroPage() {
                 className="w-full border border-zinc-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                 placeholder="Tu nombre"
               />
+            </div>
+
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-zinc-700 mb-1">
+                Usuario
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">@</span>
+                <input
+                  id="username"
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => handleUsernameChange(e.target.value)}
+                  className={`w-full border rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:border-transparent ${
+                    usernameError
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-zinc-300 focus:ring-accent-500"
+                  }`}
+                  placeholder="tu-usuario"
+                  maxLength={24}
+                  autoComplete="username"
+                />
+              </div>
+              {usernameError && username.length > 0 && (
+                <p className="text-xs text-red-500 mt-1">{usernameError}</p>
+              )}
             </div>
 
             <div>
