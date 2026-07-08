@@ -30,7 +30,13 @@ export default function RegistroPage() {
         return;
       }
 
-      await signIn("credentials", { email, password, callbackUrl: "/bienvenida" });
+      const result = await signIn("credentials", { email, password, redirect: false });
+      if (result?.error) {
+        setError("Error al iniciar sesión. Inténtalo de nuevo.");
+        setLoading(false);
+        return;
+      }
+      window.location.href = "/bienvenida";
     } catch {
       setError("Error de conexión. Inténtalo de nuevo.");
       setLoading(false);

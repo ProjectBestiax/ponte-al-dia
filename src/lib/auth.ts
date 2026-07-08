@@ -56,11 +56,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn() {
       return true;
     },
-    async redirect({ baseUrl }) {
+    async redirect({ url, baseUrl }) {
       if ((globalThis as Record<string, unknown>).__newUser) {
         delete (globalThis as Record<string, unknown>).__newUser;
         return `${baseUrl}/bienvenida`;
       }
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith(baseUrl)) return url;
       return baseUrl;
     },
     async jwt({ token, user, trigger }) {

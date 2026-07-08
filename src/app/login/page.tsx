@@ -20,8 +20,13 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    await signIn("credentials", { email, password, callbackUrl: "/" });
-    setLoading(false);
+    const result = await signIn("credentials", { email, password, redirect: false });
+    if (result?.error) {
+      setError("Email o contraseña incorrectos.");
+      setLoading(false);
+      return;
+    }
+    window.location.href = "/";
   }
 
   return (
