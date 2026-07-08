@@ -85,6 +85,13 @@ export default function RootLayout({
           <main className="flex-1 w-full pb-[58px] sm:pb-0">
             {children}
           </main>
+          <footer className="sm:hidden flex flex-wrap justify-center gap-x-4 gap-y-1.5 px-6 py-5 pb-[70px] text-[11px] text-zinc-400" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
+            <a href="/sobre-nosotros" className="hover:text-zinc-600 transition-colors">Quiénes somos</a>
+            <a href="/contacto" className="hover:text-zinc-600 transition-colors">Contacto</a>
+            <a href="/privacidad" className="hover:text-zinc-600 transition-colors">Privacidad</a>
+            <a href="/cookies" className="hover:text-zinc-600 transition-colors">Cookies</a>
+            <span className="w-full text-center text-zinc-300 mt-1">© {new Date().getFullYear()} Ponte al dIA</span>
+          </footer>
           <BottomNav />
           <CookieBanner />
           <Analytics />

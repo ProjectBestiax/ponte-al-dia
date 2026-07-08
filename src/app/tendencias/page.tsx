@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { FeedTabs } from "@/components/posts/FeedTabs";
-import { PostCard } from "@/components/posts/PostCard";
+import { InfinitePostList } from "@/components/posts/InfinitePostList";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
@@ -40,19 +40,13 @@ export default async function RisingPage({ searchParams }: PageProps) {
               <p className="text-sm mt-1">Vota los posts que te parezcan interesantes.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-3 sm:gap-3.5">
-              {posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={{
-                    ...post,
-                    url: post.url ?? undefined,
-                    description: post.description ?? undefined,
-                    imageUrl: post.imageUrl ?? undefined,
-                  }}
-                />
-              ))}
-            </div>
+            <InfinitePostList
+              key={`rising-${categoria ?? "all"}`}
+              initialPosts={posts}
+              tab="rising"
+              categoria={categoria}
+              hasMore={false}
+            />
           )}
         </main>
 

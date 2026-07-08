@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { FeedTabs } from "@/components/posts/FeedTabs";
 import { PostCard } from "@/components/posts/PostCard";
+import { InfinitePostList } from "@/components/posts/InfinitePostList";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
@@ -73,31 +74,14 @@ export default async function HomePage({ searchParams }: PageProps) {
                   featured
                 />
               )}
-              <div className="flex flex-col gap-3 sm:gap-3.5">
-                {rest.map((post) => (
-                  <PostCard
-                    key={post.id}
-                    post={{
-                      ...post,
-                      url: post.url ?? undefined,
-                      description: post.description ?? undefined,
-                      imageUrl: post.imageUrl ?? undefined,
-                    }}
-                  />
-                ))}
-              </div>
+              <InfinitePostList
+                key={`new-${categoria ?? "all"}`}
+                initialPosts={rest}
+                tab="new"
+                categoria={categoria}
+                hasMore={posts.length === 20}
+              />
             </>
-          )}
-
-          {posts.length === 20 && (
-            <div className="mt-8 flex justify-center">
-              <a
-                href={`/?${categoria ? `categoria=${categoria}&` : ""}${q ? `q=${encodeURIComponent(q)}&` : ""}pagina=${page + 1}`}
-                className="px-6 py-2 border border-zinc-200 rounded-lg text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-              >
-                Ver más →
-              </a>
-            </div>
           )}
         </main>
 

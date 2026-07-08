@@ -132,6 +132,8 @@ export async function RightSidebar() {
         className="flex flex-wrap gap-x-3.5 gap-y-2 px-1"
         style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 11.5, color: "#A1A1AA" }}
       >
+        <Link href="/sobre-nosotros" className="hover:text-zinc-600 transition-colors">Quiénes somos</Link>
+        <Link href="/contacto" className="hover:text-zinc-600 transition-colors">Contacto</Link>
         <Link href="/privacidad" className="hover:text-zinc-600 transition-colors">Privacidad</Link>
         <Link href="/cookies" className="hover:text-zinc-600 transition-colors">Cookies</Link>
         <span className="w-full" style={{ color: "#C4C4CB", marginTop: 4 }}>

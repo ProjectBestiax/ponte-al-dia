@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { FeedTabs } from "@/components/posts/FeedTabs";
-import { PostCard } from "@/components/posts/PostCard";
+import { InfinitePostList } from "@/components/posts/InfinitePostList";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
@@ -49,30 +49,14 @@ export default async function TopPage({ searchParams }: PageProps) {
               <p className="text-sm mt-1">Prueba con otro rango de tiempo.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-3 sm:gap-3.5">
-              {posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={{
-                    ...post,
-                    url: post.url ?? undefined,
-                    description: post.description ?? undefined,
-                    imageUrl: post.imageUrl ?? undefined,
-                  }}
-                />
-              ))}
-            </div>
-          )}
-
-          {posts.length === 20 && (
-            <div className="mt-8 flex justify-center">
-              <a
-                href={`/top?${categoria ? `categoria=${categoria}&` : ""}periodo=${period}&pagina=${page + 1}`}
-                className="px-6 py-2 border border-zinc-200 rounded-lg text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-              >
-                Ver más →
-              </a>
-            </div>
+            <InfinitePostList
+              key={`top-${period}-${categoria ?? "all"}`}
+              initialPosts={posts}
+              tab="top"
+              categoria={categoria}
+              periodo={period}
+              hasMore={posts.length === 20}
+            />
           )}
         </main>
 
