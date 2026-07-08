@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Zap, Plus, Check } from "lucide-react";
+import { Bell, Plus, Check } from "lucide-react";
 import Link from "next/link";
 
 export function KeywordAlertCTA({ suggestions }: { suggestions: string[] }) {
@@ -28,17 +28,13 @@ export function KeywordAlertCTA({ suggestions }: { suggestions: string[] }) {
 
   return (
     <section
-      className="mt-8 bg-accent-50/60 border border-accent-200 rounded-2xl p-5"
+      className="mt-8"
       style={{ fontFamily: "var(--font-manrope)" }}
     >
-      <div className="flex items-center gap-2 mb-2">
-        <Zap className="w-4 h-4 text-accent-600" strokeWidth={2.2} />
-        <h3 className="text-sm font-bold text-accent-900">No te pierdas ninguna novedad</h3>
-      </div>
-      <p className="text-xs text-accent-800 mb-3">
-        Activa alertas para recibir notificaciones cuando se publiquen posts sobre estos temas:
-      </p>
-      <div className="flex flex-wrap gap-2 mb-3">
+      <h2 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-3">
+        No te pierdas ninguna novedad
+      </h2>
+      <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x snap-mandatory -mx-1 px-1">
         {suggestions.map((kw) => {
           const isSaved = saved.has(kw);
           const isSaving = saving === kw;
@@ -47,24 +43,39 @@ export function KeywordAlertCTA({ suggestions }: { suggestions: string[] }) {
               key={kw}
               onClick={() => !isSaved && saveKeyword(kw)}
               disabled={isSaved || isSaving}
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`snap-start shrink-0 w-[180px] flex flex-col items-center gap-3 rounded-2xl p-4 transition-all ${
                 isSaved
-                  ? "bg-accent-200 text-accent-800"
-                  : "bg-white border border-accent-300 text-accent-800 hover:bg-accent-100"
+                  ? "bg-accent-100 border-2 border-accent-400"
+                  : "bg-white border border-zinc-200 hover:border-accent-300 hover:shadow-sm"
               }`}
             >
-              {isSaved ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
-              {kw}
+              <span className="text-base font-bold text-zinc-900 capitalize text-center line-clamp-2">
+                {kw}
+              </span>
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  isSaved
+                    ? "bg-accent-500 text-white"
+                    : "bg-zinc-100 text-zinc-600 group-hover:bg-accent-100"
+                }`}
+              >
+                {isSaved ? (
+                  <><Check className="w-3.5 h-3.5" /> Alerta activa</>
+                ) : (
+                  <><Bell className="w-3.5 h-3.5" />{isSaving ? "..." : "Activar alerta"}</>
+                )}
+              </span>
             </button>
           );
         })}
+        <Link
+          href="/alertas"
+          className="snap-start shrink-0 w-[180px] flex flex-col items-center justify-center gap-2 rounded-2xl p-4 border border-dashed border-zinc-300 hover:border-accent-400 hover:bg-accent-50/50 transition-all"
+        >
+          <Plus className="w-5 h-5 text-zinc-400" />
+          <span className="text-xs font-semibold text-zinc-500">Gestionar alertas</span>
+        </Link>
       </div>
-      <Link
-        href="/alertas"
-        className="text-xs font-semibold text-accent-700 hover:text-accent-900 transition-colors"
-      >
-        Gestionar todas tus alertas →
-      </Link>
     </section>
   );
 }

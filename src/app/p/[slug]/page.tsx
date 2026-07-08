@@ -289,14 +289,12 @@ export default async function PostPage({ params }: PageProps) {
 
       <RelatedPosts posts={related} />
 
-      {session && (
-        <KeywordAlertCTA
-          suggestions={[
-            post.category.name.toLowerCase(),
-            ...post.tags.map(({ tag }) => tag.name.toLowerCase()),
-          ].slice(0, 5)}
-        />
-      )}
+      <KeywordAlertCTA
+        suggestions={[
+          post.category.name.toLowerCase(),
+          ...post.tags.map(({ tag }) => tag.name.toLowerCase()),
+        ].slice(0, 5)}
+      />
 
       {/* Comments */}
       <div id="comentarios" className="mt-8">
