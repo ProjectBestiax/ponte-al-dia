@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Download, X } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -8,10 +8,30 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+const PAGE_VIEWS_KEY = "pwa-views";
+const DISMISS_KEY = "pwa-dismiss-at";
+const MIN_PAGE_VIEWS = 3;
+const DISMISS_DAYS = 7;
+
 function getIsIOS() {
   if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent;
   return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function shouldShow(): boolean {
+  const views = parseInt(localStorage.getItem(PAGE_VIEWS_KEY) ?? "0", 10) + 1;
+  localStorage.setItem(PAGE_VIEWS_KEY, String(views));
+
+  if (views < MIN_PAGE_VIEWS) return false;
+
+  const dismissedAt = localStorage.getItem(DISMISS_KEY);
+  if (dismissedAt) {
+    const elapsed = Date.now() - parseInt(dismissedAt, 10);
+    if (elapsed < DISMISS_DAYS * 86_400_000) return false;
+  }
+
+  return true;
 }
 
 export function InstallPrompt() {
@@ -19,13 +39,16 @@ export function InstallPrompt() {
   const [dismissed, setDismissed] = useState(false);
   const [showIOSTip, setShowIOSTip] = useState(false);
   const isIOS = useMemo(() => getIsIOS(), []);
-
-  useEffect(() => {
+  const ready = useMemo(() => {
+    if (typeof window === "undefined") return false;
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches
       || ("standalone" in navigator && (navigator as unknown as { standalone: boolean }).standalone);
-    if (isStandalone) return;
+    if (isStandalone) return false;
+    return shouldShow();
+  }, []);
 
-    if (localStorage.getItem("pwa-dismiss")) return;
+  useEffect(() => {
+    if (!ready) return;
 
     if (isIOS) {
       const timer = setTimeout(() => setShowIOSTip(true), 3000);
@@ -40,23 +63,23 @@ export function InstallPrompt() {
     return () => window.removeEventListener("beforeinstallprompt", onBeforeInstall);
   }, [isIOS]);
 
-  async function handleInstall() {
+  const handleInstall = useCallback(async () => {
     if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setDeferredPrompt(null);
     }
-  }
+  }, [deferredPrompt]);
 
-  function handleDismiss() {
+  const handleDismiss = useCallback(() => {
     setDismissed(true);
     setDeferredPrompt(null);
     setShowIOSTip(false);
-    localStorage.setItem("pwa-dismiss", "1");
-  }
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+  }, []);
 
-  if (dismissed) return null;
+  if (dismissed || !ready) return null;
 
   if (isIOS && showIOSTip) {
     return (
