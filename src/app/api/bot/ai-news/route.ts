@@ -6,10 +6,9 @@ import { AI_PERSONAS } from "@/lib/ai-personas";
 import { curate } from "@/lib/ai-curator";
 import { notifyKeywordMatches } from "@/lib/notifications";
 import { fetchOgImage } from "@/lib/og-image";
+import { isBotAuthorized } from "@/lib/bot-auth";
 
 export const maxDuration = 60;
-
-const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
 
 const PERSONA = AI_PERSONAS.ada;
 const MAX_CANDIDATES = 15;
@@ -83,15 +82,6 @@ async function fetchHNStories(): Promise<{ title: string; url: string; descripti
     .slice(0, MAX_CANDIDATES);
 }
 
-function isAuthorized(req: NextRequest): boolean {
-  const botSecret = req.headers.get("x-bot-secret");
-  if (botSecret === BOT_SECRET) return true;
-  const cronSecret = process.env.CRON_SECRET;
-  const authHeader = req.headers.get("authorization");
-  if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
-  return false;
-}
-
 async function getPersonaUser() {
   const existing = await db.user.findFirst({ where: { email: PERSONA.email } });
   if (existing) return existing;
@@ -104,7 +94,7 @@ async function getPersonaUser() {
 }
 
 async function runBot(req: NextRequest) {
-  if (!isAuthorized(req)) {
+  if (!isBotAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

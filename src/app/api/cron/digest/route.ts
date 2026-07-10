@@ -2,20 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { sendEmail, getUnsubscribeToken, unsubscribeUrl } from "@/lib/email";
 import { digestEmail, type DigestPost } from "@/lib/email-templates";
+import { isBotAuthorized } from "@/lib/bot-auth";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
-
-const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
-
-function isAuthorized(req: NextRequest): boolean {
-  const botSecret = req.headers.get("x-bot-secret");
-  if (botSecret === BOT_SECRET) return true;
-  const cronSecret = process.env.CRON_SECRET;
-  const authHeader = req.headers.get("authorization");
-  if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
-  return false;
-}
 
 const RANGE_LABEL = "esta semana";
 
@@ -44,7 +34,7 @@ async function getTopPosts(limit = 8): Promise<DigestPost[]> {
 }
 
 async function runDigest(req: NextRequest) {
-  if (!isAuthorized(req)) {
+  if (!isBotAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -1,25 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { safeFetch } from "@/lib/ssrf";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  // Solo usuarios autenticados: evita usar el endpoint como proxy SSRF anónimo.
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  }
+
   const url = req.nextUrl.searchParams.get("url");
   if (!url) return NextResponse.json({ error: "Missing url" }, { status: 400 });
 
   try {
-    new URL(url); // valida formato
-  } catch {
-    return NextResponse.json({ error: "Invalid URL" }, { status: 400 });
-  }
-
-  try {
-    const res = await fetch(url, {
+    const res = await safeFetch(url, {
       headers: { "User-Agent": "Mozilla/5.0 (compatible; PonteAlDIA/1.0)" },
-      signal: AbortSignal.timeout(5000),
+      timeoutMs: 5000,
     });
 
     if (!res.ok) throw new Error("Fetch failed");
-    const html = await res.text();
+
+    // Solo procesar HTML; evita descargar binarios grandes u otros content-types.
+    const contentType = res.headers.get("content-type") ?? "";
+    if (!contentType.includes("text/html")) {
+      return NextResponse.json({ error: "No es una página HTML" }, { status: 422 });
+    }
+    const html = (await res.text()).slice(0, 512 * 1024); // límite 512KB
 
     const getMeta = (prop: string) => {
       const m =

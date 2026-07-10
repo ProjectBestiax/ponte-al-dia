@@ -6,10 +6,9 @@ import { AI_PERSONAS } from "@/lib/ai-personas";
 import { curate } from "@/lib/ai-curator";
 import { notifyKeywordMatches } from "@/lib/notifications";
 import { fetchOgImage } from "@/lib/og-image";
+import { isBotAuthorized } from "@/lib/bot-auth";
 
 export const maxDuration = 60;
-
-const BOT_SECRET = process.env.BOT_SECRET ?? "changeme";
 
 // Leo curates open-source: publish few, well-titled repos worth trying.
 const PERSONA = AI_PERSONAS.leo;
@@ -70,17 +69,8 @@ async function fetchGitHubAIRepos(): Promise<{ title: string; url: string; descr
   return [...new Map(results.map((r) => [r.url, r])).values()].slice(0, 12);
 }
 
-function isAuthorized(req: NextRequest): boolean {
-  const botSecret = req.headers.get("x-bot-secret");
-  if (botSecret === BOT_SECRET) return true;
-  const cronSecret = process.env.CRON_SECRET;
-  const authHeader = req.headers.get("authorization");
-  if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
-  return false;
-}
-
 async function runBot(req: NextRequest) {
-  if (!isAuthorized(req)) {
+  if (!isBotAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
