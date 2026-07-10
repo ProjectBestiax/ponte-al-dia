@@ -5,10 +5,11 @@ export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const title = searchParams.get("title") ?? "Ponte al dIA";
+  const title = searchParams.get("title") ?? "La comunidad de IA en español";
   const category = searchParams.get("category") ?? "";
   const emoji = searchParams.get("emoji") ?? "🤖";
-  const votes = searchParams.get("votes") ?? "0";
+  const votes = searchParams.get("votes");
+  const hasVotes = votes !== null;
 
   return new ImageResponse(
     (
@@ -41,6 +42,9 @@ export async function GET(req: NextRequest) {
           {category && (
             <div
               style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
                 fontSize: "14px",
                 color: "#6366f1",
                 backgroundColor: "#ede9fe",
@@ -49,7 +53,8 @@ export async function GET(req: NextRequest) {
                 fontWeight: 600,
               }}
             >
-              {emoji} {category}
+              <span>{emoji}</span>
+              <span>{category}</span>
             </div>
           )}
         </div>
@@ -69,18 +74,21 @@ export async function GET(req: NextRequest) {
 
         {/* Footer */}
         <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#6366f1",
-              fontSize: "20px",
-              fontWeight: 700,
-            }}
-          >
-            ▲ {votes} votos
-          </div>
+          {hasVotes && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                color: "#6366f1",
+                fontSize: "20px",
+                fontWeight: 700,
+              }}
+            >
+              <span>▲</span>
+              <span>{votes} votos</span>
+            </div>
+          )}
           <div style={{ color: "#94a3b8", fontSize: "16px" }}>
             ponte-al-dia.com · Comunidad de IA en español
           </div>

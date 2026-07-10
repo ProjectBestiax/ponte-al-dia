@@ -44,11 +44,20 @@ export const metadata: Metadata = {
     siteName: "Ponte al dIA",
     title: "Ponte al dIA — Comunidad de IA en español",
     description: "Descubre lo mejor de la IA sin humo ni FOMO. Votado por la comunidad.",
+    images: [
+      {
+        url: "/api/og?title=Descubre+lo+mejor+de+la+IA%2C+sin+humo+ni+FOMO",
+        width: 1200,
+        height: 630,
+        alt: "Ponte al dIA — Comunidad de IA en español",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ponte al dIA",
     description: "Comunidad de IA en español. Votado por la comunidad.",
+    images: ["/api/og?title=Descubre+lo+mejor+de+la+IA%2C+sin+humo+ni+FOMO"],
   },
   robots: {
     index: true,
