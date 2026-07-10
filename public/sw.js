@@ -1,0 +1,14 @@
+const CACHE_NAME = "dia-v1";
+
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", () => self.clients.claim());
+
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(() =>
+        caches.match("/offline.html").then((r) => r || fetch(event.request))
+      )
+    );
+  }
+});
