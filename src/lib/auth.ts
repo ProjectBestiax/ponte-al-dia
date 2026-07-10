@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 type AnyPrismaClient = any;
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   adapter: PrismaAdapter(db as AnyPrismaClient),
   providers: [
     Google({
