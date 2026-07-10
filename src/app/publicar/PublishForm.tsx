@@ -151,6 +151,13 @@ export function PublishForm({ categories }: { categories: Category[] }) {
           {fetching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-accent-600 animate-spin" />}
         </div>
 
+        {/* Ayuda: vídeos que se embeben automáticamente */}
+        {!embedDetected && (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-zinc-400">
+            🎬 Si pegas un vídeo de YouTube, TikTok, Instagram o X, se mostrará como reproductor dentro del post.
+          </p>
+        )}
+
         {/* Indicador de embed detectado */}
         {embedDetected && (
           <div className="mt-2 flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-lg text-xs text-orange-700 font-medium">

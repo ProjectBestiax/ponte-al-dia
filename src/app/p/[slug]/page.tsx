@@ -31,16 +31,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: true,
       aiSummary: true,
       voteCount: true,
+      imageUrl: true,
       category: { select: { name: true, emoji: true } },
     },
   });
   if (!post) return { title: "Post no encontrado" };
 
-  const ogUrl = new URL(`${process.env.NEXT_PUBLIC_APP_URL}/api/og`);
-  ogUrl.searchParams.set("title", post.title);
-  ogUrl.searchParams.set("category", post.category.name);
-  ogUrl.searchParams.set("emoji", post.category.emoji);
-  ogUrl.searchParams.set("votes", String(post.voteCount));
+  // Preferimos la imagen real del contenido (scrapeada de la URL o subida);
+  // si no hay, generamos una tarjeta de marca con el título.
+  const ogCard = new URL(`${process.env.NEXT_PUBLIC_APP_URL}/api/og`);
+  ogCard.searchParams.set("title", post.title);
+  ogCard.searchParams.set("category", post.category.name);
+  ogCard.searchParams.set("emoji", post.category.emoji);
+  ogCard.searchParams.set("votes", String(post.voteCount));
+
+  const hasRealImage = !!post.imageUrl && /^https?:\/\//.test(post.imageUrl);
+  const ogImage = hasRealImage ? post.imageUrl! : ogCard.toString();
 
   return {
     title: post.title,
@@ -48,12 +54,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: post.title,
       description: post.description ?? post.aiSummary ?? undefined,
-      images: [{ url: ogUrl.toString(), width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      images: [ogUrl.toString()],
+      images: [ogImage],
     },
   };
 }
