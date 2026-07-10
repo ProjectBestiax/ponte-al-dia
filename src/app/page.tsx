@@ -5,6 +5,7 @@ import { InfinitePostList } from "@/components/posts/InfinitePostList";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
+import { InstallBar } from "@/components/pwa/InstallBar";
 import { CategoryBanner } from "@/components/feed/CategoryBanner";
 import { GamificationBanner } from "@/components/feed/GamificationBanner";
 import { getNewPosts } from "@/lib/posts";
@@ -33,6 +34,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         </aside>
 
         <main style={{ minWidth: 0 }}>
+          <InstallBar />
           <Suspense>
             <MobileCategoryBar activeCategory={categoria} basePath="/" />
           </Suspense>

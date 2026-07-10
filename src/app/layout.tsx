@@ -94,6 +94,7 @@ export default function RootLayout({
             {children}
           </main>
           <footer className="sm:hidden flex flex-wrap justify-center gap-x-4 gap-y-1.5 px-6 py-5 pb-[70px] text-[11px] text-zinc-400" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
+            <a href="/instalar" className="hover:text-zinc-600 transition-colors font-semibold text-zinc-600">Instalar app</a>
             <a href="/sobre-nosotros" className="hover:text-zinc-600 transition-colors">Quiénes somos</a>
             <a href="/contacto" className="hover:text-zinc-600 transition-colors">Contacto</a>
             <a href="/privacidad" className="hover:text-zinc-600 transition-colors">Privacidad</a>
