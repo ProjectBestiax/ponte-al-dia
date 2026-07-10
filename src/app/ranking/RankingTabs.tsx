@@ -32,13 +32,15 @@ export function RankingTabs({
   topUsers,
   currentUserId,
   isLoggedIn,
+  defaultTab,
 }: {
   trending: TrendingPost[];
   topUsers: TopUser[];
   currentUserId?: string | null;
   isLoggedIn: boolean;
+  defaultTab?: View;
 }) {
-  const [view, setView] = useState<View>("tendencias");
+  const [view, setView] = useState<View>(defaultTab ?? "tendencias");
 
   const seg = (active: boolean) =>
     `flex-1 flex items-center justify-center gap-1.5 h-[38px] rounded-[9px] text-[14px] font-semibold transition-colors ${

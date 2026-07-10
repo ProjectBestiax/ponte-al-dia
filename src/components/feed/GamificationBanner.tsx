@@ -32,7 +32,7 @@ export function GamificationBanner() {
           </p>
         </div>
         <Link
-          href="/ranking"
+          href="/ranking?tab=contribuidores"
           className="shrink-0 text-xs font-bold text-amber-800 bg-amber-200 hover:bg-amber-300 px-3 py-1.5 rounded-full transition-colors"
         >
           Ver ranking

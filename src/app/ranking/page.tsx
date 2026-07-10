@@ -10,7 +10,12 @@ export const metadata: Metadata = {
 };
 export const dynamic = "force-dynamic";
 
-export default async function RankingPage() {
+interface PageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function RankingPage({ searchParams }: PageProps) {
+  const { tab } = await searchParams;
   const session = await auth();
   const currentUserId = session?.user?.id ?? null;
 
@@ -71,7 +76,7 @@ export default async function RankingPage() {
         </p>
       </div>
 
-      <RankingTabs trending={trending} topUsers={topUsers} currentUserId={currentUserId} isLoggedIn={!!session} />
+      <RankingTabs trending={trending} topUsers={topUsers} currentUserId={currentUserId} isLoggedIn={!!session} defaultTab={tab === "contribuidores" ? "contribuidores" : undefined} />
 
       {/* How to earn points */}
       <div className="mt-8 border border-zinc-200 rounded-xl p-4">
