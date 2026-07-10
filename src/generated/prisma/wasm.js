@@ -262,6 +262,14 @@ exports.Prisma.AlertKeywordScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ShareScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  platform: 'platform',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FollowScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -337,6 +345,7 @@ exports.Prisma.ModelName = {
   Bookmark: 'Bookmark',
   CommentVote: 'CommentVote',
   AlertKeyword: 'AlertKeyword',
+  Share: 'Share',
   Follow: 'Follow',
   Notification: 'Notification'
 };

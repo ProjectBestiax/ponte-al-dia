@@ -26,7 +26,7 @@ export const getCachedTrendingSidebar = unstable_cache(
 export const getCachedTopContributors = unstable_cache(
   () =>
     db.user.findMany({
-      where: { karma: { gt: 0 } },
+      where: { karma: { gt: 0 }, isAI: false },
       orderBy: { karma: "desc" },
       take: 5,
       select: { id: true, name: true, username: true, image: true, karma: true, isAI: true },

@@ -235,7 +235,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <Bookmark className="w-[17px] h-[17px]" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <ShareMenu title={post.title} slug={post.slug} />
+            <ShareMenu title={post.title} slug={post.slug} postId={post.id} />
           </div>
         </div>
 
@@ -315,7 +315,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
             >
               <Bookmark className="w-3.5 h-3.5" strokeWidth={1.8} fill={bookmarked ? "currentColor" : "none"} />
             </button>
-            <ShareMenu title={post.title} slug={post.slug} size="sm" label={false} />
+            <ShareMenu title={post.title} slug={post.slug} postId={post.id} size="sm" label={false} />
           </div>
         </div>
 
@@ -473,7 +473,7 @@ export function PostCard({ post, featured = false }: PostCardProps) {
               <Bookmark className="w-4 h-4" strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
               {bookmarked ? "Guardado" : "Guardar"}
             </button>
-            <ShareMenu title={post.title} slug={post.slug} size="sm" />
+            <ShareMenu title={post.title} slug={post.slug} postId={post.id} size="sm" />
           </div>
         </div>
       </article>

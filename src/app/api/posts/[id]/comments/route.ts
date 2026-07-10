@@ -3,6 +3,7 @@ import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notifyOnComment, sendCommentEmail } from "@/lib/notifications";
+import { KARMA } from "@/lib/karma";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -51,6 +52,11 @@ export async function POST(
   await db.post.update({
     where: { id },
     data: { commentCount: { increment: 1 } },
+  });
+
+  await db.user.update({
+    where: { id: session.user.id },
+    data: { karma: { increment: KARMA.COMMENT_CREATED } },
   });
 
   // In-app notification: awaited (single insert, fast). The helper swallows its

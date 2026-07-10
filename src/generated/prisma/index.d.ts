@@ -84,6 +84,11 @@ export type CommentVote = $Result.DefaultSelection<Prisma.$CommentVotePayload>
  */
 export type AlertKeyword = $Result.DefaultSelection<Prisma.$AlertKeywordPayload>
 /**
+ * Model Share
+ * 
+ */
+export type Share = $Result.DefaultSelection<Prisma.$SharePayload>
+/**
  * Model Follow
  * 
  */
@@ -417,6 +422,16 @@ export class PrismaClient<
     * ```
     */
   get alertKeyword(): Prisma.AlertKeywordDelegate<ExtArgs>;
+
+  /**
+   * `prisma.share`: Exposes CRUD operations for the **Share** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shares
+    * const shares = await prisma.share.findMany()
+    * ```
+    */
+  get share(): Prisma.ShareDelegate<ExtArgs>;
 
   /**
    * `prisma.follow`: Exposes CRUD operations for the **Follow** model.
@@ -892,6 +907,7 @@ export namespace Prisma {
     Bookmark: 'Bookmark',
     CommentVote: 'CommentVote',
     AlertKeyword: 'AlertKeyword',
+    Share: 'Share',
     Follow: 'Follow',
     Notification: 'Notification'
   };
@@ -909,7 +925,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "follow" | "notification"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "share" | "follow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1893,6 +1909,76 @@ export namespace Prisma {
           }
         }
       }
+      Share: {
+        payload: Prisma.$SharePayload<ExtArgs>
+        fields: Prisma.ShareFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShareFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShareFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          findFirst: {
+            args: Prisma.ShareFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShareFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          findMany: {
+            args: Prisma.ShareFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>[]
+          }
+          create: {
+            args: Prisma.ShareCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          createMany: {
+            args: Prisma.ShareCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShareCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>[]
+          }
+          delete: {
+            args: Prisma.ShareDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          update: {
+            args: Prisma.ShareUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          deleteMany: {
+            args: Prisma.ShareDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShareUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ShareUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharePayload>
+          }
+          aggregate: {
+            args: Prisma.ShareAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShare>
+          }
+          groupBy: {
+            args: Prisma.ShareGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShareGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShareCountArgs<ExtArgs>
+            result: $Utils.Optional<ShareCountAggregateOutputType> | number
+          }
+        }
+      }
       Follow: {
         payload: Prisma.$FollowPayload<ExtArgs>
         fields: Prisma.FollowFieldRefs
@@ -2207,6 +2293,7 @@ export namespace Prisma {
     following: number
     followers: number
     alertKeywords: number
+    shares: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2223,6 +2310,7 @@ export namespace Prisma {
     following?: boolean | UserCountOutputTypeCountFollowingArgs
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
     alertKeywords?: boolean | UserCountOutputTypeCountAlertKeywordsArgs
+    shares?: boolean | UserCountOutputTypeCountSharesArgs
   }
 
   // Custom InputTypes
@@ -2327,6 +2415,13 @@ export namespace Prisma {
     where?: AlertKeywordWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShareWhereInput
+  }
+
 
   /**
    * Count Type CategoryCountOutputType
@@ -2368,6 +2463,7 @@ export namespace Prisma {
     comments: number
     tags: number
     bookmarks: number
+    shares: number
     notifications: number
   }
 
@@ -2376,6 +2472,7 @@ export namespace Prisma {
     comments?: boolean | PostCountOutputTypeCountCommentsArgs
     tags?: boolean | PostCountOutputTypeCountTagsArgs
     bookmarks?: boolean | PostCountOutputTypeCountBookmarksArgs
+    shares?: boolean | PostCountOutputTypeCountSharesArgs
     notifications?: boolean | PostCountOutputTypeCountNotificationsArgs
   }
 
@@ -2416,6 +2513,13 @@ export namespace Prisma {
    */
   export type PostCountOutputTypeCountBookmarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookmarkWhereInput
+  }
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShareWhereInput
   }
 
   /**
@@ -2833,6 +2937,7 @@ export namespace Prisma {
     following?: boolean | User$followingArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
     alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
+    shares?: boolean | User$sharesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2894,6 +2999,7 @@ export namespace Prisma {
     following?: boolean | User$followingArgs<ExtArgs>
     followers?: boolean | User$followersArgs<ExtArgs>
     alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
+    shares?: boolean | User$sharesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2914,6 +3020,7 @@ export namespace Prisma {
       following: Prisma.$FollowPayload<ExtArgs>[]
       followers: Prisma.$FollowPayload<ExtArgs>[]
       alertKeywords: Prisma.$AlertKeywordPayload<ExtArgs>[]
+      shares: Prisma.$SharePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3312,6 +3419,7 @@ export namespace Prisma {
     following<T extends User$followingArgs<ExtArgs> = {}>(args?: Subset<T, User$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany"> | Null>
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany"> | Null>
     alertKeywords<T extends User$alertKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, User$alertKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findMany"> | Null>
+    shares<T extends User$sharesArgs<ExtArgs> = {}>(args?: Subset<T, User$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3931,6 +4039,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AlertKeywordScalarFieldEnum | AlertKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * User.shares
+   */
+  export type User$sharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    where?: ShareWhereInput
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    cursor?: ShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
   }
 
   /**
@@ -8084,6 +8212,7 @@ export namespace Prisma {
     comments?: boolean | Post$commentsArgs<ExtArgs>
     tags?: boolean | Post$tagsArgs<ExtArgs>
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs>
+    shares?: boolean | Post$sharesArgs<ExtArgs>
     notifications?: boolean | Post$notificationsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -8141,6 +8270,7 @@ export namespace Prisma {
     comments?: boolean | Post$commentsArgs<ExtArgs>
     tags?: boolean | Post$tagsArgs<ExtArgs>
     bookmarks?: boolean | Post$bookmarksArgs<ExtArgs>
+    shares?: boolean | Post$sharesArgs<ExtArgs>
     notifications?: boolean | Post$notificationsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -8158,6 +8288,7 @@ export namespace Prisma {
       comments: Prisma.$CommentPayload<ExtArgs>[]
       tags: Prisma.$PostTagPayload<ExtArgs>[]
       bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
+      shares: Prisma.$SharePayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8550,6 +8681,7 @@ export namespace Prisma {
     comments<T extends Post$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany"> | Null>
     tags<T extends Post$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Post$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany"> | Null>
     bookmarks<T extends Post$bookmarksArgs<ExtArgs> = {}>(args?: Subset<T, Post$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany"> | Null>
+    shares<T extends Post$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Post$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany"> | Null>
     notifications<T extends Post$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Post$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8994,6 +9126,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookmarkScalarFieldEnum | BookmarkScalarFieldEnum[]
+  }
+
+  /**
+   * Post.shares
+   */
+  export type Post$sharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    where?: ShareWhereInput
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    cursor?: ShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
   }
 
   /**
@@ -16696,6 +16848,945 @@ export namespace Prisma {
 
 
   /**
+   * Model Share
+   */
+
+  export type AggregateShare = {
+    _count: ShareCountAggregateOutputType | null
+    _min: ShareMinAggregateOutputType | null
+    _max: ShareMaxAggregateOutputType | null
+  }
+
+  export type ShareMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    postId: string | null
+    platform: string | null
+    createdAt: Date | null
+  }
+
+  export type ShareMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    postId: string | null
+    platform: string | null
+    createdAt: Date | null
+  }
+
+  export type ShareCountAggregateOutputType = {
+    id: number
+    userId: number
+    postId: number
+    platform: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ShareMinAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    platform?: true
+    createdAt?: true
+  }
+
+  export type ShareMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    platform?: true
+    createdAt?: true
+  }
+
+  export type ShareCountAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    platform?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ShareAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Share to aggregate.
+     */
+    where?: ShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shares to fetch.
+     */
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Shares
+    **/
+    _count?: true | ShareCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShareMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShareMaxAggregateInputType
+  }
+
+  export type GetShareAggregateType<T extends ShareAggregateArgs> = {
+        [P in keyof T & keyof AggregateShare]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShare[P]>
+      : GetScalarType<T[P], AggregateShare[P]>
+  }
+
+
+
+
+  export type ShareGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShareWhereInput
+    orderBy?: ShareOrderByWithAggregationInput | ShareOrderByWithAggregationInput[]
+    by: ShareScalarFieldEnum[] | ShareScalarFieldEnum
+    having?: ShareScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShareCountAggregateInputType | true
+    _min?: ShareMinAggregateInputType
+    _max?: ShareMaxAggregateInputType
+  }
+
+  export type ShareGroupByOutputType = {
+    id: string
+    userId: string
+    postId: string
+    platform: string
+    createdAt: Date
+    _count: ShareCountAggregateOutputType | null
+    _min: ShareMinAggregateOutputType | null
+    _max: ShareMaxAggregateOutputType | null
+  }
+
+  type GetShareGroupByPayload<T extends ShareGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShareGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShareGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShareGroupByOutputType[P]>
+            : GetScalarType<T[P], ShareGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShareSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    platform?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["share"]>
+
+  export type ShareSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    platform?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["share"]>
+
+  export type ShareSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    platform?: boolean
+    createdAt?: boolean
+  }
+
+  export type ShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+  export type ShareIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+
+  export type $SharePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Share"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      postId: string
+      platform: string
+      createdAt: Date
+    }, ExtArgs["result"]["share"]>
+    composites: {}
+  }
+
+  type ShareGetPayload<S extends boolean | null | undefined | ShareDefaultArgs> = $Result.GetResult<Prisma.$SharePayload, S>
+
+  type ShareCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShareFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShareCountAggregateInputType | true
+    }
+
+  export interface ShareDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Share'], meta: { name: 'Share' } }
+    /**
+     * Find zero or one Share that matches the filter.
+     * @param {ShareFindUniqueArgs} args - Arguments to find a Share
+     * @example
+     * // Get one Share
+     * const share = await prisma.share.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShareFindUniqueArgs>(args: SelectSubset<T, ShareFindUniqueArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Share that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShareFindUniqueOrThrowArgs} args - Arguments to find a Share
+     * @example
+     * // Get one Share
+     * const share = await prisma.share.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShareFindUniqueOrThrowArgs>(args: SelectSubset<T, ShareFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Share that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareFindFirstArgs} args - Arguments to find a Share
+     * @example
+     * // Get one Share
+     * const share = await prisma.share.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShareFindFirstArgs>(args?: SelectSubset<T, ShareFindFirstArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Share that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareFindFirstOrThrowArgs} args - Arguments to find a Share
+     * @example
+     * // Get one Share
+     * const share = await prisma.share.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShareFindFirstOrThrowArgs>(args?: SelectSubset<T, ShareFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Shares that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shares
+     * const shares = await prisma.share.findMany()
+     * 
+     * // Get first 10 Shares
+     * const shares = await prisma.share.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shareWithIdOnly = await prisma.share.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShareFindManyArgs>(args?: SelectSubset<T, ShareFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Share.
+     * @param {ShareCreateArgs} args - Arguments to create a Share.
+     * @example
+     * // Create one Share
+     * const Share = await prisma.share.create({
+     *   data: {
+     *     // ... data to create a Share
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShareCreateArgs>(args: SelectSubset<T, ShareCreateArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Shares.
+     * @param {ShareCreateManyArgs} args - Arguments to create many Shares.
+     * @example
+     * // Create many Shares
+     * const share = await prisma.share.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShareCreateManyArgs>(args?: SelectSubset<T, ShareCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shares and returns the data saved in the database.
+     * @param {ShareCreateManyAndReturnArgs} args - Arguments to create many Shares.
+     * @example
+     * // Create many Shares
+     * const share = await prisma.share.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shares and only return the `id`
+     * const shareWithIdOnly = await prisma.share.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShareCreateManyAndReturnArgs>(args?: SelectSubset<T, ShareCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Share.
+     * @param {ShareDeleteArgs} args - Arguments to delete one Share.
+     * @example
+     * // Delete one Share
+     * const Share = await prisma.share.delete({
+     *   where: {
+     *     // ... filter to delete one Share
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShareDeleteArgs>(args: SelectSubset<T, ShareDeleteArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Share.
+     * @param {ShareUpdateArgs} args - Arguments to update one Share.
+     * @example
+     * // Update one Share
+     * const share = await prisma.share.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShareUpdateArgs>(args: SelectSubset<T, ShareUpdateArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Shares.
+     * @param {ShareDeleteManyArgs} args - Arguments to filter Shares to delete.
+     * @example
+     * // Delete a few Shares
+     * const { count } = await prisma.share.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShareDeleteManyArgs>(args?: SelectSubset<T, ShareDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shares
+     * const share = await prisma.share.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShareUpdateManyArgs>(args: SelectSubset<T, ShareUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Share.
+     * @param {ShareUpsertArgs} args - Arguments to update or create a Share.
+     * @example
+     * // Update or create a Share
+     * const share = await prisma.share.upsert({
+     *   create: {
+     *     // ... data to create a Share
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Share we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShareUpsertArgs>(args: SelectSubset<T, ShareUpsertArgs<ExtArgs>>): Prisma__ShareClient<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Shares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareCountArgs} args - Arguments to filter Shares to count.
+     * @example
+     * // Count the number of Shares
+     * const count = await prisma.share.count({
+     *   where: {
+     *     // ... the filter for the Shares we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShareCountArgs>(
+      args?: Subset<T, ShareCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShareCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Share.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShareAggregateArgs>(args: Subset<T, ShareAggregateArgs>): Prisma.PrismaPromise<GetShareAggregateType<T>>
+
+    /**
+     * Group by Share.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShareGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShareGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShareGroupByArgs['orderBy'] }
+        : { orderBy?: ShareGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShareGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShareGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Share model
+   */
+  readonly fields: ShareFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Share.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShareClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Share model
+   */ 
+  interface ShareFieldRefs {
+    readonly id: FieldRef<"Share", 'String'>
+    readonly userId: FieldRef<"Share", 'String'>
+    readonly postId: FieldRef<"Share", 'String'>
+    readonly platform: FieldRef<"Share", 'String'>
+    readonly createdAt: FieldRef<"Share", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Share findUnique
+   */
+  export type ShareFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter, which Share to fetch.
+     */
+    where: ShareWhereUniqueInput
+  }
+
+  /**
+   * Share findUniqueOrThrow
+   */
+  export type ShareFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter, which Share to fetch.
+     */
+    where: ShareWhereUniqueInput
+  }
+
+  /**
+   * Share findFirst
+   */
+  export type ShareFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter, which Share to fetch.
+     */
+    where?: ShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shares to fetch.
+     */
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shares.
+     */
+    cursor?: ShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shares.
+     */
+    distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
+  }
+
+  /**
+   * Share findFirstOrThrow
+   */
+  export type ShareFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter, which Share to fetch.
+     */
+    where?: ShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shares to fetch.
+     */
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shares.
+     */
+    cursor?: ShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shares.
+     */
+    distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
+  }
+
+  /**
+   * Share findMany
+   */
+  export type ShareFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter, which Shares to fetch.
+     */
+    where?: ShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shares to fetch.
+     */
+    orderBy?: ShareOrderByWithRelationInput | ShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Shares.
+     */
+    cursor?: ShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shares.
+     */
+    skip?: number
+    distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
+  }
+
+  /**
+   * Share create
+   */
+  export type ShareCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Share.
+     */
+    data: XOR<ShareCreateInput, ShareUncheckedCreateInput>
+  }
+
+  /**
+   * Share createMany
+   */
+  export type ShareCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Shares.
+     */
+    data: ShareCreateManyInput | ShareCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Share createManyAndReturn
+   */
+  export type ShareCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Shares.
+     */
+    data: ShareCreateManyInput | ShareCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Share update
+   */
+  export type ShareUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Share.
+     */
+    data: XOR<ShareUpdateInput, ShareUncheckedUpdateInput>
+    /**
+     * Choose, which Share to update.
+     */
+    where: ShareWhereUniqueInput
+  }
+
+  /**
+   * Share updateMany
+   */
+  export type ShareUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Shares.
+     */
+    data: XOR<ShareUpdateManyMutationInput, ShareUncheckedUpdateManyInput>
+    /**
+     * Filter which Shares to update
+     */
+    where?: ShareWhereInput
+  }
+
+  /**
+   * Share upsert
+   */
+  export type ShareUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Share to update in case it exists.
+     */
+    where: ShareWhereUniqueInput
+    /**
+     * In case the Share found by the `where` argument doesn't exist, create a new Share with this data.
+     */
+    create: XOR<ShareCreateInput, ShareUncheckedCreateInput>
+    /**
+     * In case the Share was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShareUpdateInput, ShareUncheckedUpdateInput>
+  }
+
+  /**
+   * Share delete
+   */
+  export type ShareDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+    /**
+     * Filter which Share to delete.
+     */
+    where: ShareWhereUniqueInput
+  }
+
+  /**
+   * Share deleteMany
+   */
+  export type ShareDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shares to delete
+     */
+    where?: ShareWhereInput
+  }
+
+  /**
+   * Share without action
+   */
+  export type ShareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Share
+     */
+    select?: ShareSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShareInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Follow
    */
 
@@ -18829,6 +19920,17 @@ export namespace Prisma {
   export type AlertKeywordScalarFieldEnum = (typeof AlertKeywordScalarFieldEnum)[keyof typeof AlertKeywordScalarFieldEnum]
 
 
+  export const ShareScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    postId: 'postId',
+    platform: 'platform',
+    createdAt: 'createdAt'
+  };
+
+  export type ShareScalarFieldEnum = (typeof ShareScalarFieldEnum)[keyof typeof ShareScalarFieldEnum]
+
+
   export const FollowScalarFieldEnum: {
     id: 'id',
     followerId: 'followerId',
@@ -19040,6 +20142,7 @@ export namespace Prisma {
     following?: FollowListRelationFilter
     followers?: FollowListRelationFilter
     alertKeywords?: AlertKeywordListRelationFilter
+    shares?: ShareListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19075,6 +20178,7 @@ export namespace Prisma {
     following?: FollowOrderByRelationAggregateInput
     followers?: FollowOrderByRelationAggregateInput
     alertKeywords?: AlertKeywordOrderByRelationAggregateInput
+    shares?: ShareOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19113,6 +20217,7 @@ export namespace Prisma {
     following?: FollowListRelationFilter
     followers?: FollowListRelationFilter
     alertKeywords?: AlertKeywordListRelationFilter
+    shares?: ShareListRelationFilter
   }, "id" | "email" | "username" | "unsubscribeToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -19439,6 +20544,7 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     tags?: PostTagListRelationFilter
     bookmarks?: BookmarkListRelationFilter
+    shares?: ShareListRelationFilter
     notifications?: NotificationListRelationFilter
   }
 
@@ -19468,6 +20574,7 @@ export namespace Prisma {
     comments?: CommentOrderByRelationAggregateInput
     tags?: PostTagOrderByRelationAggregateInput
     bookmarks?: BookmarkOrderByRelationAggregateInput
+    shares?: ShareOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
   }
 
@@ -19500,6 +20607,7 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     tags?: PostTagListRelationFilter
     bookmarks?: BookmarkListRelationFilter
+    shares?: ShareListRelationFilter
     notifications?: NotificationListRelationFilter
   }, "id" | "slug">
 
@@ -20017,6 +21125,65 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AlertKeyword"> | Date | string
   }
 
+  export type ShareWhereInput = {
+    AND?: ShareWhereInput | ShareWhereInput[]
+    OR?: ShareWhereInput[]
+    NOT?: ShareWhereInput | ShareWhereInput[]
+    id?: StringFilter<"Share"> | string
+    userId?: StringFilter<"Share"> | string
+    postId?: StringFilter<"Share"> | string
+    platform?: StringFilter<"Share"> | string
+    createdAt?: DateTimeFilter<"Share"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    post?: XOR<PostRelationFilter, PostWhereInput>
+  }
+
+  export type ShareOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
+  }
+
+  export type ShareWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_postId_platform?: ShareUserIdPostIdPlatformCompoundUniqueInput
+    AND?: ShareWhereInput | ShareWhereInput[]
+    OR?: ShareWhereInput[]
+    NOT?: ShareWhereInput | ShareWhereInput[]
+    userId?: StringFilter<"Share"> | string
+    postId?: StringFilter<"Share"> | string
+    platform?: StringFilter<"Share"> | string
+    createdAt?: DateTimeFilter<"Share"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    post?: XOR<PostRelationFilter, PostWhereInput>
+  }, "id" | "userId_postId_platform">
+
+  export type ShareOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    _count?: ShareCountOrderByAggregateInput
+    _max?: ShareMaxOrderByAggregateInput
+    _min?: ShareMinOrderByAggregateInput
+  }
+
+  export type ShareScalarWhereWithAggregatesInput = {
+    AND?: ShareScalarWhereWithAggregatesInput | ShareScalarWhereWithAggregatesInput[]
+    OR?: ShareScalarWhereWithAggregatesInput[]
+    NOT?: ShareScalarWhereWithAggregatesInput | ShareScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Share"> | string
+    userId?: StringWithAggregatesFilter<"Share"> | string
+    postId?: StringWithAggregatesFilter<"Share"> | string
+    platform?: StringWithAggregatesFilter<"Share"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Share"> | Date | string
+  }
+
   export type FollowWhereInput = {
     AND?: FollowWhereInput | FollowWhereInput[]
     OR?: FollowWhereInput[]
@@ -20180,6 +21347,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20215,6 +21383,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20250,6 +21419,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20285,6 +21455,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20631,6 +21802,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -20658,6 +21830,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -20685,6 +21858,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -20712,6 +21886,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -21202,6 +22377,60 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShareCreateInput = {
+    id?: string
+    platform: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSharesInput
+    post: PostCreateNestedOneWithoutSharesInput
+  }
+
+  export type ShareUncheckedCreateInput = {
+    id?: string
+    userId: string
+    postId: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type ShareUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSharesNestedInput
+    post?: PostUpdateOneRequiredWithoutSharesNestedInput
+  }
+
+  export type ShareUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShareCreateManyInput = {
+    id?: string
+    userId: string
+    postId: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type ShareUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShareUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FollowCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -21464,6 +22693,12 @@ export namespace Prisma {
     none?: AlertKeywordWhereInput
   }
 
+  export type ShareListRelationFilter = {
+    every?: ShareWhereInput
+    some?: ShareWhereInput
+    none?: ShareWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -21510,6 +22745,10 @@ export namespace Prisma {
   }
 
   export type AlertKeywordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShareOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22262,6 +23501,36 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type ShareUserIdPostIdPlatformCompoundUniqueInput = {
+    userId: string
+    postId: string
+    platform: string
+  }
+
+  export type ShareCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShareMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShareMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
     followerId: string
     followingId: string
@@ -22439,6 +23708,13 @@ export namespace Prisma {
     connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
   }
 
+  export type ShareCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput> | ShareCreateWithoutUserInput[] | ShareUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutUserInput | ShareCreateOrConnectWithoutUserInput[]
+    createMany?: ShareCreateManyUserInputEnvelope
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -22528,6 +23804,13 @@ export namespace Prisma {
     connectOrCreate?: AlertKeywordCreateOrConnectWithoutUserInput | AlertKeywordCreateOrConnectWithoutUserInput[]
     createMany?: AlertKeywordCreateManyUserInputEnvelope
     connect?: AlertKeywordWhereUniqueInput | AlertKeywordWhereUniqueInput[]
+  }
+
+  export type ShareUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput> | ShareCreateWithoutUserInput[] | ShareUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutUserInput | ShareCreateOrConnectWithoutUserInput[]
+    createMany?: ShareCreateManyUserInputEnvelope
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -22744,6 +24027,20 @@ export namespace Prisma {
     deleteMany?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
   }
 
+  export type ShareUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput> | ShareCreateWithoutUserInput[] | ShareUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutUserInput | ShareCreateOrConnectWithoutUserInput[]
+    upsert?: ShareUpsertWithWhereUniqueWithoutUserInput | ShareUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShareCreateManyUserInputEnvelope
+    set?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    disconnect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    delete?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    update?: ShareUpdateWithWhereUniqueWithoutUserInput | ShareUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShareUpdateManyWithWhereWithoutUserInput | ShareUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -22926,6 +24223,20 @@ export namespace Prisma {
     deleteMany?: AlertKeywordScalarWhereInput | AlertKeywordScalarWhereInput[]
   }
 
+  export type ShareUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput> | ShareCreateWithoutUserInput[] | ShareUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutUserInput | ShareCreateOrConnectWithoutUserInput[]
+    upsert?: ShareUpsertWithWhereUniqueWithoutUserInput | ShareUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShareCreateManyUserInputEnvelope
+    set?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    disconnect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    delete?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    update?: ShareUpdateWithWhereUniqueWithoutUserInput | ShareUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShareUpdateManyWithWhereWithoutUserInput | ShareUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -23044,6 +24355,13 @@ export namespace Prisma {
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[]
   }
 
+  export type ShareCreateNestedManyWithoutPostInput = {
+    create?: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput> | ShareCreateWithoutPostInput[] | ShareUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutPostInput | ShareCreateOrConnectWithoutPostInput[]
+    createMany?: ShareCreateManyPostInputEnvelope
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+  }
+
   export type NotificationCreateNestedManyWithoutPostInput = {
     create?: XOR<NotificationCreateWithoutPostInput, NotificationUncheckedCreateWithoutPostInput> | NotificationCreateWithoutPostInput[] | NotificationUncheckedCreateWithoutPostInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutPostInput | NotificationCreateOrConnectWithoutPostInput[]
@@ -23077,6 +24395,13 @@ export namespace Prisma {
     connectOrCreate?: BookmarkCreateOrConnectWithoutPostInput | BookmarkCreateOrConnectWithoutPostInput[]
     createMany?: BookmarkCreateManyPostInputEnvelope
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[]
+  }
+
+  export type ShareUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput> | ShareCreateWithoutPostInput[] | ShareUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutPostInput | ShareCreateOrConnectWithoutPostInput[]
+    createMany?: ShareCreateManyPostInputEnvelope
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutPostInput = {
@@ -23170,6 +24495,20 @@ export namespace Prisma {
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[]
   }
 
+  export type ShareUpdateManyWithoutPostNestedInput = {
+    create?: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput> | ShareCreateWithoutPostInput[] | ShareUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutPostInput | ShareCreateOrConnectWithoutPostInput[]
+    upsert?: ShareUpsertWithWhereUniqueWithoutPostInput | ShareUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: ShareCreateManyPostInputEnvelope
+    set?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    disconnect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    delete?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    update?: ShareUpdateWithWhereUniqueWithoutPostInput | ShareUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: ShareUpdateManyWithWhereWithoutPostInput | ShareUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
+  }
+
   export type NotificationUpdateManyWithoutPostNestedInput = {
     create?: XOR<NotificationCreateWithoutPostInput, NotificationUncheckedCreateWithoutPostInput> | NotificationCreateWithoutPostInput[] | NotificationUncheckedCreateWithoutPostInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutPostInput | NotificationCreateOrConnectWithoutPostInput[]
@@ -23238,6 +24577,20 @@ export namespace Prisma {
     update?: BookmarkUpdateWithWhereUniqueWithoutPostInput | BookmarkUpdateWithWhereUniqueWithoutPostInput[]
     updateMany?: BookmarkUpdateManyWithWhereWithoutPostInput | BookmarkUpdateManyWithWhereWithoutPostInput[]
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[]
+  }
+
+  export type ShareUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput> | ShareCreateWithoutPostInput[] | ShareUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: ShareCreateOrConnectWithoutPostInput | ShareCreateOrConnectWithoutPostInput[]
+    upsert?: ShareUpsertWithWhereUniqueWithoutPostInput | ShareUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: ShareCreateManyPostInputEnvelope
+    set?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    disconnect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    delete?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+    update?: ShareUpdateWithWhereUniqueWithoutPostInput | ShareUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: ShareUpdateManyWithWhereWithoutPostInput | ShareUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
   }
 
   export type NotificationUncheckedUpdateManyWithoutPostNestedInput = {
@@ -23622,6 +24975,34 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAlertKeywordsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAlertKeywordsInput, UserUpdateWithoutAlertKeywordsInput>, UserUncheckedUpdateWithoutAlertKeywordsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSharesInput = {
+    create?: XOR<UserCreateWithoutSharesInput, UserUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSharesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostCreateNestedOneWithoutSharesInput = {
+    create?: XOR<PostCreateWithoutSharesInput, PostUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutSharesInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSharesNestedInput = {
+    create?: XOR<UserCreateWithoutSharesInput, UserUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSharesInput
+    upsert?: UserUpsertWithoutSharesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSharesInput, UserUpdateWithoutSharesInput>, UserUncheckedUpdateWithoutSharesInput>
+  }
+
+  export type PostUpdateOneRequiredWithoutSharesNestedInput = {
+    create?: XOR<PostCreateWithoutSharesInput, PostUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutSharesInput
+    upsert?: PostUpsertWithoutSharesInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutSharesInput, PostUpdateWithoutSharesInput>, PostUncheckedUpdateWithoutSharesInput>
   }
 
   export type UserCreateNestedOneWithoutFollowingInput = {
@@ -24066,6 +25447,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -24092,6 +25474,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -24358,6 +25741,30 @@ export namespace Prisma {
 
   export type AlertKeywordCreateManyUserInputEnvelope = {
     data: AlertKeywordCreateManyUserInput | AlertKeywordCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShareCreateWithoutUserInput = {
+    id?: string
+    platform: string
+    createdAt?: Date | string
+    post: PostCreateNestedOneWithoutSharesInput
+  }
+
+  export type ShareUncheckedCreateWithoutUserInput = {
+    id?: string
+    postId: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type ShareCreateOrConnectWithoutUserInput = {
+    where: ShareWhereUniqueInput
+    create: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShareCreateManyUserInputEnvelope = {
+    data: ShareCreateManyUserInput | ShareCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -24711,6 +26118,33 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AlertKeyword"> | Date | string
   }
 
+  export type ShareUpsertWithWhereUniqueWithoutUserInput = {
+    where: ShareWhereUniqueInput
+    update: XOR<ShareUpdateWithoutUserInput, ShareUncheckedUpdateWithoutUserInput>
+    create: XOR<ShareCreateWithoutUserInput, ShareUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShareUpdateWithWhereUniqueWithoutUserInput = {
+    where: ShareWhereUniqueInput
+    data: XOR<ShareUpdateWithoutUserInput, ShareUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ShareUpdateManyWithWhereWithoutUserInput = {
+    where: ShareScalarWhereInput
+    data: XOR<ShareUpdateManyMutationInput, ShareUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ShareScalarWhereInput = {
+    AND?: ShareScalarWhereInput | ShareScalarWhereInput[]
+    OR?: ShareScalarWhereInput[]
+    NOT?: ShareScalarWhereInput | ShareScalarWhereInput[]
+    id?: StringFilter<"Share"> | string
+    userId?: StringFilter<"Share"> | string
+    postId?: StringFilter<"Share"> | string
+    platform?: StringFilter<"Share"> | string
+    createdAt?: DateTimeFilter<"Share"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -24743,6 +26177,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -24777,6 +26212,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -24827,6 +26263,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -24861,6 +26298,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -24895,6 +26333,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -24929,6 +26368,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -24979,6 +26419,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -25013,6 +26454,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCreateWithoutCategoryInput = {
@@ -25038,6 +26480,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -25064,6 +26507,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -25125,6 +26569,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -25159,6 +26604,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -25291,6 +26737,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ShareCreateWithoutPostInput = {
+    id?: string
+    platform: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSharesInput
+  }
+
+  export type ShareUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type ShareCreateOrConnectWithoutPostInput = {
+    where: ShareWhereUniqueInput
+    create: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput>
+  }
+
+  export type ShareCreateManyPostInputEnvelope = {
+    data: ShareCreateManyPostInput | ShareCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
   export type NotificationCreateWithoutPostInput = {
     id?: string
     type: $Enums.NotificationType
@@ -25364,6 +26834,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -25398,6 +26869,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutPostsInput = {
@@ -25503,6 +26975,22 @@ export namespace Prisma {
     data: XOR<BookmarkUpdateManyMutationInput, BookmarkUncheckedUpdateManyWithoutPostInput>
   }
 
+  export type ShareUpsertWithWhereUniqueWithoutPostInput = {
+    where: ShareWhereUniqueInput
+    update: XOR<ShareUpdateWithoutPostInput, ShareUncheckedUpdateWithoutPostInput>
+    create: XOR<ShareCreateWithoutPostInput, ShareUncheckedCreateWithoutPostInput>
+  }
+
+  export type ShareUpdateWithWhereUniqueWithoutPostInput = {
+    where: ShareWhereUniqueInput
+    data: XOR<ShareUpdateWithoutPostInput, ShareUncheckedUpdateWithoutPostInput>
+  }
+
+  export type ShareUpdateManyWithWhereWithoutPostInput = {
+    where: ShareScalarWhereInput
+    data: XOR<ShareUpdateManyMutationInput, ShareUncheckedUpdateManyWithoutPostInput>
+  }
+
   export type NotificationUpsertWithWhereUniqueWithoutPostInput = {
     where: NotificationWhereUniqueInput
     update: XOR<NotificationUpdateWithoutPostInput, NotificationUncheckedUpdateWithoutPostInput>
@@ -25576,6 +27064,7 @@ export namespace Prisma {
     votes?: VoteCreateNestedManyWithoutPostInput
     comments?: CommentCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -25602,6 +27091,7 @@ export namespace Prisma {
     votes?: VoteUncheckedCreateNestedManyWithoutPostInput
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -25661,6 +27151,7 @@ export namespace Prisma {
     votes?: VoteUpdateManyWithoutPostNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -25687,6 +27178,7 @@ export namespace Prisma {
     votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -25745,6 +27237,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVotesInput = {
@@ -25779,6 +27272,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVotesInput = {
@@ -25809,6 +27303,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -25835,6 +27330,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -25886,6 +27382,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotesInput = {
@@ -25920,6 +27417,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutVotesInput = {
@@ -25956,6 +27454,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -25982,6 +27481,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -26017,6 +27517,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -26051,6 +27552,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -26081,6 +27583,7 @@ export namespace Prisma {
     votes?: VoteCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -26107,6 +27610,7 @@ export namespace Prisma {
     votes?: VoteUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -26271,6 +27775,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -26305,6 +27810,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -26341,6 +27847,7 @@ export namespace Prisma {
     votes?: VoteUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -26367,6 +27874,7 @@ export namespace Prisma {
     votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -26487,6 +27995,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -26521,6 +28030,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -26602,6 +28112,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -26636,6 +28147,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutReactionsInput = {
@@ -26707,6 +28219,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -26741,6 +28254,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -26771,6 +28285,7 @@ export namespace Prisma {
     votes?: VoteCreateNestedManyWithoutPostInput
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
     notifications?: NotificationCreateNestedManyWithoutPostInput
   }
 
@@ -26797,6 +28312,7 @@ export namespace Prisma {
     votes?: VoteUncheckedCreateNestedManyWithoutPostInput
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -26848,6 +28364,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -26882,6 +28399,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutBookmarksInput = {
@@ -26918,6 +28436,7 @@ export namespace Prisma {
     votes?: VoteUpdateManyWithoutPostNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -26944,6 +28463,7 @@ export namespace Prisma {
     votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -26979,6 +28499,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentVotesInput = {
@@ -27013,6 +28534,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentVotesInput = {
@@ -27094,6 +28616,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentVotesInput = {
@@ -27128,6 +28651,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutVotesInput = {
@@ -27199,6 +28723,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAlertKeywordsInput = {
@@ -27233,6 +28758,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAlertKeywordsInput = {
@@ -27283,6 +28809,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAlertKeywordsInput = {
@@ -27317,6 +28844,287 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSharesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationCreateNestedManyWithoutActorInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSharesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteUncheckedCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionUncheckedCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSharesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSharesInput, UserUncheckedCreateWithoutSharesInput>
+  }
+
+  export type PostCreateWithoutSharesInput = {
+    id?: string
+    title: string
+    slug: string
+    url?: string | null
+    description?: string | null
+    content?: string | null
+    imageUrl?: string | null
+    aiSummary?: string | null
+    score?: number
+    voteCount?: number
+    commentCount?: number
+    viewCount?: number
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutPostsInput
+    category: CategoryCreateNestedOneWithoutPostsInput
+    votes?: VoteCreateNestedManyWithoutPostInput
+    comments?: CommentCreateNestedManyWithoutPostInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    notifications?: NotificationCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutSharesInput = {
+    id?: string
+    title: string
+    slug: string
+    url?: string | null
+    description?: string | null
+    content?: string | null
+    imageUrl?: string | null
+    aiSummary?: string | null
+    score?: number
+    voteCount?: number
+    commentCount?: number
+    viewCount?: number
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    userId: string
+    categoryId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutSharesInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutSharesInput, PostUncheckedCreateWithoutSharesInput>
+  }
+
+  export type UserUpsertWithoutSharesInput = {
+    update: XOR<UserUpdateWithoutSharesInput, UserUncheckedUpdateWithoutSharesInput>
+    create: XOR<UserCreateWithoutSharesInput, UserUncheckedCreateWithoutSharesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSharesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSharesInput, UserUncheckedUpdateWithoutSharesInput>
+  }
+
+  export type UserUpdateWithoutSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostUpsertWithoutSharesInput = {
+    update: XOR<PostUpdateWithoutSharesInput, PostUncheckedUpdateWithoutSharesInput>
+    create: XOR<PostCreateWithoutSharesInput, PostUncheckedCreateWithoutSharesInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutSharesInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutSharesInput, PostUncheckedUpdateWithoutSharesInput>
+  }
+
+  export type PostUpdateWithoutSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    voteCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput
+    category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+    votes?: VoteUpdateManyWithoutPostNestedInput
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    notifications?: NotificationUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    voteCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserCreateWithoutFollowingInput = {
@@ -27351,6 +29159,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -27385,6 +29194,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -27424,6 +29234,7 @@ export namespace Prisma {
     actorNotifications?: NotificationCreateNestedManyWithoutActorInput
     following?: FollowCreateNestedManyWithoutFollowerInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -27458,6 +29269,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -27508,6 +29320,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -27542,6 +29355,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutFollowersInput = {
@@ -27587,6 +29401,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -27621,6 +29436,7 @@ export namespace Prisma {
     actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -27655,6 +29471,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -27689,6 +29506,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -27728,6 +29546,7 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActorNotificationsInput = {
@@ -27762,6 +29581,7 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActorNotificationsInput = {
@@ -27793,6 +29613,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkCreateNestedManyWithoutPostInput
+    shares?: ShareCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutNotificationsInput = {
@@ -27819,6 +29640,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutPostInput
+    shares?: ShareUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutNotificationsInput = {
@@ -27869,6 +29691,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -27903,6 +29726,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutActorNotificationsInput = {
@@ -27948,6 +29772,7 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActorNotificationsInput = {
@@ -27982,6 +29807,7 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutNotificationsInput = {
@@ -28019,6 +29845,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutNotificationsInput = {
@@ -28045,6 +29872,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -28161,6 +29989,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ShareCreateManyUserInput = {
+    id?: string
+    postId: string
+    platform: string
+    createdAt?: Date | string
+  }
+
   export type AccountUpdateWithoutUserInput = {
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
@@ -28238,6 +30073,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -28264,6 +30100,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -28519,6 +30356,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShareUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneRequiredWithoutSharesNestedInput
+  }
+
+  export type ShareUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShareUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PostCreateManyCategoryInput = {
     id?: string
     title: string
@@ -28563,6 +30421,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUpdateManyWithoutPostNestedInput
+    shares?: ShareUpdateManyWithoutPostNestedInput
     notifications?: NotificationUpdateManyWithoutPostNestedInput
   }
 
@@ -28589,6 +30448,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutPostNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutPostNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -28637,6 +30497,13 @@ export namespace Prisma {
   export type BookmarkCreateManyPostInput = {
     id?: string
     userId: string
+    createdAt?: Date | string
+  }
+
+  export type ShareCreateManyPostInput = {
+    id?: string
+    userId: string
+    platform: string
     createdAt?: Date | string
   }
 
@@ -28734,6 +30601,27 @@ export namespace Prisma {
   export type BookmarkUncheckedUpdateManyWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShareUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSharesNestedInput
+  }
+
+  export type ShareUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShareUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28962,6 +30850,10 @@ export namespace Prisma {
      * @deprecated Use AlertKeywordDefaultArgs instead
      */
     export type AlertKeywordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AlertKeywordDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShareDefaultArgs instead
+     */
+    export type ShareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShareDefaultArgs<ExtArgs>
     /**
      * @deprecated Use FollowDefaultArgs instead
      */

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { calculateHotScore } from "@/lib/hot-score";
+import { KARMA } from "@/lib/karma";
 
 export const dynamic = "force-dynamic";
 import { z } from "zod";
@@ -73,13 +74,28 @@ export async function POST(
       data: { voteCount: newVoteCount, score: newScore, status },
     });
 
-    // Incrementar/decrementar karma del autor
+    // Karma del autor del post (+1/-1 por voto recibido)
     const postWithUser = await db.post.findUnique({ where: { id }, select: { userId: true } });
     if (postWithUser) {
       await db.user.update({
         where: { id: postWithUser.userId },
         data: { karma: { increment: voteDelta } },
       });
+    }
+
+    // Karma del votante (+1 por votar, cap diario)
+    if (value !== 0 && postWithUser && postWithUser.userId !== userId) {
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const votesToday = await db.vote.count({
+        where: { userId, createdAt: { gte: todayStart } },
+      });
+      if (votesToday <= KARMA.DAILY_VOTE_CAP) {
+        await db.user.update({
+          where: { id: userId },
+          data: { karma: { increment: KARMA.VOTE_CAST } },
+        });
+      }
     }
   }
 

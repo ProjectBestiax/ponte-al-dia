@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
 import { fetchOgImage } from "@/lib/og-image";
+import { KARMA } from "@/lib/karma";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -72,6 +73,11 @@ export async function POST(req: NextRequest) {
       });
     }
   }
+
+  await db.user.update({
+    where: { id: session.user.id },
+    data: { karma: { increment: KARMA.POST_CREATED } },
+  });
 
   return NextResponse.json({ slug: post.slug }, { status: 201 });
 }

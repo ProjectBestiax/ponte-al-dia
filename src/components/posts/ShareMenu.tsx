@@ -24,11 +24,21 @@ const LinkedInIcon = () => (
 interface ShareMenuProps {
   title: string;
   slug: string;
+  postId?: string;
   size?: "sm" | "md";
   label?: boolean;
 }
 
-export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuProps) {
+function trackShare(postId: string | undefined, platform: string) {
+  if (!postId) return;
+  fetch(`/api/posts/${postId}/share`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ platform }),
+  }).catch(() => {});
+}
+
+export function ShareMenu({ title, slug, postId, size = "md", label = true }: ShareMenuProps) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -70,16 +80,19 @@ export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuP
   const items = [
     {
       name: "X / Twitter",
+      platform: "x" as const,
       icon: <XIcon />,
       href: `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(postUrl)}`,
     },
     {
       name: "WhatsApp",
+      platform: "whatsapp" as const,
       icon: <WhatsAppIcon />,
       href: `https://wa.me/?text=${encodeURIComponent(`${text}\n${postUrl}`)}`,
     },
     {
       name: "LinkedIn",
+      platform: "linkedin" as const,
       icon: <LinkedInIcon />,
       href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
     },
@@ -109,7 +122,7 @@ export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuP
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setOpen(false)}
+              onClick={() => { trackShare(postId, item.platform); setOpen(false); }}
               className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-zinc-700 hover:bg-zinc-50 transition-colors"
             >
               {item.icon}
@@ -117,7 +130,7 @@ export function ShareMenu({ title, slug, size = "md", label = true }: ShareMenuP
             </a>
           ))}
           <button
-            onClick={copyLink}
+            onClick={() => { trackShare(postId, "copy"); copyLink(); }}
             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-zinc-700 hover:bg-zinc-50 transition-colors w-full"
           >
             {copied ? <Check className="w-4 h-4 text-green-600" /> : <Link2 className="w-4 h-4" />}

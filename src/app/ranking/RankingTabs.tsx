@@ -25,6 +25,8 @@ interface TopUser {
 
 type View = "tendencias" | "contribuidores";
 
+const MEDALS = ["🥇", "🥈", "🥉"];
+
 export function RankingTabs({
   trending,
   topUsers,
@@ -102,10 +104,10 @@ export function RankingTabs({
             return (
               <div key={user.id} className="flex items-center gap-3 px-1.5 py-2.5 rounded-[8px] hover:bg-zinc-50 transition-colors">
                 <span
-                  className="font-bold w-5 shrink-0"
-                  style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 14, color: "#D4D4D8" }}
+                  className="font-bold w-6 shrink-0 text-center"
+                  style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: i < 3 ? 18 : 14, color: i < 3 ? undefined : "#D4D4D8" }}
                 >
-                  {String(i + 1).padStart(2, "0")}
+                  {i < 3 ? MEDALS[i] : String(i + 1).padStart(2, "0")}
                 </span>
                 <Link href={`/u/${handle}`} className="flex items-center gap-3 flex-1 min-w-0">
                   {user.image ? (

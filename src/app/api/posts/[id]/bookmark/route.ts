@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { KARMA } from "@/lib/karma";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +23,11 @@ export async function POST(
 
   if (existing) {
     await db.bookmark.delete({ where: { userId_postId: { userId, postId } } });
+    await db.user.update({ where: { id: userId }, data: { karma: { increment: -KARMA.BOOKMARK } } });
     return NextResponse.json({ bookmarked: false });
   } else {
     await db.bookmark.create({ data: { userId, postId } });
+    await db.user.update({ where: { id: userId }, data: { karma: { increment: KARMA.BOOKMARK } } });
     return NextResponse.json({ bookmarked: true });
   }
 }

@@ -6,6 +6,7 @@ import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
 import { CategoryBanner } from "@/components/feed/CategoryBanner";
+import { GamificationBanner } from "@/components/feed/GamificationBanner";
 import { getNewPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           </Suspense>
           <FeedTabs />
 
+          <GamificationBanner />
           <CategoryBanner categorySlug={categoria} />
 
           {q && (

@@ -48,6 +48,7 @@ model User {
   following          Follow[]          @relation("Following") // users this user follows
   followers          Follow[]          @relation("Followers") // users who follow this user
   alertKeywords      AlertKeyword[]
+  shares             Share[]
 
   @@map("users")
 }
@@ -139,6 +140,7 @@ model Post {
   comments      Comment[]
   tags          PostTag[]
   bookmarks     Bookmark[]
+  shares        Share[]
   notifications Notification[]
 
   @@index([score])
@@ -289,6 +291,21 @@ model AlertKeyword {
   @@unique([userId, keyword])
   @@index([keyword])
   @@map("alert_keywords")
+}
+
+model Share {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  platform  String // "x", "whatsapp", "linkedin", "copy"
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId, platform])
+  @@index([userId])
+  @@map("shares")
 }
 
 model Follow {
