@@ -144,7 +144,7 @@ const MAX_COMMENTS_PER_RUN = 4;
 const MAX_REPLIES_PER_RUN = 2;
 
 async function runCommenting() {
-  if (!client) return { comments: 0, replies: 0, skipped: "no-api-key" };
+  if (!client) return { comments: 0, replies: 0 };
 
   const since = new Date(Date.now() - COMMENT_WINDOW_HOURS * 60 * 60 * 1000);
 
@@ -262,15 +262,7 @@ async function runCommenting() {
     }
   }
 
-  return {
-    comments: commentsCreated,
-    replies: repliesCreated,
-    debug: {
-      recentPosts: recentPosts.length,
-      needingComments: postsNeedingComments.length,
-      withAiComments: postsWithComments.length,
-    },
-  };
+  return { comments: commentsCreated, replies: repliesCreated };
 }
 
 async function generateComment(
@@ -337,7 +329,6 @@ async function runBot(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    hasApiKey: !!apiKey,
     votes: voteResult,
     comments: commentResult,
   });
