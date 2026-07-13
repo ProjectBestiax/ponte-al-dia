@@ -156,22 +156,38 @@ export default async function PostPage({ params }: PageProps) {
     },
   });
 
-  const jsonLd = {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "DiscussionForumPosting",
     headline: post.title,
-    description: post.description ?? undefined,
-    url: `${process.env.NEXT_PUBLIC_APP_URL}/p/${post.slug}`,
+    text: post.description ?? post.aiSummary ?? post.title,
+    url: `${appUrl}/p/${post.slug}`,
     datePublished: post.publishedAt ?? post.createdAt,
     author: {
       "@type": "Person",
       name: authorName,
+      url: `${appUrl}/u/${authorHandle}`,
     },
     interactionStatistic: [
       { "@type": "InteractionCounter", interactionType: "https://schema.org/LikeAction", userInteractionCount: post.voteCount },
       { "@type": "InteractionCounter", interactionType: "https://schema.org/CommentAction", userInteractionCount: post.commentCount },
     ],
   };
+
+  if (post.comments.length > 0) {
+    jsonLd.comment = post.comments.map((c) => ({
+      "@type": "Comment",
+      text: c.content,
+      dateCreated: c.createdAt.toISOString(),
+      author: {
+        "@type": "Person",
+        name: c.user.username ?? c.user.name ?? "Anónimo",
+        url: `${appUrl}/u/${c.user.username ?? c.user.name ?? "anon"}`,
+      },
+    }));
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-8">
