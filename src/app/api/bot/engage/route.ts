@@ -34,9 +34,39 @@ async function getOrCreatePersonaUser(persona: (typeof AI_PERSONA_LIST)[number])
 
 const VOTE_WINDOW_HOURS = 48;
 const MAX_VOTES_PER_PERSONA = 5;
+const BOOST_ENABLED = true;
+const BOOST_THRESHOLD = 20; // solo inflar posts con menos de 20 votos reales
+
+function boostVoteCount(createdAt: Date): number {
+  const ageHours = (Date.now() - createdAt.getTime()) / 3_600_000;
+  // Posts más viejos → más votos acumulados (simula crecimiento orgánico)
+  if (ageHours > 72) return randomBetween(200, 600);
+  if (ageHours > 24) return randomBetween(80, 350);
+  if (ageHours > 6) return randomBetween(30, 150);
+  return randomBetween(15, 80);
+}
+
+function randomBetween(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 async function runVoting() {
   const since = new Date(Date.now() - VOTE_WINDOW_HOURS * 60 * 60 * 1000);
+
+  // Boost: también inflar posts más antiguos que aún tengan votos bajos
+  if (BOOST_ENABLED) {
+    const lowVotePosts = await db.post.findMany({
+      where: { status: "ACTIVE", voteCount: { lt: BOOST_THRESHOLD } },
+      select: { id: true, voteCount: true, createdAt: true },
+    });
+    for (const p of lowVotePosts) {
+      const boosted = boostVoteCount(p.createdAt);
+      await db.post.update({
+        where: { id: p.id },
+        data: { voteCount: boosted, score: calculateHotScore(boosted, p.createdAt) },
+      });
+    }
+  }
 
   const recentPosts = await db.post.findMany({
     where: { status: "ACTIVE", createdAt: { gte: since } },
@@ -82,7 +112,14 @@ async function runVoting() {
 
     for (const post of toVote) {
       await db.vote.create({ data: { userId: user.id, postId: post.id, value: 1 } });
-      const newVoteCount = post.voteCount + 1;
+
+      let newVoteCount: number;
+      if (BOOST_ENABLED && post.voteCount < BOOST_THRESHOLD) {
+        newVoteCount = boostVoteCount(post.createdAt);
+      } else {
+        newVoteCount = post.voteCount + 1;
+      }
+
       await db.post.update({
         where: { id: post.id },
         data: {
