@@ -107,8 +107,8 @@ async function runBot(req: NextRequest) {
       title = c.title;
       aiSummary = c.summary;
     } else {
-      title = repo.title.slice(0, 120);
-      aiSummary = null;
+      skipped++;
+      continue;
     }
 
     let slug = slugify(title.slice(0, 80));
@@ -119,7 +119,7 @@ async function runBot(req: NextRequest) {
     const created = await db.post.create({
       data: {
         title, slug, url: repo.url,
-        description: repo.description || null,
+        description: c.description ?? repo.description ?? null,
         aiSummary, imageUrl,
         categoryId: category.id,
         userId: author.id,

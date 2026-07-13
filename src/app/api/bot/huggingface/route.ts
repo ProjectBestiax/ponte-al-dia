@@ -66,9 +66,8 @@ async function runBot(req: NextRequest) {
       title = c.title;
       aiSummary = c.summary;
     } else {
-      // No API key / curation failed → publish a clean version anyway (no "[Paper]" noise).
-      title = item.paper.title.slice(0, 120);
-      aiSummary = null;
+      skipped++;
+      continue;
     }
 
     let slug = slugify(title.slice(0, 80));
@@ -79,7 +78,7 @@ async function runBot(req: NextRequest) {
     const created = await db.post.create({
       data: {
         title, slug, url: paperUrl,
-        description: item.paper.summary?.slice(0, 500) ?? "",
+        description: c.description ?? item.paper.summary?.slice(0, 500) ?? "",
         aiSummary, imageUrl,
         categoryId: category.id,
         userId: author.id,

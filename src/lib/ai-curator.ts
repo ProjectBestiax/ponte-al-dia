@@ -11,6 +11,7 @@ export interface CuratedItem {
   accept: boolean; // false → don't publish (too niche / low signal)
   title: string; // Spanish headline, no "[Paper]" noise
   summary: string; // one sentence: why it matters
+  description?: string; // 1-2 sentence Spanish description of the content
   categorySlug?: string; // optional override when the bot covers multiple categories
 }
 
@@ -36,11 +37,12 @@ export async function curate(input: {
 Te doy ${kindEs}. Decide si merece publicarse para esta audiencia: ACEPTA lo relevante, útil o interesante; RECHAZA lo hiper-nicho, incremental o de baja señal.
 
 Si lo aceptas:
-- "title": un titular en español claro y atractivo. Sin "[Paper]", sin jerga innecesaria, sin comillas. Máximo 90 caracteres.
-- "summary": UNA frase de por qué importa. Máximo 25 palabras, neutral, sin marketing, sin emojis ni signos de exclamación.${categoryInstruction}
+- "title": un titular SIEMPRE en español, claro y atractivo. Sin "[Paper]", sin jerga innecesaria, sin comillas. Máximo 90 caracteres. NUNCA dejes el título en inglés.
+- "summary": UNA frase en español de por qué importa. Máximo 25 palabras, neutral, sin marketing, sin emojis ni signos de exclamación.
+- "description": 1-2 frases en español describiendo qué es y para qué sirve. Máximo 50 palabras. Informativa, sin hype.${categoryInstruction}
 
 Responde ÚNICAMENTE con JSON válido, sin texto alrededor:
-{"accept": true|false, "title": "...", "summary": "..."${categoryJson}}`;
+{"accept": true|false, "title": "...", "summary": "...", "description": "..."${categoryJson}}`;
 
   try {
     const msg = await client.messages.create({
@@ -70,6 +72,9 @@ Responde ÚNICAMENTE con JSON válido, sin texto alrededor:
       accept: true,
       title: parsed.title.replace(/^["']|["']$/g, "").slice(0, 120),
       summary: parsed.summary.replace(/^["']|["']$/g, "").slice(0, 280),
+      description: typeof parsed.description === "string"
+        ? parsed.description.replace(/^["']|["']$/g, "").slice(0, 500)
+        : undefined,
       categorySlug: typeof parsed.categorySlug === "string" ? parsed.categorySlug : undefined,
     };
   } catch {

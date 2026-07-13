@@ -129,9 +129,8 @@ async function runBot(req: NextRequest) {
       aiSummary = c.summary;
       categoryId = (c.categorySlug && catMap.get(c.categorySlug)) || defaultCatId;
     } else {
-      title = story.title.slice(0, 120);
-      aiSummary = null;
-      categoryId = defaultCatId;
+      skipped++;
+      continue;
     }
 
     let slug = slugify(title.slice(0, 80));
@@ -142,7 +141,7 @@ async function runBot(req: NextRequest) {
     const created = await db.post.create({
       data: {
         title, slug, url: story.url,
-        description: story.description || null,
+        description: c.description ?? story.description ?? null,
         aiSummary, imageUrl,
         categoryId,
         userId: author.id,
