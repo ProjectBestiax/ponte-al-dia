@@ -2,19 +2,19 @@
   "crons": [
     {
       "path": "/api/bot/huggingface",
-      "schedule": "0 8 * * *"
+      "schedule": "0 5 * * *"
     },
     {
       "path": "/api/bot/github-trending",
-      "schedule": "0 9 * * *"
+      "schedule": "10 5 * * *"
     },
     {
       "path": "/api/bot/ai-news",
-      "schedule": "0 10 * * *"
+      "schedule": "20 5 * * *"
     },
     {
       "path": "/api/bot/engage",
-      "schedule": "30 10 * * *"
+      "schedule": "45 5 * * *"
     },
     {
       "path": "/api/cron/digest",
