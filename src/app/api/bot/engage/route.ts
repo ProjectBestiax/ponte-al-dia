@@ -144,11 +144,10 @@ const MAX_COMMENTS_PER_RUN = 4;
 const MAX_REPLIES_PER_RUN = 2;
 
 async function runCommenting() {
-  if (!client) return { comments: 0, replies: 0 };
+  if (!client) return { comments: 0, replies: 0, skipped: "no-api-key" };
 
   const since = new Date(Date.now() - COMMENT_WINDOW_HOURS * 60 * 60 * 1000);
 
-  // Posts recientes sin comentarios de bots (prioridad) o con pocos comentarios
   const recentPosts = await db.post.findMany({
     where: { status: "ACTIVE", createdAt: { gte: since } },
     orderBy: { createdAt: "desc" },
@@ -263,7 +262,15 @@ async function runCommenting() {
     }
   }
 
-  return { comments: commentsCreated, replies: repliesCreated };
+  return {
+    comments: commentsCreated,
+    replies: repliesCreated,
+    debug: {
+      recentPosts: recentPosts.length,
+      needingComments: postsNeedingComments.length,
+      withAiComments: postsWithComments.length,
+    },
+  };
 }
 
 async function generateComment(
@@ -330,6 +337,7 @@ async function runBot(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
+    hasApiKey: !!apiKey,
     votes: voteResult,
     comments: commentResult,
   });
