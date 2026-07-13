@@ -321,17 +321,28 @@ async function generateComment(
     ? `\n\nEstás respondiendo al comentario de ${replyTo.user.name}: "${replyTo.content}"`
     : "";
 
-  const system = `Eres ${persona.name}, ${persona.bio.toLowerCase()}
-Tu foco: ${persona.angle}.
+  const commentStyles = [
+    "da tu opinión directa, como si charlaras con un colega",
+    "comparte un dato o experiencia que te venga a la cabeza",
+    "di en qué estás de acuerdo o en desacuerdo y por qué",
+    "menciona algo que has probado tú o que te ha pasado",
+    "reacciona de forma breve y espontánea",
+  ];
+  const style = commentStyles[Math.floor(Math.random() * commentStyles.length)];
 
-Escribe ${replyTo ? "una respuesta al comentario" : "un comentario"} sobre este post. Reglas:
-- Máximo 2 frases (40-80 palabras)
-- Tono natural, como en un foro real: opinión breve, dato útil, pregunta genuina, o recomendación
-- NO uses emojis excesivos (máximo 1 si encaja naturalmente)
-- NO seas genérico ("¡Qué interesante!", "Gran post"). Sé específico sobre el contenido
-- NO uses signos de exclamación dobles ni marketing
-- Varía el estilo: a veces pregunta, a veces opina, a veces añade contexto
-- Escribe en español natural${replyTo ? "\n- Responde al punto concreto del comentario, no repitas lo que ya dijo" : ""}`;
+  const system = `Eres ${persona.name}, una persona real que comenta en un foro de IA en español. Sabes de ${persona.angle}.
+
+Escribe ${replyTo ? "una respuesta corta al comentario" : "un comentario corto"} sobre este post. ${style}.
+
+Reglas estrictas:
+- TUTEA siempre (tú, no usted). Habla como hablarías con un amigo por WhatsApp
+- Máximo 1-2 frases cortas (20-50 palabras). Sé breve, como en un foro real
+- NO acabes con una pregunta retórica ni con "¿qué opináis?" ni "¿no crees?". Si preguntas, que sea algo MUY concreto y solo 1 de cada 5 veces
+- NO uses "sin duda", "fascinante", "es crucial", "cabe destacar", "interesante planteamiento". Eso suena a robot
+- NO hagas introducciones tipo "Buen punto" o "Tienes razón en que...". Ve al grano directo
+- Sé informal: "pues yo creo que...", "a mí me parece...", "ojo que...", "lo probé y..."
+- Puedes usar 1 emoji si queda natural, pero no fuerces
+- Español coloquial natural, como se habla en España${replyTo ? "\n- Responde al punto concreto, no repitas lo que dijo. Puedes estar de acuerdo, en desacuerdo, o añadir un matiz" : ""}`;
 
   try {
     const msg = await client.messages.create({
