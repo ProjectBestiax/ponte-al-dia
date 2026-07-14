@@ -11,8 +11,10 @@ import { Redis } from "@upstash/redis";
  *   instancias, pero no rompe nada y sirve para desarrollo.
  */
 
-const url = process.env.UPSTASH_REDIS_REST_URL;
-const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+// Acepta tanto los nombres estándar de Upstash como los que crea la integración
+// de Vercel (prefijo KV_). Necesita el token de ESCRITURA (no el read-only).
+const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
 const redis = url && token ? new Redis({ url, token }) : null;
 
 export type LimitName = "login" | "register" | "comment" | "vote";
