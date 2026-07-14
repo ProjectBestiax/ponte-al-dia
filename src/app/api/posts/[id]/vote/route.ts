@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { calculateHotScore } from "@/lib/hot-score";
 import { KARMA } from "@/lib/karma";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 import { z } from "zod";
@@ -16,6 +17,12 @@ export async function POST(
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  }
+
+  // Anti-spam: limita votos por usuario.
+  const rl = await checkRateLimit("vote", session.user.id);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Demasiados votos seguidos. Espera un momento." }, { status: 429 });
   }
 
   const body = await req.json();

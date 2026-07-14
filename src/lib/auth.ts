@@ -5,6 +5,7 @@ import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyPrismaClient = any;
 
@@ -30,10 +31,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Contraseña", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         const email = credentials?.email as string | undefined;
         const password = credentials?.password as string | undefined;
         if (!email || !password) return null;
+
+        // Anti-fuerza bruta: limita intentos de login por IP. Si se supera,
+        // se trata como credenciales inválidas (no revela el motivo).
+        try {
+          const ip = getClientIp(request as unknown as { headers: Headers });
+          const rl = await checkRateLimit("login", ip);
+          if (!rl.ok) return null;
+        } catch {
+          // fail-open: no bloquear login si el rate limiter falla
+        }
 
         const user = await db.user.findUnique({ where: { email } });
         if (!user?.passwordHash) return null;

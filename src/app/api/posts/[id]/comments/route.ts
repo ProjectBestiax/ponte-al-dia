@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notifyOnComment, sendCommentEmail } from "@/lib/notifications";
 import { KARMA } from "@/lib/karma";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +21,15 @@ export async function POST(
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  }
+
+  // Anti-spam: limita comentarios por usuario.
+  const rl = await checkRateLimit("comment", session.user.id);
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Vas demasiado rápido. Espera unos segundos antes de comentar de nuevo." },
+      { status: 429 }
+    );
   }
 
   const { id } = await params;

@@ -5,10 +5,21 @@ import { db } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
 import { getEmailVerificationToken, verifyEmailUrl } from "@/lib/email";
 import { verifyEmailTemplate } from "@/lib/email-templates";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const USERNAME_RE = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/;
 
 export async function POST(req: NextRequest) {
+  // Anti-abuso: limita registros por IP (evita crear cuentas en masa y disparar
+  // envíos de email de verificación).
+  const rl = await checkRateLimit("register", getClientIp(req));
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Demasiados registros desde esta conexión. Inténtalo de nuevo en un rato." },
+      { status: 429 }
+    );
+  }
+
   const body = await req.json() as { name?: string; email?: string; password?: string; username?: string };
   const { name, email, password, username } = body;
 
