@@ -31,11 +31,16 @@ export async function GET(req: NextRequest) {
   });
 
   if (!user) return page("Enlace no válido o expirado.", false);
-  if (user.emailVerified) return page("Tu email ya está verificado.", true);
+
+  // Idempotente: no borramos el token al verificar. Los clientes de correo
+  // (Gmail, Outlook) y escáneres pre-cargan los enlaces, lo que consumiría el
+  // token antes de que el usuario haga clic. Manteniéndolo, el clic real
+  // encuentra al usuario ya verificado y muestra éxito en vez de "inválido".
+  if (user.emailVerified) return page("¡Tu email ya está verificado!", true);
 
   await db.user.update({
     where: { id: user.id },
-    data: { emailVerified: new Date(), emailVerificationToken: null },
+    data: { emailVerified: new Date() },
   });
 
   return page("¡Email verificado correctamente!", true);

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUp, MessageSquare, Zap, Trophy, Bookmark } from "lucide-react";
+import { ArrowUp, MessageSquare, Zap, Trophy, Bookmark, MailCheck } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Bienvenida · Ponte al dIA",
@@ -40,7 +42,24 @@ const STEPS = [
   },
 ];
 
-export default function BienvenidaPage() {
+export default async function BienvenidaPage() {
+  // Mostramos el aviso de verificación solo si el usuario tiene email sin verificar
+  // (los usuarios OAuth de Google/GitHub llegan ya verificados).
+  const session = await auth();
+  let needsVerification = false;
+  let userEmail: string | null = null;
+  if (session?.user?.id) {
+    const user = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { emailVerified: true, email: true, passwordHash: true },
+    });
+    // Solo cuentas de email/contraseña necesitan verificar.
+    if (user && !user.emailVerified && user.passwordHash) {
+      needsVerification = true;
+      userEmail = user.email;
+    }
+  }
+
   return (
     <div className="max-w-xl mx-auto px-6 py-12">
       <div className="text-center mb-10">
@@ -57,6 +76,18 @@ export default function BienvenidaPage() {
           Sin humo, sin FOMO. Solo lo que de verdad funciona.
         </p>
       </div>
+
+      {needsVerification && (
+        <div className="mb-8 flex items-start gap-3 rounded-xl border border-accent-200 bg-accent-50 p-4">
+          <MailCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent-600" strokeWidth={2.2} />
+          <div>
+            <h3 className="text-sm font-bold text-zinc-900">Verifica tu email</h3>
+            <p className="mt-0.5 text-sm text-zinc-600">
+              Te hemos enviado un correo{userEmail ? <> a <span className="font-medium text-zinc-800">{userEmail}</span></> : ""} para confirmar tu cuenta. Revisa tu bandeja de entrada (y la carpeta de spam).
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4 mb-10">
         {STEPS.map((step, i) => (
