@@ -28,10 +28,20 @@ function dailyWave(): number {
   return Math.round(Math.max(0, wave) * 16);
 }
 
-/** Jitter suave que cambia cada ~15s para que el contador "lata". */
-function jitter(): number {
-  const bucket = Math.floor(Date.now() / 15_000);
-  return (bucket % 5) - 2; // -2..+2
+/**
+ * Movimiento orgánico del contador "en línea". Combina dos ondas sinusoidales
+ * de periodos distintos (una marea lenta ~9 min + un rizo más rápido ~2.5 min)
+ * más un jitter fino. Es determinista respecto al tiempo, así que se mueve de
+ * forma suave y creíble entre pings (nada de saltos bruscos), pero lo bastante
+ * como para que el número se sienta vivo aunque aún haya poco tráfico real.
+ */
+function liveWander(): number {
+  const t = Date.now() / 1000; // segundos
+  const tide = 6.5 * Math.sin(t / 90); // marea lenta, periodo ~9.4 min
+  const ripple = 4 * Math.sin(t / 23 + 1.3); // rizo, periodo ~2.4 min
+  const bucket = Math.floor(Date.now() / 8_000);
+  const jitter = (bucket % 5) - 2; // -2..+2, cambia cada ~8s
+  return tide + ripple + jitter; // ~ -12.5 .. +12.5
 }
 
 async function getCounts(): Promise<{ online: number; community: number }> {
@@ -43,8 +53,8 @@ async function getCounts(): Promise<{ online: number; community: number }> {
   ]);
 
   const online = Math.max(
-    BASE_ONLINE - 4,
-    BASE_ONLINE + dailyWave() + jitter() + realOnline
+    BASE_ONLINE - 12,
+    Math.round(BASE_ONLINE + dailyWave() + liveWander()) + realOnline
   );
 
   return { online, community: BASE_COMMUNITY + realCommunity };
