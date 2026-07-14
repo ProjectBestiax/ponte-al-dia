@@ -1,9 +1,13 @@
 "use client";
 
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState, useEffect, Fragment } from "react";
 import { PostCard } from "./PostCard";
+import { FeedAd } from "./FeedAd";
 import { Loader2 } from "lucide-react";
 import type { FeedPost } from "@/lib/posts";
+
+// Un anuncio in-feed cada N posts (si AdSense está configurado; si no, no pinta nada).
+const AD_EVERY = 6;
 
 interface InfinitePostListProps {
   initialPosts: FeedPost[];
@@ -67,16 +71,18 @@ export function InfinitePostList({ initialPosts, tab, categoria, periodo, hasMor
 
   return (
     <div className="flex flex-col gap-3 sm:gap-3.5">
-      {posts.map((post) => (
-        <PostCard
-          key={post.id}
-          post={{
-            ...post,
-            url: post.url ?? undefined,
-            description: post.description ?? undefined,
-            imageUrl: post.imageUrl ?? undefined,
-          }}
-        />
+      {posts.map((post, i) => (
+        <Fragment key={post.id}>
+          <PostCard
+            post={{
+              ...post,
+              url: post.url ?? undefined,
+              description: post.description ?? undefined,
+              imageUrl: post.imageUrl ?? undefined,
+            }}
+          />
+          {(i + 1) % AD_EVERY === 0 && <FeedAd />}
+        </Fragment>
       ))}
 
       {hasMore && (
