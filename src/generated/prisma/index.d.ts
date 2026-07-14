@@ -2649,6 +2649,7 @@ export namespace Prisma {
     isAI: boolean | null
     aiPersona: string | null
     passwordHash: string | null
+    emailVerificationToken: string | null
     emailReplies: boolean | null
     emailDigest: boolean | null
     unsubscribeToken: string | null
@@ -2671,6 +2672,7 @@ export namespace Prisma {
     isAI: boolean | null
     aiPersona: string | null
     passwordHash: string | null
+    emailVerificationToken: string | null
     emailReplies: boolean | null
     emailDigest: boolean | null
     unsubscribeToken: string | null
@@ -2693,6 +2695,7 @@ export namespace Prisma {
     isAI: number
     aiPersona: number
     passwordHash: number
+    emailVerificationToken: number
     emailReplies: number
     emailDigest: number
     unsubscribeToken: number
@@ -2725,6 +2728,7 @@ export namespace Prisma {
     isAI?: true
     aiPersona?: true
     passwordHash?: true
+    emailVerificationToken?: true
     emailReplies?: true
     emailDigest?: true
     unsubscribeToken?: true
@@ -2747,6 +2751,7 @@ export namespace Prisma {
     isAI?: true
     aiPersona?: true
     passwordHash?: true
+    emailVerificationToken?: true
     emailReplies?: true
     emailDigest?: true
     unsubscribeToken?: true
@@ -2769,6 +2774,7 @@ export namespace Prisma {
     isAI?: true
     aiPersona?: true
     passwordHash?: true
+    emailVerificationToken?: true
     emailReplies?: true
     emailDigest?: true
     unsubscribeToken?: true
@@ -2878,6 +2884,7 @@ export namespace Prisma {
     isAI: boolean
     aiPersona: string | null
     passwordHash: string | null
+    emailVerificationToken: string | null
     emailReplies: boolean
     emailDigest: boolean
     unsubscribeToken: string | null
@@ -2919,6 +2926,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: boolean
     passwordHash?: boolean
+    emailVerificationToken?: boolean
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: boolean
@@ -2956,6 +2964,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: boolean
     passwordHash?: boolean
+    emailVerificationToken?: boolean
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: boolean
@@ -2978,6 +2987,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: boolean
     passwordHash?: boolean
+    emailVerificationToken?: boolean
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: boolean
@@ -3037,6 +3047,7 @@ export namespace Prisma {
       isAI: boolean
       aiPersona: string | null
       passwordHash: string | null
+      emailVerificationToken: string | null
       emailReplies: boolean
       emailDigest: boolean
       unsubscribeToken: string | null
@@ -3463,6 +3474,7 @@ export namespace Prisma {
     readonly isAI: FieldRef<"User", 'Boolean'>
     readonly aiPersona: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
+    readonly emailVerificationToken: FieldRef<"User", 'String'>
     readonly emailReplies: FieldRef<"User", 'Boolean'>
     readonly emailDigest: FieldRef<"User", 'Boolean'>
     readonly unsubscribeToken: FieldRef<"User", 'String'>
@@ -19753,6 +19765,7 @@ export namespace Prisma {
     isAI: 'isAI',
     aiPersona: 'aiPersona',
     passwordHash: 'passwordHash',
+    emailVerificationToken: 'emailVerificationToken',
     emailReplies: 'emailReplies',
     emailDigest: 'emailDigest',
     unsubscribeToken: 'unsubscribeToken',
@@ -20124,6 +20137,7 @@ export namespace Prisma {
     isAI?: BoolFilter<"User"> | boolean
     aiPersona?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
+    emailVerificationToken?: StringNullableFilter<"User"> | string | null
     emailReplies?: BoolFilter<"User"> | boolean
     emailDigest?: BoolFilter<"User"> | boolean
     unsubscribeToken?: StringNullableFilter<"User"> | string | null
@@ -20160,6 +20174,7 @@ export namespace Prisma {
     isAI?: SortOrder
     aiPersona?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
+    emailVerificationToken?: SortOrderInput | SortOrder
     emailReplies?: SortOrder
     emailDigest?: SortOrder
     unsubscribeToken?: SortOrderInput | SortOrder
@@ -20185,6 +20200,7 @@ export namespace Prisma {
     id?: string
     email?: string
     username?: string
+    emailVerificationToken?: string
     unsubscribeToken?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -20218,7 +20234,7 @@ export namespace Prisma {
     followers?: FollowListRelationFilter
     alertKeywords?: AlertKeywordListRelationFilter
     shares?: ShareListRelationFilter
-  }, "id" | "email" | "username" | "unsubscribeToken">
+  }, "id" | "email" | "username" | "emailVerificationToken" | "unsubscribeToken">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20235,6 +20251,7 @@ export namespace Prisma {
     isAI?: SortOrder
     aiPersona?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
+    emailVerificationToken?: SortOrderInput | SortOrder
     emailReplies?: SortOrder
     emailDigest?: SortOrder
     unsubscribeToken?: SortOrderInput | SortOrder
@@ -20265,6 +20282,7 @@ export namespace Prisma {
     isAI?: BoolWithAggregatesFilter<"User"> | boolean
     aiPersona?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
+    emailVerificationToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailReplies?: BoolWithAggregatesFilter<"User"> | boolean
     emailDigest?: BoolWithAggregatesFilter<"User"> | boolean
     unsubscribeToken?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -21329,6 +21347,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -21365,6 +21384,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -21401,6 +21421,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21437,6 +21458,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21473,6 +21495,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -21495,6 +21518,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21517,6 +21541,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22767,6 +22792,7 @@ export namespace Prisma {
     isAI?: SortOrder
     aiPersona?: SortOrder
     passwordHash?: SortOrder
+    emailVerificationToken?: SortOrder
     emailReplies?: SortOrder
     emailDigest?: SortOrder
     unsubscribeToken?: SortOrder
@@ -22793,6 +22819,7 @@ export namespace Prisma {
     isAI?: SortOrder
     aiPersona?: SortOrder
     passwordHash?: SortOrder
+    emailVerificationToken?: SortOrder
     emailReplies?: SortOrder
     emailDigest?: SortOrder
     unsubscribeToken?: SortOrder
@@ -22815,6 +22842,7 @@ export namespace Prisma {
     isAI?: SortOrder
     aiPersona?: SortOrder
     passwordHash?: SortOrder
+    emailVerificationToken?: SortOrder
     emailReplies?: SortOrder
     emailDigest?: SortOrder
     unsubscribeToken?: SortOrder
@@ -26160,6 +26188,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26195,6 +26224,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26246,6 +26276,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26281,6 +26312,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26316,6 +26348,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26351,6 +26384,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26402,6 +26436,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26437,6 +26472,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26552,6 +26588,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26587,6 +26624,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -26817,6 +26855,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26852,6 +26891,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27220,6 +27260,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -27255,6 +27296,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -27365,6 +27407,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27400,6 +27443,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27500,6 +27544,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -27535,6 +27580,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -27758,6 +27804,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27793,6 +27840,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27978,6 +28026,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28013,6 +28062,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28095,6 +28145,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28130,6 +28181,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28202,6 +28254,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28237,6 +28290,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28347,6 +28401,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28382,6 +28437,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28482,6 +28538,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28517,6 +28574,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28599,6 +28657,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28634,6 +28693,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28706,6 +28766,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28741,6 +28802,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28792,6 +28854,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28827,6 +28890,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28862,6 +28926,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -28897,6 +28962,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29007,6 +29073,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29042,6 +29109,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29142,6 +29210,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29177,6 +29246,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29217,6 +29287,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29252,6 +29323,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29303,6 +29375,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29338,6 +29411,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29384,6 +29458,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29419,6 +29494,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29454,6 +29530,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29489,6 +29566,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29529,6 +29607,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29564,6 +29643,7 @@ export namespace Prisma {
     isAI?: boolean
     aiPersona?: string | null
     passwordHash?: string | null
+    emailVerificationToken?: string | null
     emailReplies?: boolean
     emailDigest?: boolean
     unsubscribeToken?: string | null
@@ -29674,6 +29754,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29709,6 +29790,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29755,6 +29837,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29790,6 +29873,7 @@ export namespace Prisma {
     isAI?: BoolFieldUpdateOperationsInput | boolean
     aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     emailReplies?: BoolFieldUpdateOperationsInput | boolean
     emailDigest?: BoolFieldUpdateOperationsInput | boolean
     unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null

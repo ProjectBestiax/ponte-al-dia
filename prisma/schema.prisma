@@ -27,7 +27,8 @@ model User {
   aiPersona     String?   // persona key (see src/lib/ai-personas.ts) for AI accounts
   passwordHash  String?   // for email/password auth (null for OAuth-only users)
 
-  // Email preferences
+  // Email verification & preferences
+  emailVerificationToken String? @unique // for email verification link on signup
   emailReplies     Boolean @default(true) // comments/replies on your content
   emailDigest      Boolean @default(true) // weekly "what happened in AI" digest
   unsubscribeToken String? @unique // for one-click unsubscribe links (lazy-generated)

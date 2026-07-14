@@ -73,6 +73,17 @@ export function unsubscribeUrl(token: string, type: "replies" | "digest" | "all"
   return `${APP_URL}/api/unsubscribe?token=${token}&type=${type}`;
 }
 
+/** Generates and stores a verification token for email confirmation. */
+export async function getEmailVerificationToken(userId: string): Promise<string> {
+  const token = randomBytes(24).toString("hex");
+  await db.user.update({ where: { id: userId }, data: { emailVerificationToken: token } });
+  return token;
+}
+
+export function verifyEmailUrl(token: string): string {
+  return `${APP_URL}/api/auth/verify-email?token=${token}`;
+}
+
 /** Shared responsive email shell. `unsubLink` renders the footer opt-out line. */
 export function emailLayout(opts: { heading: string; body: string; unsubLink?: string; unsubLabel?: string }): string {
   return `<!DOCTYPE html>

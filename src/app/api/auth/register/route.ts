@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { sendEmail } from "@/lib/email";
+import { getEmailVerificationToken, verifyEmailUrl } from "@/lib/email";
+import { verifyEmailTemplate } from "@/lib/email-templates";
 
 const USERNAME_RE = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/;
 
@@ -41,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const passwordHash = await bcrypt.hash(password, 12);
 
-  await db.user.create({
+  const user = await db.user.create({
     data: {
       name,
       email,
@@ -51,5 +55,18 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ ok: true });
+  // Generate verification token and send email (async, doesn't block response)
+  after(async () => {
+    try {
+      const token = await getEmailVerificationToken(user.id);
+      const verifyLink = verifyEmailUrl(token);
+      const { subject, html } = verifyEmailTemplate({ verificationLink: verifyLink });
+      await sendEmail({ to: email, subject, html });
+    } catch {
+      // Log but don't fail signup if email fails
+      console.error("[register] email send failed:", email);
+    }
+  });
+
+  return NextResponse.json({ ok: true, message: "Verifica tu email para activar tu cuenta." });
 }

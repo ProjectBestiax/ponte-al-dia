@@ -123,3 +123,22 @@ export function alertEmail(opts: {
     html: emailLayout({ heading: "Alerta de palabra clave", body, unsubLink: opts.unsubLink, unsubLabel: "Dejar de recibir alertas por email" }),
   };
 }
+
+/** Email sent when user signs up to verify their email address. */
+export function verifyEmailTemplate(opts: {
+  verificationLink: string;
+}): { subject: string; html: string } {
+  const body = `
+    <p style="margin:0 0 18px;font-size:15px;line-height:1.55;color:#3f3f46;">
+      Gracias por registrarte en Ponte al dIA. Para activar tu cuenta, verifica tu email:
+    </p>
+    ${ctaButton(opts.verificationLink, "Verificar email")}
+    <p style="margin:18px 0 0;font-size:13px;color:#a1a1aa;">
+      Si no te registraste, ignora este email. El enlace expira en 24 horas.
+    </p>
+  `;
+  return {
+    subject: "Verifica tu email en Ponte al dIA",
+    html: emailLayout({ heading: "Bienvenido a Ponte al dIA", body }),
+  };
+}

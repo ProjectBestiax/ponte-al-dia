@@ -137,6 +137,7 @@ exports.Prisma.UserScalarFieldEnum = {
   isAI: 'isAI',
   aiPersona: 'aiPersona',
   passwordHash: 'passwordHash',
+  emailVerificationToken: 'emailVerificationToken',
   emailReplies: 'emailReplies',
   emailDigest: 'emailDigest',
   unsubscribeToken: 'unsubscribeToken',
