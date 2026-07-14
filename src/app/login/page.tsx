@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
@@ -26,6 +27,7 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
+    track("login", { method: "email" });
     window.location.href = "/";
   }
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Link2, X, ImagePlus } from "lucide-react";
 import { detectEmbed } from "@/lib/embed";
 import { tagStyle } from "@/lib/tool-tags";
+import { track } from "@/lib/analytics";
 
 interface Category {
   id: string;
@@ -123,6 +124,7 @@ export function PublishForm({ categories }: { categories: Category[] }) {
       }
 
       const { slug } = await res.json();
+      track("post_published", { categoryId: data.categoryId, hasUrl: !!data.url });
       router.push(`/p/${slug}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error inesperado");

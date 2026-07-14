@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 export function CommentForm({ postId }: { postId: string }) {
   const router = useRouter();
@@ -23,6 +24,7 @@ export function CommentForm({ postId }: { postId: string }) {
         body: JSON.stringify({ content: content.trim() }),
       });
       if (!res.ok) throw new Error("Error al comentar");
+      track("comment_created", { postId });
       setContent("");
       router.refresh();
     } catch {

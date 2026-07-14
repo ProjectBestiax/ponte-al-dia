@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 interface VoteButtonsProps {
   postId: string;
@@ -34,6 +35,7 @@ export function VoteButtons({ postId, initialVotes, initialUserVote, isLoggedIn 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ value: newValue }),
       });
+      if (newValue !== 0) track("post_voted", { postId, value: newValue });
     } catch {
       setVotes((v) => v - diff);
       setUserVote(userVote);

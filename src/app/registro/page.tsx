@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 const USERNAME_RE = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/;
 
@@ -58,6 +59,8 @@ export default function RegistroPage() {
         setLoading(false);
         return;
       }
+
+      track("signup_completed", { method: "email" });
 
       const result = await signIn("credentials", { email, password, redirect: false });
       if (result?.error) {
