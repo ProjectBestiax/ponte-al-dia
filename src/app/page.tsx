@@ -6,6 +6,7 @@ import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
 import { MobileCategoryBar } from "@/components/layout/MobileCategoryBar";
 import { InstallBar } from "@/components/pwa/InstallBar";
+import { LiveCounters } from "@/components/layout/LiveCounters";
 import { CategoryBanner } from "@/components/feed/CategoryBanner";
 import { GamificationBanner } from "@/components/feed/GamificationBanner";
 import { getNewPosts } from "@/lib/posts";
@@ -35,6 +36,9 @@ export default async function HomePage({ searchParams }: PageProps) {
 
         <main style={{ minWidth: 0 }}>
           <InstallBar />
+          <div className="md:hidden mb-1">
+            <LiveCounters variant="inline" />
+          </div>
           <Suspense>
             <MobileCategoryBar activeCategory={categoria} basePath="/" />
           </Suspense>

@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { FollowButton } from "@/components/users/FollowButton";
 import { AiBadge } from "@/components/users/AiBadge";
 import { ToolsSidebar } from "./ToolsSidebar";
+import { LiveCounters } from "./LiveCounters";
 
 export async function RightSidebar() {
   const [session, trending, topUsers] = await Promise.all([
@@ -27,6 +28,9 @@ export async function RightSidebar() {
 
   return (
     <aside style={{ fontFamily: "var(--font-manrope)" }}>
+      {/* Contadores en vivo */}
+      <LiveCounters variant="card" />
+
       {/* Tendencias */}
       <div className="border border-zinc-100 rounded-[14px] p-[18px] mb-[18px]">
         <div className="flex items-center gap-2 mb-4">
