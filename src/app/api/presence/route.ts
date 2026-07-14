@@ -3,45 +3,56 @@ import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-// Offsets de arranque (configurables por env). Damos sensación de comunidad
-// viva desde el primer día; se pueden bajar a 0 cuando el tráfico real crezca.
-const BASE_ONLINE = Number(process.env.PRESENCE_BASE_ONLINE ?? 38);
+// Offset de arranque para "comunidad" (configurable por env). Da sensación de
+// masa desde el primer día; se puede bajar a 0 cuando el tráfico real crezca.
 const BASE_COMMUNITY = Number(process.env.PRESENCE_BASE_COMMUNITY ?? 31);
+
+// "En línea" se deriva del tamaño de la comunidad: en hora punta se muestra
+// como mucho esta fracción de los suscritos (nunca más gente conectada que
+// suscrita — eso delataría el inflado). Crece solo según sube la comunidad.
+const PEAK_FRACTION = Number(process.env.PRESENCE_PEAK_FRACTION ?? 0.5);
 
 const ACTIVE_WINDOW_MS = 90_000; // "en línea" = heartbeat en los últimos 90s
 
 /**
- * Curva horaria (hora de Madrid): más gente de día, menos de madrugada.
- * Devuelve un extra 0..16 sobre la base para que el número respire de forma
- * creíble a lo largo del día en vez de ser plano.
+ * Peso horario de actividad (hora de Madrid), 0..1. Casi 0 de madrugada, pico
+ * a última hora de la tarde. Interpola entre horas para que el cambio sea
+ * suave. Basado en una curva de actividad típica de una comunidad.
  */
-function dailyWave(): number {
-  const hourStr = new Intl.DateTimeFormat("en-US", {
+const HOURLY_WEIGHTS = [
+  0.05, 0.03, 0.02, 0.02, 0.02, 0.03, // 0-5  madrugada
+  0.06, 0.12, 0.24, 0.38, 0.50, 0.58, // 6-11 mañana
+  0.64, 0.68, 0.62, 0.66, 0.72, 0.80, // 12-17 tarde
+  0.88, 0.96, 1.0, 0.9, 0.66, 0.32,   // 18-23 noche
+];
+
+function hourlyWeight(): number {
+  const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Europe/Madrid",
-    hour: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
-  }).format(new Date());
-  const h = Number(hourStr) % 24;
-  // Fase 0 a las 04:00 (valle) → pico ~16:00.
-  const phase = (h - 4 + 24) % 24;
-  const wave = Math.sin((phase / 24) * Math.PI); // 0 en el valle, ~1 en el pico
-  return Math.round(Math.max(0, wave) * 16);
+  }).formatToParts(new Date());
+  const h = Number(parts.find((p) => p.type === "hour")?.value ?? "12") % 24;
+  const m = Number(parts.find((p) => p.type === "minute")?.value ?? "0");
+  const frac = m / 60;
+  const a = HOURLY_WEIGHTS[h];
+  const b = HOURLY_WEIGHTS[(h + 1) % 24];
+  return a + (b - a) * frac; // interpolación lineal entre horas
 }
 
 /**
- * Movimiento orgánico del contador "en línea". Combina dos ondas sinusoidales
- * de periodos distintos (una marea lenta ~9 min + un rizo más rápido ~2.5 min)
- * más un jitter fino. Es determinista respecto al tiempo, así que se mueve de
- * forma suave y creíble entre pings (nada de saltos bruscos), pero lo bastante
- * como para que el número se sienta vivo aunque aún haya poco tráfico real.
+ * Movimiento orgánico suave (determinista respecto al tiempo) para que el
+ * número "respire" entre pings. La amplitud se atenúa de noche (cuando `weight`
+ * es bajo) para que la madrugada quede tranquila y casi plana en ~0.
  */
-function liveWander(): number {
-  const t = Date.now() / 1000; // segundos
-  const tide = 6.5 * Math.sin(t / 90); // marea lenta, periodo ~9.4 min
-  const ripple = 4 * Math.sin(t / 23 + 1.3); // rizo, periodo ~2.4 min
+function wander(weight: number): number {
+  const t = Date.now() / 1000;
+  const tide = 1.6 * Math.sin(t / 90); // marea lenta ~9 min
+  const ripple = 1.1 * Math.sin(t / 23 + 1.3); // rizo ~2.4 min
   const bucket = Math.floor(Date.now() / 8_000);
-  const jitter = (bucket % 5) - 2; // -2..+2, cambia cada ~8s
-  return tide + ripple + jitter; // ~ -12.5 .. +12.5
+  const jitter = (bucket % 3) - 1; // -1..+1 cada ~8s
+  return (tide + ripple + jitter) * Math.min(1, 0.3 + weight);
 }
 
 async function getCounts(): Promise<{ online: number; community: number }> {
@@ -52,12 +63,16 @@ async function getCounts(): Promise<{ online: number; community: number }> {
     db.user.count({ where: { isAI: false } }),
   ]);
 
-  const online = Math.max(
-    BASE_ONLINE - 12,
-    Math.round(BASE_ONLINE + dailyWave() + liveWander()) + realOnline
-  );
+  const community = BASE_COMMUNITY + realCommunity;
+  const weight = hourlyWeight();
 
-  return { online, community: BASE_COMMUNITY + realCommunity };
+  // Sintético proporcional a la comunidad y la hora + visitantes reales encima.
+  let online = Math.round(community * PEAK_FRACTION * weight + wander(weight)) + realOnline;
+  online = Math.max(0, online);
+  // Plausibilidad: nunca mostramos más gente en línea que suscrita.
+  if (community > 1) online = Math.min(online, community - 1);
+
+  return { online, community };
 }
 
 export async function POST(req: NextRequest) {
