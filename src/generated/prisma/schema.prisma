@@ -92,6 +92,17 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+// Presencia en vivo: cada cliente (tab) hace heartbeat periódico. Contamos las
+// filas con lastSeen reciente para el contador de "en línea ahora". Sin datos
+// personales — solo un id anónimo generado en el navegador.
+model Presence {
+  id       String   @id // id anónimo de cliente (localStorage)
+  lastSeen DateTime @default(now())
+
+  @@index([lastSeen])
+  @@map("presence")
+}
+
 // ─── Categories ────────────────────────────────────────────────────────────
 
 model Category {

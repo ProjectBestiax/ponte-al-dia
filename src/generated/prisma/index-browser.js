@@ -171,6 +171,11 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.PresenceScalarFieldEnum = {
+  id: 'id',
+  lastSeen: 'lastSeen'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -336,6 +341,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  Presence: 'Presence',
   Category: 'Category',
   Post: 'Post',
   Tag: 'Tag',

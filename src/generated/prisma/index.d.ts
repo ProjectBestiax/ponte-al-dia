@@ -34,6 +34,11 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
 /**
+ * Model Presence
+ * 
+ */
+export type Presence = $Result.DefaultSelection<Prisma.$PresencePayload>
+/**
  * Model Category
  * 
  */
@@ -322,6 +327,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs>;
+
+  /**
+   * `prisma.presence`: Exposes CRUD operations for the **Presence** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Presences
+    * const presences = await prisma.presence.findMany()
+    * ```
+    */
+  get presence(): Prisma.PresenceDelegate<ExtArgs>;
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
@@ -897,6 +912,7 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
+    Presence: 'Presence',
     Category: 'Category',
     Post: 'Post',
     Tag: 'Tag',
@@ -925,7 +941,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "share" | "follow" | "notification"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "presence" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "share" | "follow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1206,6 +1222,76 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      Presence: {
+        payload: Prisma.$PresencePayload<ExtArgs>
+        fields: Prisma.PresenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PresenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PresenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          findFirst: {
+            args: Prisma.PresenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PresenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          findMany: {
+            args: Prisma.PresenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>[]
+          }
+          create: {
+            args: Prisma.PresenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          createMany: {
+            args: Prisma.PresenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PresenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>[]
+          }
+          delete: {
+            args: Prisma.PresenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          update: {
+            args: Prisma.PresenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          deleteMany: {
+            args: Prisma.PresenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PresenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PresenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresencePayload>
+          }
+          aggregate: {
+            args: Prisma.PresenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePresence>
+          }
+          groupBy: {
+            args: Prisma.PresenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PresenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PresenceCountArgs<ExtArgs>
+            result: $Utils.Optional<PresenceCountAggregateOutputType> | number
           }
         }
       }
@@ -6887,6 +6973,848 @@ export namespace Prisma {
      * Select specific fields to fetch from the VerificationToken
      */
     select?: VerificationTokenSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Presence
+   */
+
+  export type AggregatePresence = {
+    _count: PresenceCountAggregateOutputType | null
+    _min: PresenceMinAggregateOutputType | null
+    _max: PresenceMaxAggregateOutputType | null
+  }
+
+  export type PresenceMinAggregateOutputType = {
+    id: string | null
+    lastSeen: Date | null
+  }
+
+  export type PresenceMaxAggregateOutputType = {
+    id: string | null
+    lastSeen: Date | null
+  }
+
+  export type PresenceCountAggregateOutputType = {
+    id: number
+    lastSeen: number
+    _all: number
+  }
+
+
+  export type PresenceMinAggregateInputType = {
+    id?: true
+    lastSeen?: true
+  }
+
+  export type PresenceMaxAggregateInputType = {
+    id?: true
+    lastSeen?: true
+  }
+
+  export type PresenceCountAggregateInputType = {
+    id?: true
+    lastSeen?: true
+    _all?: true
+  }
+
+  export type PresenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Presence to aggregate.
+     */
+    where?: PresenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Presences to fetch.
+     */
+    orderBy?: PresenceOrderByWithRelationInput | PresenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PresenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Presences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Presences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Presences
+    **/
+    _count?: true | PresenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PresenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PresenceMaxAggregateInputType
+  }
+
+  export type GetPresenceAggregateType<T extends PresenceAggregateArgs> = {
+        [P in keyof T & keyof AggregatePresence]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePresence[P]>
+      : GetScalarType<T[P], AggregatePresence[P]>
+  }
+
+
+
+
+  export type PresenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresenceWhereInput
+    orderBy?: PresenceOrderByWithAggregationInput | PresenceOrderByWithAggregationInput[]
+    by: PresenceScalarFieldEnum[] | PresenceScalarFieldEnum
+    having?: PresenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PresenceCountAggregateInputType | true
+    _min?: PresenceMinAggregateInputType
+    _max?: PresenceMaxAggregateInputType
+  }
+
+  export type PresenceGroupByOutputType = {
+    id: string
+    lastSeen: Date
+    _count: PresenceCountAggregateOutputType | null
+    _min: PresenceMinAggregateOutputType | null
+    _max: PresenceMaxAggregateOutputType | null
+  }
+
+  type GetPresenceGroupByPayload<T extends PresenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PresenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PresenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PresenceGroupByOutputType[P]>
+            : GetScalarType<T[P], PresenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PresenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastSeen?: boolean
+  }, ExtArgs["result"]["presence"]>
+
+  export type PresenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastSeen?: boolean
+  }, ExtArgs["result"]["presence"]>
+
+  export type PresenceSelectScalar = {
+    id?: boolean
+    lastSeen?: boolean
+  }
+
+
+  export type $PresencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Presence"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      lastSeen: Date
+    }, ExtArgs["result"]["presence"]>
+    composites: {}
+  }
+
+  type PresenceGetPayload<S extends boolean | null | undefined | PresenceDefaultArgs> = $Result.GetResult<Prisma.$PresencePayload, S>
+
+  type PresenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PresenceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PresenceCountAggregateInputType | true
+    }
+
+  export interface PresenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Presence'], meta: { name: 'Presence' } }
+    /**
+     * Find zero or one Presence that matches the filter.
+     * @param {PresenceFindUniqueArgs} args - Arguments to find a Presence
+     * @example
+     * // Get one Presence
+     * const presence = await prisma.presence.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PresenceFindUniqueArgs>(args: SelectSubset<T, PresenceFindUniqueArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Presence that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PresenceFindUniqueOrThrowArgs} args - Arguments to find a Presence
+     * @example
+     * // Get one Presence
+     * const presence = await prisma.presence.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PresenceFindUniqueOrThrowArgs>(args: SelectSubset<T, PresenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Presence that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceFindFirstArgs} args - Arguments to find a Presence
+     * @example
+     * // Get one Presence
+     * const presence = await prisma.presence.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PresenceFindFirstArgs>(args?: SelectSubset<T, PresenceFindFirstArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Presence that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceFindFirstOrThrowArgs} args - Arguments to find a Presence
+     * @example
+     * // Get one Presence
+     * const presence = await prisma.presence.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PresenceFindFirstOrThrowArgs>(args?: SelectSubset<T, PresenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Presences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Presences
+     * const presences = await prisma.presence.findMany()
+     * 
+     * // Get first 10 Presences
+     * const presences = await prisma.presence.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const presenceWithIdOnly = await prisma.presence.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PresenceFindManyArgs>(args?: SelectSubset<T, PresenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Presence.
+     * @param {PresenceCreateArgs} args - Arguments to create a Presence.
+     * @example
+     * // Create one Presence
+     * const Presence = await prisma.presence.create({
+     *   data: {
+     *     // ... data to create a Presence
+     *   }
+     * })
+     * 
+     */
+    create<T extends PresenceCreateArgs>(args: SelectSubset<T, PresenceCreateArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Presences.
+     * @param {PresenceCreateManyArgs} args - Arguments to create many Presences.
+     * @example
+     * // Create many Presences
+     * const presence = await prisma.presence.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PresenceCreateManyArgs>(args?: SelectSubset<T, PresenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Presences and returns the data saved in the database.
+     * @param {PresenceCreateManyAndReturnArgs} args - Arguments to create many Presences.
+     * @example
+     * // Create many Presences
+     * const presence = await prisma.presence.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Presences and only return the `id`
+     * const presenceWithIdOnly = await prisma.presence.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PresenceCreateManyAndReturnArgs>(args?: SelectSubset<T, PresenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Presence.
+     * @param {PresenceDeleteArgs} args - Arguments to delete one Presence.
+     * @example
+     * // Delete one Presence
+     * const Presence = await prisma.presence.delete({
+     *   where: {
+     *     // ... filter to delete one Presence
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PresenceDeleteArgs>(args: SelectSubset<T, PresenceDeleteArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Presence.
+     * @param {PresenceUpdateArgs} args - Arguments to update one Presence.
+     * @example
+     * // Update one Presence
+     * const presence = await prisma.presence.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PresenceUpdateArgs>(args: SelectSubset<T, PresenceUpdateArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Presences.
+     * @param {PresenceDeleteManyArgs} args - Arguments to filter Presences to delete.
+     * @example
+     * // Delete a few Presences
+     * const { count } = await prisma.presence.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PresenceDeleteManyArgs>(args?: SelectSubset<T, PresenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Presences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Presences
+     * const presence = await prisma.presence.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PresenceUpdateManyArgs>(args: SelectSubset<T, PresenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Presence.
+     * @param {PresenceUpsertArgs} args - Arguments to update or create a Presence.
+     * @example
+     * // Update or create a Presence
+     * const presence = await prisma.presence.upsert({
+     *   create: {
+     *     // ... data to create a Presence
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Presence we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PresenceUpsertArgs>(args: SelectSubset<T, PresenceUpsertArgs<ExtArgs>>): Prisma__PresenceClient<$Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Presences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceCountArgs} args - Arguments to filter Presences to count.
+     * @example
+     * // Count the number of Presences
+     * const count = await prisma.presence.count({
+     *   where: {
+     *     // ... the filter for the Presences we want to count
+     *   }
+     * })
+    **/
+    count<T extends PresenceCountArgs>(
+      args?: Subset<T, PresenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PresenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Presence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PresenceAggregateArgs>(args: Subset<T, PresenceAggregateArgs>): Prisma.PrismaPromise<GetPresenceAggregateType<T>>
+
+    /**
+     * Group by Presence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PresenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PresenceGroupByArgs['orderBy'] }
+        : { orderBy?: PresenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PresenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPresenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Presence model
+   */
+  readonly fields: PresenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Presence.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PresenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Presence model
+   */ 
+  interface PresenceFieldRefs {
+    readonly id: FieldRef<"Presence", 'String'>
+    readonly lastSeen: FieldRef<"Presence", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Presence findUnique
+   */
+  export type PresenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter, which Presence to fetch.
+     */
+    where: PresenceWhereUniqueInput
+  }
+
+  /**
+   * Presence findUniqueOrThrow
+   */
+  export type PresenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter, which Presence to fetch.
+     */
+    where: PresenceWhereUniqueInput
+  }
+
+  /**
+   * Presence findFirst
+   */
+  export type PresenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter, which Presence to fetch.
+     */
+    where?: PresenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Presences to fetch.
+     */
+    orderBy?: PresenceOrderByWithRelationInput | PresenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Presences.
+     */
+    cursor?: PresenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Presences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Presences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Presences.
+     */
+    distinct?: PresenceScalarFieldEnum | PresenceScalarFieldEnum[]
+  }
+
+  /**
+   * Presence findFirstOrThrow
+   */
+  export type PresenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter, which Presence to fetch.
+     */
+    where?: PresenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Presences to fetch.
+     */
+    orderBy?: PresenceOrderByWithRelationInput | PresenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Presences.
+     */
+    cursor?: PresenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Presences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Presences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Presences.
+     */
+    distinct?: PresenceScalarFieldEnum | PresenceScalarFieldEnum[]
+  }
+
+  /**
+   * Presence findMany
+   */
+  export type PresenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter, which Presences to fetch.
+     */
+    where?: PresenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Presences to fetch.
+     */
+    orderBy?: PresenceOrderByWithRelationInput | PresenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Presences.
+     */
+    cursor?: PresenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Presences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Presences.
+     */
+    skip?: number
+    distinct?: PresenceScalarFieldEnum | PresenceScalarFieldEnum[]
+  }
+
+  /**
+   * Presence create
+   */
+  export type PresenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * The data needed to create a Presence.
+     */
+    data: XOR<PresenceCreateInput, PresenceUncheckedCreateInput>
+  }
+
+  /**
+   * Presence createMany
+   */
+  export type PresenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Presences.
+     */
+    data: PresenceCreateManyInput | PresenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Presence createManyAndReturn
+   */
+  export type PresenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Presences.
+     */
+    data: PresenceCreateManyInput | PresenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Presence update
+   */
+  export type PresenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * The data needed to update a Presence.
+     */
+    data: XOR<PresenceUpdateInput, PresenceUncheckedUpdateInput>
+    /**
+     * Choose, which Presence to update.
+     */
+    where: PresenceWhereUniqueInput
+  }
+
+  /**
+   * Presence updateMany
+   */
+  export type PresenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Presences.
+     */
+    data: XOR<PresenceUpdateManyMutationInput, PresenceUncheckedUpdateManyInput>
+    /**
+     * Filter which Presences to update
+     */
+    where?: PresenceWhereInput
+  }
+
+  /**
+   * Presence upsert
+   */
+  export type PresenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * The filter to search for the Presence to update in case it exists.
+     */
+    where: PresenceWhereUniqueInput
+    /**
+     * In case the Presence found by the `where` argument doesn't exist, create a new Presence with this data.
+     */
+    create: XOR<PresenceCreateInput, PresenceUncheckedCreateInput>
+    /**
+     * In case the Presence was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PresenceUpdateInput, PresenceUncheckedUpdateInput>
+  }
+
+  /**
+   * Presence delete
+   */
+  export type PresenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
+    /**
+     * Filter which Presence to delete.
+     */
+    where: PresenceWhereUniqueInput
+  }
+
+  /**
+   * Presence deleteMany
+   */
+  export type PresenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Presences to delete
+     */
+    where?: PresenceWhereInput
+  }
+
+  /**
+   * Presence without action
+   */
+  export type PresenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Presence
+     */
+    select?: PresenceSelect<ExtArgs> | null
   }
 
 
@@ -19811,6 +20739,14 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+  export const PresenceScalarFieldEnum: {
+    id: 'id',
+    lastSeen: 'lastSeen'
+  };
+
+  export type PresenceScalarFieldEnum = (typeof PresenceScalarFieldEnum)[keyof typeof PresenceScalarFieldEnum]
+
+
   export const CategoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -20464,6 +21400,43 @@ export namespace Prisma {
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  }
+
+  export type PresenceWhereInput = {
+    AND?: PresenceWhereInput | PresenceWhereInput[]
+    OR?: PresenceWhereInput[]
+    NOT?: PresenceWhereInput | PresenceWhereInput[]
+    id?: StringFilter<"Presence"> | string
+    lastSeen?: DateTimeFilter<"Presence"> | Date | string
+  }
+
+  export type PresenceOrderByWithRelationInput = {
+    id?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type PresenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PresenceWhereInput | PresenceWhereInput[]
+    OR?: PresenceWhereInput[]
+    NOT?: PresenceWhereInput | PresenceWhereInput[]
+    lastSeen?: DateTimeFilter<"Presence"> | Date | string
+  }, "id">
+
+  export type PresenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    lastSeen?: SortOrder
+    _count?: PresenceCountOrderByAggregateInput
+    _max?: PresenceMaxOrderByAggregateInput
+    _min?: PresenceMinOrderByAggregateInput
+  }
+
+  export type PresenceScalarWhereWithAggregatesInput = {
+    AND?: PresenceScalarWhereWithAggregatesInput | PresenceScalarWhereWithAggregatesInput[]
+    OR?: PresenceScalarWhereWithAggregatesInput[]
+    NOT?: PresenceScalarWhereWithAggregatesInput | PresenceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Presence"> | string
+    lastSeen?: DateTimeWithAggregatesFilter<"Presence"> | Date | string
   }
 
   export type CategoryWhereInput = {
@@ -21727,6 +22700,41 @@ export namespace Prisma {
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresenceCreateInput = {
+    id: string
+    lastSeen?: Date | string
+  }
+
+  export type PresenceUncheckedCreateInput = {
+    id: string
+    lastSeen?: Date | string
+  }
+
+  export type PresenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresenceCreateManyInput = {
+    id: string
+    lastSeen?: Date | string
+  }
+
+  export type PresenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CategoryCreateInput = {
@@ -23078,6 +24086,21 @@ export namespace Prisma {
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
+  }
+
+  export type PresenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type PresenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type PresenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    lastSeen?: SortOrder
   }
 
   export type CategoryCountOrderByAggregateInput = {
@@ -30894,6 +31917,10 @@ export namespace Prisma {
      * @deprecated Use VerificationTokenDefaultArgs instead
      */
     export type VerificationTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VerificationTokenDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PresenceDefaultArgs instead
+     */
+    export type PresenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PresenceDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CategoryDefaultArgs instead
      */
