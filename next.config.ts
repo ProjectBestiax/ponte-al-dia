@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { withSentryConfig } from "@sentry/nextjs";
 
 // Cabeceras de seguridad aplicadas a todas las respuestas.
 // (No incluimos CSP estricto para no romper AdSense/Supabase/analytics; se puede
@@ -37,15 +36,8 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Solo envolvemos con Sentry si hay DSN (evita ruido/errores de build sin claves).
-// La subida de source maps solo ocurre si además hay SENTRY_AUTH_TOKEN.
-export default process.env.NEXT_PUBLIC_SENTRY_DSN
-  ? withSentryConfig(nextConfig, {
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      silent: true,
-      widenClientFileUpload: true,
-      disableLogger: true,
-    })
-  : nextConfig;
+// Nota: la captura de errores de Sentry funciona vía instrumentation.ts /
+// instrumentation-client.ts (convención de Next), sin necesidad de
+// withSentryConfig. Omitimos el wrapper para no arriesgar el build en Vercel
+// (solo aportaba subida de source maps, que requiere SENTRY_AUTH_TOKEN).
+export default nextConfig;
