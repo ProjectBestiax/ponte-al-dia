@@ -45,7 +45,10 @@ export function FeedAd() {
   // rellenar). El marco visual (borde + etiqueta) solo se muestra cuando hay
   // anuncio; si no se rellena, el <ins> colapsa a 0 y no se ve nada.
   return (
-    <div className={filled ? "rounded-2xl border border-zinc-100 bg-zinc-50/40 overflow-hidden" : ""}>
+    <div
+      className={filled ? "rounded-2xl border border-zinc-100 bg-zinc-50/40 overflow-hidden" : ""}
+      style={filled ? undefined : { height: 0, overflow: "hidden" }}
+    >
       {filled && (
         <div
           className="px-3.5 pt-2 pb-1 text-[10px] font-medium uppercase tracking-wider text-zinc-300"
