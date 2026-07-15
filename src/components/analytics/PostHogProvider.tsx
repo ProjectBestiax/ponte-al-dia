@@ -6,6 +6,7 @@ import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+// build: rebuild para incrustar envs NEXT_PUBLIC (PostHog/Sentry) — 2026-07
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 // Por defecto la nube EU de PostHog (audiencia española → residencia de datos UE).
 const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://eu.i.posthog.com";

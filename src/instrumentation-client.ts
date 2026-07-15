@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
+// build: rebuild para incrustar NEXT_PUBLIC_SENTRY_DSN — 2026-07
 // Inicialización de Sentry en el navegador. Inerte sin NEXT_PUBLIC_SENTRY_DSN.
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
