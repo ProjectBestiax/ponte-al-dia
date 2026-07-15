@@ -110,12 +110,22 @@ export function Navbar() {
               </div>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="flex items-center gap-1.5 border border-zinc-300 text-zinc-700 text-sm font-medium px-3 py-1.5 rounded-md hover:bg-zinc-50 transition-colors"
-            >
-              Entrar
-            </Link>
+            <>
+              <Link
+                href="/registro"
+                className="flex items-center gap-1.5 text-white text-sm font-bold px-4 py-2 rounded-[11px] transition-colors shrink-0"
+                style={{ background: "var(--color-accent-500)", fontFamily: "var(--font-manrope)", fontSize: 14 }}
+              >
+                Únete gratis
+              </Link>
+              <Link
+                href="/login"
+                className="hidden sm:flex items-center text-zinc-500 text-sm font-medium hover:text-zinc-700 transition-colors"
+                style={{ fontFamily: "var(--font-manrope)", fontSize: 13.5 }}
+              >
+                Iniciar sesión
+              </Link>
+            </>
           )}
         </div>
       </div>

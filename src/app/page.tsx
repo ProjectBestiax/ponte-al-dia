@@ -9,6 +9,8 @@ import { InstallBar } from "@/components/pwa/InstallBar";
 import { LiveCounters } from "@/components/layout/LiveCounters";
 import { CategoryBanner } from "@/components/feed/CategoryBanner";
 import { GamificationBanner } from "@/components/feed/GamificationBanner";
+import { HeroBanner } from "@/components/feed/HeroBanner";
+import { FeedCta } from "@/components/feed/FeedCta";
 import { getNewPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +44,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           <Suspense>
             <MobileCategoryBar activeCategory={categoria} basePath="/" />
           </Suspense>
+          <HeroBanner />
           <FeedTabs />
 
           <GamificationBanner />

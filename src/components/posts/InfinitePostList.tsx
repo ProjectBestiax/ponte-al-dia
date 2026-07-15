@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState, useEffect, Fragment } from "react";
 import { PostCard } from "./PostCard";
 import { FeedAd } from "./FeedAd";
+import { FeedCta } from "../feed/FeedCta";
 import { Loader2 } from "lucide-react";
 import type { FeedPost } from "@/lib/posts";
 
@@ -81,6 +82,7 @@ export function InfinitePostList({ initialPosts, tab, categoria, periodo, hasMor
               imageUrl: post.imageUrl ?? undefined,
             }}
           />
+          {i === 2 && <FeedCta />}
           {(i + 1) % AD_EVERY === 0 && <FeedAd />}
         </Fragment>
       ))}
