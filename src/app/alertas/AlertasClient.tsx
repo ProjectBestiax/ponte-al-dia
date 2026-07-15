@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Zap, X, Plus, Mail, MessageSquare } from "lucide-react";
 import { timeAgo } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 interface Keyword {
   id: string;
@@ -52,6 +53,7 @@ export function AlertasClient({
       }
       const created = await res.json();
       setKeywords((prev) => [created, ...prev]);
+      track("keyword_alert_created", { notifyEmail });
       setNewKeyword("");
       setNotifyEmail(false);
     } catch {

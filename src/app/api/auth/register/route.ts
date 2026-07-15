@@ -6,6 +6,7 @@ import { sendEmail } from "@/lib/email";
 import { getEmailVerificationToken, verifyEmailUrl } from "@/lib/email";
 import { verifyEmailTemplate } from "@/lib/email-templates";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const USERNAME_RE = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/;
 
@@ -65,6 +66,20 @@ export async function POST(req: NextRequest) {
       emailVerified: null,
     },
   });
+
+  // Capture server-side registration event and identify the new user.
+  const posthog = getPostHogClient();
+  posthog.capture({
+    distinctId: user.id,
+    event: "user_registered",
+    properties: { method: "email", username: user.username },
+  });
+  posthog.identify({
+    distinctId: user.id,
+    properties: { name: user.name, username: user.username },
+  });
+  // Short-lived handler: flush before returning so the events are not dropped.
+  await posthog.flush();
 
   // Generate verification token and send email (async, doesn't block response)
   after(async () => {

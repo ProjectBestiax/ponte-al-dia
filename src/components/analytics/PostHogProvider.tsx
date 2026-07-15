@@ -8,10 +8,6 @@ import { useSession } from "next-auth/react";
 
 // build: rebuild para incrustar envs NEXT_PUBLIC (PostHog/Sentry) — 2026-07
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-// Por defecto la nube EU de PostHog (audiencia española → residencia de datos UE).
-const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://eu.i.posthog.com";
-
-let initialized = false;
 
 // Captura manual de pageviews en el App Router (no hay recarga entre rutas).
 function PostHogPageview() {
@@ -36,25 +32,15 @@ function PostHogIdentify() {
     if (!KEY) return;
     const id = session?.user?.id;
     if (id) {
-      posthog.identify(id);
+      posthog.identify(id, { name: session?.user?.name ?? undefined });
     }
-  }, [session?.user?.id]);
+  }, [session?.user?.id, session?.user?.name]);
   return null;
 }
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    if (!KEY || initialized) return;
-    posthog.init(KEY, {
-      api_host: HOST,
-      capture_pageview: false, // lo hacemos manual (App Router)
-      capture_pageleave: true,
-      person_profiles: "identified_only", // solo perfiles de usuarios identificados
-      defaults: "2025-05-24",
-    });
-    initialized = true;
-  }, []);
-
+  // PostHog se inicializa en instrumentation-client.ts (Next.js 15.3+).
+  // Este componente solo provee el contexto React y rastrea pageviews e identidad.
   if (!KEY) return <>{children}</>;
 
   return (
