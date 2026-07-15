@@ -91,6 +91,7 @@ export function AlertasClient({
       <form onSubmit={addKeyword} className="flex flex-col gap-3 mb-8">
         <div className="flex gap-2">
           <input
+            name="keyword"
             type="text"
             value={newKeyword}
             onChange={(e) => setNewKeyword(e.target.value)}
@@ -109,6 +110,7 @@ export function AlertasClient({
         </div>
         <label className="flex items-center gap-2 text-sm text-zinc-600 cursor-pointer">
           <input
+            name="notifyEmail"
             type="checkbox"
             checked={notifyEmail}
             onChange={(e) => setNotifyEmail(e.target.checked)}

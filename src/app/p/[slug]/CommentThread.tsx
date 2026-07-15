@@ -151,6 +151,7 @@ export function CommentThread({ comment, postId, isLoggedIn, currentUserId, dept
       {showReply && (
         <div className="mt-2 ml-6 pl-3 border-l-2 border-accent-300">
           <textarea
+            name="reply"
             value={replyContent}
             onChange={e => setReplyContent(e.target.value)}
             rows={3}

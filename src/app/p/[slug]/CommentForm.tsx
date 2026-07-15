@@ -37,6 +37,8 @@ export function CommentForm({ postId }: { postId: string }) {
   return (
     <form onSubmit={handleSubmit} className="mb-6">
       <textarea
+        id="comment"
+        name="comment"
         value={content}
         onChange={(e) => setContent(e.target.value)}
         rows={3}
