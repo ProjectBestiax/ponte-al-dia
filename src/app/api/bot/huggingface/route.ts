@@ -13,7 +13,7 @@ export const maxDuration = 60;
 // Nora curates research: publish few, high-signal, well-titled papers.
 const PERSONA = AI_PERSONAS.nora;
 const MAX_CANDIDATES = 8; // bound curation cost
-const MAX_PUBLISH = 3; // few but good
+const MAX_PUBLISH = 1; // only the most practical/useful paper of the day
 
 async function getPersonaUser() {
   const existing = await db.user.findFirst({ where: { email: PERSONA.email } });

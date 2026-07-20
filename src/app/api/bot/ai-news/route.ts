@@ -12,11 +12,12 @@ export const maxDuration = 60;
 
 const PERSONA = AI_PERSONAS.ada;
 const MAX_CANDIDATES = 15;
-const MAX_PUBLISH = 4;
+const MAX_PUBLISH = 2;
 
 const CATEGORY_SLUGS = [
   "noticias",
   "herramientas",
+  "tutoriales",
   "agentes-y-automatizacion",
   "demos-y-virales",
   "analisis",
@@ -24,12 +25,15 @@ const CATEGORY_SLUGS = [
 ];
 
 const HN_QUERIES = [
-  "AI",
+  "AI tool",
+  "AI tutorial",
+  "AI workflow",
+  "AI automation",
   "LLM",
   "GPT",
   "Claude",
   "OpenAI",
-  "machine learning",
+  "AI agent",
   "generative AI",
 ];
 

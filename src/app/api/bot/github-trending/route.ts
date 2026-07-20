@@ -12,7 +12,7 @@ export const maxDuration = 60;
 
 // Leo curates open-source: publish few, well-titled repos worth trying.
 const PERSONA = AI_PERSONAS.leo;
-const MAX_PUBLISH = 3;
+const MAX_PUBLISH = 2;
 
 const AI_KEYWORDS = ["llm", "ai", "gpt", "claude", "gemini", "diffusion", "transformer",
   "embedding", "rag", "agent", "langchain", "openai", "anthropic", "ollama", "ml",
