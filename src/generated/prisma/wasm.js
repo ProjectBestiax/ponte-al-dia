@@ -260,6 +260,30 @@ exports.Prisma.CommentVoteScalarFieldEnum = {
   commentId: 'commentId'
 };
 
+exports.Prisma.DebateScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  status: 'status',
+  isPinned: 'isPinned',
+  commentCount: 'commentCount',
+  viewCount: 'viewCount',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastCommentAt: 'lastCommentAt'
+};
+
+exports.Prisma.DebateCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  debateId: 'debateId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AlertKeywordScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -351,6 +375,8 @@ exports.Prisma.ModelName = {
   CommentReaction: 'CommentReaction',
   Bookmark: 'Bookmark',
   CommentVote: 'CommentVote',
+  Debate: 'Debate',
+  DebateComment: 'DebateComment',
   AlertKeyword: 'AlertKeyword',
   Share: 'Share',
   Follow: 'Follow',

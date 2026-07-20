@@ -22,10 +22,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { username: true, id: true },
   });
 
+  const debates = await db.debate.findMany({
+    where: { status: "ACTIVE" },
+    select: { slug: true, updatedAt: true },
+    take: 1000,
+  });
+
   return [
     { url: base, lastModified: new Date(), changeFrequency: "hourly", priority: 1 },
     { url: `${base}/populares`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.9 },
     { url: `${base}/ranking`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
+    { url: `${base}/debates`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
+    { url: `${base}/debates/normas`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
     ...categories.map((cat) => ({
       url: `${base}/?categoria=${cat.slug}`,
       lastModified: new Date(),
@@ -35,6 +43,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...posts.map((post) => ({
       url: `${base}/p/${post.slug}`,
       lastModified: post.updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    ...debates.map((debate) => ({
+      url: `${base}/debates/${debate.slug}`,
+      lastModified: debate.updatedAt,
       changeFrequency: "weekly" as const,
       priority: 0.6,
     })),

@@ -84,6 +84,16 @@ export type Bookmark = $Result.DefaultSelection<Prisma.$BookmarkPayload>
  */
 export type CommentVote = $Result.DefaultSelection<Prisma.$CommentVotePayload>
 /**
+ * Model Debate
+ * 
+ */
+export type Debate = $Result.DefaultSelection<Prisma.$DebatePayload>
+/**
+ * Model DebateComment
+ * 
+ */
+export type DebateComment = $Result.DefaultSelection<Prisma.$DebateCommentPayload>
+/**
  * Model AlertKeyword
  * 
  */
@@ -427,6 +437,26 @@ export class PrismaClient<
     * ```
     */
   get commentVote(): Prisma.CommentVoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.debate`: Exposes CRUD operations for the **Debate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Debates
+    * const debates = await prisma.debate.findMany()
+    * ```
+    */
+  get debate(): Prisma.DebateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.debateComment`: Exposes CRUD operations for the **DebateComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DebateComments
+    * const debateComments = await prisma.debateComment.findMany()
+    * ```
+    */
+  get debateComment(): Prisma.DebateCommentDelegate<ExtArgs>;
 
   /**
    * `prisma.alertKeyword`: Exposes CRUD operations for the **AlertKeyword** model.
@@ -922,6 +952,8 @@ export namespace Prisma {
     CommentReaction: 'CommentReaction',
     Bookmark: 'Bookmark',
     CommentVote: 'CommentVote',
+    Debate: 'Debate',
+    DebateComment: 'DebateComment',
     AlertKeyword: 'AlertKeyword',
     Share: 'Share',
     Follow: 'Follow',
@@ -941,7 +973,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "presence" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "alertKeyword" | "share" | "follow" | "notification"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "presence" | "category" | "post" | "tag" | "postTag" | "vote" | "comment" | "commentReaction" | "bookmark" | "commentVote" | "debate" | "debateComment" | "alertKeyword" | "share" | "follow" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1925,6 +1957,146 @@ export namespace Prisma {
           }
         }
       }
+      Debate: {
+        payload: Prisma.$DebatePayload<ExtArgs>
+        fields: Prisma.DebateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DebateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DebateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          findFirst: {
+            args: Prisma.DebateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DebateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          findMany: {
+            args: Prisma.DebateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>[]
+          }
+          create: {
+            args: Prisma.DebateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          createMany: {
+            args: Prisma.DebateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DebateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>[]
+          }
+          delete: {
+            args: Prisma.DebateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          update: {
+            args: Prisma.DebateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          deleteMany: {
+            args: Prisma.DebateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DebateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DebateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebatePayload>
+          }
+          aggregate: {
+            args: Prisma.DebateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDebate>
+          }
+          groupBy: {
+            args: Prisma.DebateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DebateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DebateCountArgs<ExtArgs>
+            result: $Utils.Optional<DebateCountAggregateOutputType> | number
+          }
+        }
+      }
+      DebateComment: {
+        payload: Prisma.$DebateCommentPayload<ExtArgs>
+        fields: Prisma.DebateCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DebateCommentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DebateCommentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.DebateCommentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DebateCommentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          findMany: {
+            args: Prisma.DebateCommentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>[]
+          }
+          create: {
+            args: Prisma.DebateCommentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          createMany: {
+            args: Prisma.DebateCommentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DebateCommentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>[]
+          }
+          delete: {
+            args: Prisma.DebateCommentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          update: {
+            args: Prisma.DebateCommentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DebateCommentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DebateCommentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DebateCommentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DebateCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.DebateCommentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDebateComment>
+          }
+          groupBy: {
+            args: Prisma.DebateCommentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DebateCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DebateCommentCountArgs<ExtArgs>
+            result: $Utils.Optional<DebateCommentCountAggregateOutputType> | number
+          }
+        }
+      }
       AlertKeyword: {
         payload: Prisma.$AlertKeywordPayload<ExtArgs>
         fields: Prisma.AlertKeywordFieldRefs
@@ -2380,6 +2552,8 @@ export namespace Prisma {
     followers: number
     alertKeywords: number
     shares: number
+    debates: number
+    debateComments: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2397,6 +2571,8 @@ export namespace Prisma {
     followers?: boolean | UserCountOutputTypeCountFollowersArgs
     alertKeywords?: boolean | UserCountOutputTypeCountAlertKeywordsArgs
     shares?: boolean | UserCountOutputTypeCountSharesArgs
+    debates?: boolean | UserCountOutputTypeCountDebatesArgs
+    debateComments?: boolean | UserCountOutputTypeCountDebateCommentsArgs
   }
 
   // Custom InputTypes
@@ -2506,6 +2682,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShareWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDebatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DebateWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDebateCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DebateCommentWhereInput
   }
 
 
@@ -2693,6 +2883,37 @@ export namespace Prisma {
    */
   export type CommentCountOutputTypeCountReactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentReactionWhereInput
+  }
+
+
+  /**
+   * Count Type DebateCountOutputType
+   */
+
+  export type DebateCountOutputType = {
+    comments: number
+  }
+
+  export type DebateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comments?: boolean | DebateCountOutputTypeCountCommentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DebateCountOutputType without action
+   */
+  export type DebateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateCountOutputType
+     */
+    select?: DebateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DebateCountOutputType without action
+   */
+  export type DebateCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DebateCommentWhereInput
   }
 
 
@@ -3032,6 +3253,8 @@ export namespace Prisma {
     followers?: boolean | User$followersArgs<ExtArgs>
     alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
     shares?: boolean | User$sharesArgs<ExtArgs>
+    debates?: boolean | User$debatesArgs<ExtArgs>
+    debateComments?: boolean | User$debateCommentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3096,6 +3319,8 @@ export namespace Prisma {
     followers?: boolean | User$followersArgs<ExtArgs>
     alertKeywords?: boolean | User$alertKeywordsArgs<ExtArgs>
     shares?: boolean | User$sharesArgs<ExtArgs>
+    debates?: boolean | User$debatesArgs<ExtArgs>
+    debateComments?: boolean | User$debateCommentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3117,6 +3342,8 @@ export namespace Prisma {
       followers: Prisma.$FollowPayload<ExtArgs>[]
       alertKeywords: Prisma.$AlertKeywordPayload<ExtArgs>[]
       shares: Prisma.$SharePayload<ExtArgs>[]
+      debates: Prisma.$DebatePayload<ExtArgs>[]
+      debateComments: Prisma.$DebateCommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3517,6 +3744,8 @@ export namespace Prisma {
     followers<T extends User$followersArgs<ExtArgs> = {}>(args?: Subset<T, User$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany"> | Null>
     alertKeywords<T extends User$alertKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, User$alertKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertKeywordPayload<ExtArgs>, T, "findMany"> | Null>
     shares<T extends User$sharesArgs<ExtArgs> = {}>(args?: Subset<T, User$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany"> | Null>
+    debates<T extends User$debatesArgs<ExtArgs> = {}>(args?: Subset<T, User$debatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findMany"> | Null>
+    debateComments<T extends User$debateCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$debateCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4157,6 +4386,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ShareScalarFieldEnum | ShareScalarFieldEnum[]
+  }
+
+  /**
+   * User.debates
+   */
+  export type User$debatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    where?: DebateWhereInput
+    orderBy?: DebateOrderByWithRelationInput | DebateOrderByWithRelationInput[]
+    cursor?: DebateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DebateScalarFieldEnum | DebateScalarFieldEnum[]
+  }
+
+  /**
+   * User.debateComments
+   */
+  export type User$debateCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    where?: DebateCommentWhereInput
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    cursor?: DebateCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DebateCommentScalarFieldEnum | DebateCommentScalarFieldEnum[]
   }
 
   /**
@@ -16855,6 +17124,2038 @@ export namespace Prisma {
 
 
   /**
+   * Model Debate
+   */
+
+  export type AggregateDebate = {
+    _count: DebateCountAggregateOutputType | null
+    _avg: DebateAvgAggregateOutputType | null
+    _sum: DebateSumAggregateOutputType | null
+    _min: DebateMinAggregateOutputType | null
+    _max: DebateMaxAggregateOutputType | null
+  }
+
+  export type DebateAvgAggregateOutputType = {
+    commentCount: number | null
+    viewCount: number | null
+  }
+
+  export type DebateSumAggregateOutputType = {
+    commentCount: number | null
+    viewCount: number | null
+  }
+
+  export type DebateMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    status: $Enums.PostStatus | null
+    isPinned: boolean | null
+    commentCount: number | null
+    viewCount: number | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    lastCommentAt: Date | null
+  }
+
+  export type DebateMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    status: $Enums.PostStatus | null
+    isPinned: boolean | null
+    commentCount: number | null
+    viewCount: number | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    lastCommentAt: Date | null
+  }
+
+  export type DebateCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    description: number
+    status: number
+    isPinned: number
+    commentCount: number
+    viewCount: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    lastCommentAt: number
+    _all: number
+  }
+
+
+  export type DebateAvgAggregateInputType = {
+    commentCount?: true
+    viewCount?: true
+  }
+
+  export type DebateSumAggregateInputType = {
+    commentCount?: true
+    viewCount?: true
+  }
+
+  export type DebateMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    status?: true
+    isPinned?: true
+    commentCount?: true
+    viewCount?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    lastCommentAt?: true
+  }
+
+  export type DebateMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    status?: true
+    isPinned?: true
+    commentCount?: true
+    viewCount?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    lastCommentAt?: true
+  }
+
+  export type DebateCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    status?: true
+    isPinned?: true
+    commentCount?: true
+    viewCount?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    lastCommentAt?: true
+    _all?: true
+  }
+
+  export type DebateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Debate to aggregate.
+     */
+    where?: DebateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Debates to fetch.
+     */
+    orderBy?: DebateOrderByWithRelationInput | DebateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DebateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Debates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Debates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Debates
+    **/
+    _count?: true | DebateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DebateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DebateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DebateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DebateMaxAggregateInputType
+  }
+
+  export type GetDebateAggregateType<T extends DebateAggregateArgs> = {
+        [P in keyof T & keyof AggregateDebate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDebate[P]>
+      : GetScalarType<T[P], AggregateDebate[P]>
+  }
+
+
+
+
+  export type DebateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DebateWhereInput
+    orderBy?: DebateOrderByWithAggregationInput | DebateOrderByWithAggregationInput[]
+    by: DebateScalarFieldEnum[] | DebateScalarFieldEnum
+    having?: DebateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DebateCountAggregateInputType | true
+    _avg?: DebateAvgAggregateInputType
+    _sum?: DebateSumAggregateInputType
+    _min?: DebateMinAggregateInputType
+    _max?: DebateMaxAggregateInputType
+  }
+
+  export type DebateGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    description: string
+    status: $Enums.PostStatus
+    isPinned: boolean
+    commentCount: number
+    viewCount: number
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    lastCommentAt: Date
+    _count: DebateCountAggregateOutputType | null
+    _avg: DebateAvgAggregateOutputType | null
+    _sum: DebateSumAggregateOutputType | null
+    _min: DebateMinAggregateOutputType | null
+    _max: DebateMaxAggregateOutputType | null
+  }
+
+  type GetDebateGroupByPayload<T extends DebateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DebateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DebateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DebateGroupByOutputType[P]>
+            : GetScalarType<T[P], DebateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DebateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    status?: boolean
+    isPinned?: boolean
+    commentCount?: boolean
+    viewCount?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastCommentAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    comments?: boolean | Debate$commentsArgs<ExtArgs>
+    _count?: boolean | DebateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["debate"]>
+
+  export type DebateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    status?: boolean
+    isPinned?: boolean
+    commentCount?: boolean
+    viewCount?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastCommentAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["debate"]>
+
+  export type DebateSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    status?: boolean
+    isPinned?: boolean
+    commentCount?: boolean
+    viewCount?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastCommentAt?: boolean
+  }
+
+  export type DebateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    comments?: boolean | Debate$commentsArgs<ExtArgs>
+    _count?: boolean | DebateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DebateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DebatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Debate"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      comments: Prisma.$DebateCommentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      description: string
+      status: $Enums.PostStatus
+      isPinned: boolean
+      commentCount: number
+      viewCount: number
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+      lastCommentAt: Date
+    }, ExtArgs["result"]["debate"]>
+    composites: {}
+  }
+
+  type DebateGetPayload<S extends boolean | null | undefined | DebateDefaultArgs> = $Result.GetResult<Prisma.$DebatePayload, S>
+
+  type DebateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DebateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DebateCountAggregateInputType | true
+    }
+
+  export interface DebateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Debate'], meta: { name: 'Debate' } }
+    /**
+     * Find zero or one Debate that matches the filter.
+     * @param {DebateFindUniqueArgs} args - Arguments to find a Debate
+     * @example
+     * // Get one Debate
+     * const debate = await prisma.debate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DebateFindUniqueArgs>(args: SelectSubset<T, DebateFindUniqueArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Debate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {DebateFindUniqueOrThrowArgs} args - Arguments to find a Debate
+     * @example
+     * // Get one Debate
+     * const debate = await prisma.debate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DebateFindUniqueOrThrowArgs>(args: SelectSubset<T, DebateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Debate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateFindFirstArgs} args - Arguments to find a Debate
+     * @example
+     * // Get one Debate
+     * const debate = await prisma.debate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DebateFindFirstArgs>(args?: SelectSubset<T, DebateFindFirstArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Debate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateFindFirstOrThrowArgs} args - Arguments to find a Debate
+     * @example
+     * // Get one Debate
+     * const debate = await prisma.debate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DebateFindFirstOrThrowArgs>(args?: SelectSubset<T, DebateFindFirstOrThrowArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Debates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Debates
+     * const debates = await prisma.debate.findMany()
+     * 
+     * // Get first 10 Debates
+     * const debates = await prisma.debate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const debateWithIdOnly = await prisma.debate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DebateFindManyArgs>(args?: SelectSubset<T, DebateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Debate.
+     * @param {DebateCreateArgs} args - Arguments to create a Debate.
+     * @example
+     * // Create one Debate
+     * const Debate = await prisma.debate.create({
+     *   data: {
+     *     // ... data to create a Debate
+     *   }
+     * })
+     * 
+     */
+    create<T extends DebateCreateArgs>(args: SelectSubset<T, DebateCreateArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Debates.
+     * @param {DebateCreateManyArgs} args - Arguments to create many Debates.
+     * @example
+     * // Create many Debates
+     * const debate = await prisma.debate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DebateCreateManyArgs>(args?: SelectSubset<T, DebateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Debates and returns the data saved in the database.
+     * @param {DebateCreateManyAndReturnArgs} args - Arguments to create many Debates.
+     * @example
+     * // Create many Debates
+     * const debate = await prisma.debate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Debates and only return the `id`
+     * const debateWithIdOnly = await prisma.debate.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DebateCreateManyAndReturnArgs>(args?: SelectSubset<T, DebateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Debate.
+     * @param {DebateDeleteArgs} args - Arguments to delete one Debate.
+     * @example
+     * // Delete one Debate
+     * const Debate = await prisma.debate.delete({
+     *   where: {
+     *     // ... filter to delete one Debate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DebateDeleteArgs>(args: SelectSubset<T, DebateDeleteArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Debate.
+     * @param {DebateUpdateArgs} args - Arguments to update one Debate.
+     * @example
+     * // Update one Debate
+     * const debate = await prisma.debate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DebateUpdateArgs>(args: SelectSubset<T, DebateUpdateArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Debates.
+     * @param {DebateDeleteManyArgs} args - Arguments to filter Debates to delete.
+     * @example
+     * // Delete a few Debates
+     * const { count } = await prisma.debate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DebateDeleteManyArgs>(args?: SelectSubset<T, DebateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Debates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Debates
+     * const debate = await prisma.debate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DebateUpdateManyArgs>(args: SelectSubset<T, DebateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Debate.
+     * @param {DebateUpsertArgs} args - Arguments to update or create a Debate.
+     * @example
+     * // Update or create a Debate
+     * const debate = await prisma.debate.upsert({
+     *   create: {
+     *     // ... data to create a Debate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Debate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DebateUpsertArgs>(args: SelectSubset<T, DebateUpsertArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Debates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCountArgs} args - Arguments to filter Debates to count.
+     * @example
+     * // Count the number of Debates
+     * const count = await prisma.debate.count({
+     *   where: {
+     *     // ... the filter for the Debates we want to count
+     *   }
+     * })
+    **/
+    count<T extends DebateCountArgs>(
+      args?: Subset<T, DebateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DebateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Debate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DebateAggregateArgs>(args: Subset<T, DebateAggregateArgs>): Prisma.PrismaPromise<GetDebateAggregateType<T>>
+
+    /**
+     * Group by Debate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DebateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DebateGroupByArgs['orderBy'] }
+        : { orderBy?: DebateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DebateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDebateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Debate model
+   */
+  readonly fields: DebateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Debate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DebateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    comments<T extends Debate$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Debate$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Debate model
+   */ 
+  interface DebateFieldRefs {
+    readonly id: FieldRef<"Debate", 'String'>
+    readonly title: FieldRef<"Debate", 'String'>
+    readonly slug: FieldRef<"Debate", 'String'>
+    readonly description: FieldRef<"Debate", 'String'>
+    readonly status: FieldRef<"Debate", 'PostStatus'>
+    readonly isPinned: FieldRef<"Debate", 'Boolean'>
+    readonly commentCount: FieldRef<"Debate", 'Int'>
+    readonly viewCount: FieldRef<"Debate", 'Int'>
+    readonly userId: FieldRef<"Debate", 'String'>
+    readonly createdAt: FieldRef<"Debate", 'DateTime'>
+    readonly updatedAt: FieldRef<"Debate", 'DateTime'>
+    readonly lastCommentAt: FieldRef<"Debate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Debate findUnique
+   */
+  export type DebateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter, which Debate to fetch.
+     */
+    where: DebateWhereUniqueInput
+  }
+
+  /**
+   * Debate findUniqueOrThrow
+   */
+  export type DebateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter, which Debate to fetch.
+     */
+    where: DebateWhereUniqueInput
+  }
+
+  /**
+   * Debate findFirst
+   */
+  export type DebateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter, which Debate to fetch.
+     */
+    where?: DebateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Debates to fetch.
+     */
+    orderBy?: DebateOrderByWithRelationInput | DebateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Debates.
+     */
+    cursor?: DebateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Debates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Debates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Debates.
+     */
+    distinct?: DebateScalarFieldEnum | DebateScalarFieldEnum[]
+  }
+
+  /**
+   * Debate findFirstOrThrow
+   */
+  export type DebateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter, which Debate to fetch.
+     */
+    where?: DebateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Debates to fetch.
+     */
+    orderBy?: DebateOrderByWithRelationInput | DebateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Debates.
+     */
+    cursor?: DebateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Debates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Debates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Debates.
+     */
+    distinct?: DebateScalarFieldEnum | DebateScalarFieldEnum[]
+  }
+
+  /**
+   * Debate findMany
+   */
+  export type DebateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter, which Debates to fetch.
+     */
+    where?: DebateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Debates to fetch.
+     */
+    orderBy?: DebateOrderByWithRelationInput | DebateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Debates.
+     */
+    cursor?: DebateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Debates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Debates.
+     */
+    skip?: number
+    distinct?: DebateScalarFieldEnum | DebateScalarFieldEnum[]
+  }
+
+  /**
+   * Debate create
+   */
+  export type DebateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Debate.
+     */
+    data: XOR<DebateCreateInput, DebateUncheckedCreateInput>
+  }
+
+  /**
+   * Debate createMany
+   */
+  export type DebateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Debates.
+     */
+    data: DebateCreateManyInput | DebateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Debate createManyAndReturn
+   */
+  export type DebateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Debates.
+     */
+    data: DebateCreateManyInput | DebateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Debate update
+   */
+  export type DebateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Debate.
+     */
+    data: XOR<DebateUpdateInput, DebateUncheckedUpdateInput>
+    /**
+     * Choose, which Debate to update.
+     */
+    where: DebateWhereUniqueInput
+  }
+
+  /**
+   * Debate updateMany
+   */
+  export type DebateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Debates.
+     */
+    data: XOR<DebateUpdateManyMutationInput, DebateUncheckedUpdateManyInput>
+    /**
+     * Filter which Debates to update
+     */
+    where?: DebateWhereInput
+  }
+
+  /**
+   * Debate upsert
+   */
+  export type DebateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Debate to update in case it exists.
+     */
+    where: DebateWhereUniqueInput
+    /**
+     * In case the Debate found by the `where` argument doesn't exist, create a new Debate with this data.
+     */
+    create: XOR<DebateCreateInput, DebateUncheckedCreateInput>
+    /**
+     * In case the Debate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DebateUpdateInput, DebateUncheckedUpdateInput>
+  }
+
+  /**
+   * Debate delete
+   */
+  export type DebateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+    /**
+     * Filter which Debate to delete.
+     */
+    where: DebateWhereUniqueInput
+  }
+
+  /**
+   * Debate deleteMany
+   */
+  export type DebateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Debates to delete
+     */
+    where?: DebateWhereInput
+  }
+
+  /**
+   * Debate.comments
+   */
+  export type Debate$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    where?: DebateCommentWhereInput
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    cursor?: DebateCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DebateCommentScalarFieldEnum | DebateCommentScalarFieldEnum[]
+  }
+
+  /**
+   * Debate without action
+   */
+  export type DebateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Debate
+     */
+    select?: DebateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DebateComment
+   */
+
+  export type AggregateDebateComment = {
+    _count: DebateCommentCountAggregateOutputType | null
+    _min: DebateCommentMinAggregateOutputType | null
+    _max: DebateCommentMaxAggregateOutputType | null
+  }
+
+  export type DebateCommentMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    userId: string | null
+    debateId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DebateCommentMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    userId: string | null
+    debateId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DebateCommentCountAggregateOutputType = {
+    id: number
+    content: number
+    userId: number
+    debateId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DebateCommentMinAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    debateId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DebateCommentMaxAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    debateId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DebateCommentCountAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    debateId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DebateCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DebateComment to aggregate.
+     */
+    where?: DebateCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DebateComments to fetch.
+     */
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DebateCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DebateComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DebateComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DebateComments
+    **/
+    _count?: true | DebateCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DebateCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DebateCommentMaxAggregateInputType
+  }
+
+  export type GetDebateCommentAggregateType<T extends DebateCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDebateComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDebateComment[P]>
+      : GetScalarType<T[P], AggregateDebateComment[P]>
+  }
+
+
+
+
+  export type DebateCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DebateCommentWhereInput
+    orderBy?: DebateCommentOrderByWithAggregationInput | DebateCommentOrderByWithAggregationInput[]
+    by: DebateCommentScalarFieldEnum[] | DebateCommentScalarFieldEnum
+    having?: DebateCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DebateCommentCountAggregateInputType | true
+    _min?: DebateCommentMinAggregateInputType
+    _max?: DebateCommentMaxAggregateInputType
+  }
+
+  export type DebateCommentGroupByOutputType = {
+    id: string
+    content: string
+    userId: string
+    debateId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: DebateCommentCountAggregateOutputType | null
+    _min: DebateCommentMinAggregateOutputType | null
+    _max: DebateCommentMaxAggregateOutputType | null
+  }
+
+  type GetDebateCommentGroupByPayload<T extends DebateCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DebateCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DebateCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DebateCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], DebateCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DebateCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    debateId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    debate?: boolean | DebateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["debateComment"]>
+
+  export type DebateCommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    debateId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    debate?: boolean | DebateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["debateComment"]>
+
+  export type DebateCommentSelectScalar = {
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    debateId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DebateCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    debate?: boolean | DebateDefaultArgs<ExtArgs>
+  }
+  export type DebateCommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    debate?: boolean | DebateDefaultArgs<ExtArgs>
+  }
+
+  export type $DebateCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DebateComment"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      debate: Prisma.$DebatePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      userId: string
+      debateId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["debateComment"]>
+    composites: {}
+  }
+
+  type DebateCommentGetPayload<S extends boolean | null | undefined | DebateCommentDefaultArgs> = $Result.GetResult<Prisma.$DebateCommentPayload, S>
+
+  type DebateCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DebateCommentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DebateCommentCountAggregateInputType | true
+    }
+
+  export interface DebateCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DebateComment'], meta: { name: 'DebateComment' } }
+    /**
+     * Find zero or one DebateComment that matches the filter.
+     * @param {DebateCommentFindUniqueArgs} args - Arguments to find a DebateComment
+     * @example
+     * // Get one DebateComment
+     * const debateComment = await prisma.debateComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DebateCommentFindUniqueArgs>(args: SelectSubset<T, DebateCommentFindUniqueArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one DebateComment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {DebateCommentFindUniqueOrThrowArgs} args - Arguments to find a DebateComment
+     * @example
+     * // Get one DebateComment
+     * const debateComment = await prisma.debateComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DebateCommentFindUniqueOrThrowArgs>(args: SelectSubset<T, DebateCommentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first DebateComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentFindFirstArgs} args - Arguments to find a DebateComment
+     * @example
+     * // Get one DebateComment
+     * const debateComment = await prisma.debateComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DebateCommentFindFirstArgs>(args?: SelectSubset<T, DebateCommentFindFirstArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first DebateComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentFindFirstOrThrowArgs} args - Arguments to find a DebateComment
+     * @example
+     * // Get one DebateComment
+     * const debateComment = await prisma.debateComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DebateCommentFindFirstOrThrowArgs>(args?: SelectSubset<T, DebateCommentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more DebateComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DebateComments
+     * const debateComments = await prisma.debateComment.findMany()
+     * 
+     * // Get first 10 DebateComments
+     * const debateComments = await prisma.debateComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const debateCommentWithIdOnly = await prisma.debateComment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DebateCommentFindManyArgs>(args?: SelectSubset<T, DebateCommentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a DebateComment.
+     * @param {DebateCommentCreateArgs} args - Arguments to create a DebateComment.
+     * @example
+     * // Create one DebateComment
+     * const DebateComment = await prisma.debateComment.create({
+     *   data: {
+     *     // ... data to create a DebateComment
+     *   }
+     * })
+     * 
+     */
+    create<T extends DebateCommentCreateArgs>(args: SelectSubset<T, DebateCommentCreateArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many DebateComments.
+     * @param {DebateCommentCreateManyArgs} args - Arguments to create many DebateComments.
+     * @example
+     * // Create many DebateComments
+     * const debateComment = await prisma.debateComment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DebateCommentCreateManyArgs>(args?: SelectSubset<T, DebateCommentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DebateComments and returns the data saved in the database.
+     * @param {DebateCommentCreateManyAndReturnArgs} args - Arguments to create many DebateComments.
+     * @example
+     * // Create many DebateComments
+     * const debateComment = await prisma.debateComment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DebateComments and only return the `id`
+     * const debateCommentWithIdOnly = await prisma.debateComment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DebateCommentCreateManyAndReturnArgs>(args?: SelectSubset<T, DebateCommentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a DebateComment.
+     * @param {DebateCommentDeleteArgs} args - Arguments to delete one DebateComment.
+     * @example
+     * // Delete one DebateComment
+     * const DebateComment = await prisma.debateComment.delete({
+     *   where: {
+     *     // ... filter to delete one DebateComment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DebateCommentDeleteArgs>(args: SelectSubset<T, DebateCommentDeleteArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one DebateComment.
+     * @param {DebateCommentUpdateArgs} args - Arguments to update one DebateComment.
+     * @example
+     * // Update one DebateComment
+     * const debateComment = await prisma.debateComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DebateCommentUpdateArgs>(args: SelectSubset<T, DebateCommentUpdateArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more DebateComments.
+     * @param {DebateCommentDeleteManyArgs} args - Arguments to filter DebateComments to delete.
+     * @example
+     * // Delete a few DebateComments
+     * const { count } = await prisma.debateComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DebateCommentDeleteManyArgs>(args?: SelectSubset<T, DebateCommentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DebateComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DebateComments
+     * const debateComment = await prisma.debateComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DebateCommentUpdateManyArgs>(args: SelectSubset<T, DebateCommentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DebateComment.
+     * @param {DebateCommentUpsertArgs} args - Arguments to update or create a DebateComment.
+     * @example
+     * // Update or create a DebateComment
+     * const debateComment = await prisma.debateComment.upsert({
+     *   create: {
+     *     // ... data to create a DebateComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DebateComment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DebateCommentUpsertArgs>(args: SelectSubset<T, DebateCommentUpsertArgs<ExtArgs>>): Prisma__DebateCommentClient<$Result.GetResult<Prisma.$DebateCommentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of DebateComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentCountArgs} args - Arguments to filter DebateComments to count.
+     * @example
+     * // Count the number of DebateComments
+     * const count = await prisma.debateComment.count({
+     *   where: {
+     *     // ... the filter for the DebateComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends DebateCommentCountArgs>(
+      args?: Subset<T, DebateCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DebateCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DebateComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DebateCommentAggregateArgs>(args: Subset<T, DebateCommentAggregateArgs>): Prisma.PrismaPromise<GetDebateCommentAggregateType<T>>
+
+    /**
+     * Group by DebateComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DebateCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DebateCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DebateCommentGroupByArgs['orderBy'] }
+        : { orderBy?: DebateCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DebateCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDebateCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DebateComment model
+   */
+  readonly fields: DebateCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DebateComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DebateCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    debate<T extends DebateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DebateDefaultArgs<ExtArgs>>): Prisma__DebateClient<$Result.GetResult<Prisma.$DebatePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DebateComment model
+   */ 
+  interface DebateCommentFieldRefs {
+    readonly id: FieldRef<"DebateComment", 'String'>
+    readonly content: FieldRef<"DebateComment", 'String'>
+    readonly userId: FieldRef<"DebateComment", 'String'>
+    readonly debateId: FieldRef<"DebateComment", 'String'>
+    readonly createdAt: FieldRef<"DebateComment", 'DateTime'>
+    readonly updatedAt: FieldRef<"DebateComment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DebateComment findUnique
+   */
+  export type DebateCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which DebateComment to fetch.
+     */
+    where: DebateCommentWhereUniqueInput
+  }
+
+  /**
+   * DebateComment findUniqueOrThrow
+   */
+  export type DebateCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which DebateComment to fetch.
+     */
+    where: DebateCommentWhereUniqueInput
+  }
+
+  /**
+   * DebateComment findFirst
+   */
+  export type DebateCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which DebateComment to fetch.
+     */
+    where?: DebateCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DebateComments to fetch.
+     */
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DebateComments.
+     */
+    cursor?: DebateCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DebateComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DebateComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DebateComments.
+     */
+    distinct?: DebateCommentScalarFieldEnum | DebateCommentScalarFieldEnum[]
+  }
+
+  /**
+   * DebateComment findFirstOrThrow
+   */
+  export type DebateCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which DebateComment to fetch.
+     */
+    where?: DebateCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DebateComments to fetch.
+     */
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DebateComments.
+     */
+    cursor?: DebateCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DebateComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DebateComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DebateComments.
+     */
+    distinct?: DebateCommentScalarFieldEnum | DebateCommentScalarFieldEnum[]
+  }
+
+  /**
+   * DebateComment findMany
+   */
+  export type DebateCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which DebateComments to fetch.
+     */
+    where?: DebateCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DebateComments to fetch.
+     */
+    orderBy?: DebateCommentOrderByWithRelationInput | DebateCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DebateComments.
+     */
+    cursor?: DebateCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DebateComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DebateComments.
+     */
+    skip?: number
+    distinct?: DebateCommentScalarFieldEnum | DebateCommentScalarFieldEnum[]
+  }
+
+  /**
+   * DebateComment create
+   */
+  export type DebateCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DebateComment.
+     */
+    data: XOR<DebateCommentCreateInput, DebateCommentUncheckedCreateInput>
+  }
+
+  /**
+   * DebateComment createMany
+   */
+  export type DebateCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DebateComments.
+     */
+    data: DebateCommentCreateManyInput | DebateCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DebateComment createManyAndReturn
+   */
+  export type DebateCommentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many DebateComments.
+     */
+    data: DebateCommentCreateManyInput | DebateCommentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DebateComment update
+   */
+  export type DebateCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DebateComment.
+     */
+    data: XOR<DebateCommentUpdateInput, DebateCommentUncheckedUpdateInput>
+    /**
+     * Choose, which DebateComment to update.
+     */
+    where: DebateCommentWhereUniqueInput
+  }
+
+  /**
+   * DebateComment updateMany
+   */
+  export type DebateCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DebateComments.
+     */
+    data: XOR<DebateCommentUpdateManyMutationInput, DebateCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which DebateComments to update
+     */
+    where?: DebateCommentWhereInput
+  }
+
+  /**
+   * DebateComment upsert
+   */
+  export type DebateCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DebateComment to update in case it exists.
+     */
+    where: DebateCommentWhereUniqueInput
+    /**
+     * In case the DebateComment found by the `where` argument doesn't exist, create a new DebateComment with this data.
+     */
+    create: XOR<DebateCommentCreateInput, DebateCommentUncheckedCreateInput>
+    /**
+     * In case the DebateComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DebateCommentUpdateInput, DebateCommentUncheckedUpdateInput>
+  }
+
+  /**
+   * DebateComment delete
+   */
+  export type DebateCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+    /**
+     * Filter which DebateComment to delete.
+     */
+    where: DebateCommentWhereUniqueInput
+  }
+
+  /**
+   * DebateComment deleteMany
+   */
+  export type DebateCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DebateComments to delete
+     */
+    where?: DebateCommentWhereInput
+  }
+
+  /**
+   * DebateComment without action
+   */
+  export type DebateCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DebateComment
+     */
+    select?: DebateCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DebateCommentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AlertKeyword
    */
 
@@ -20858,6 +23159,36 @@ export namespace Prisma {
   export type CommentVoteScalarFieldEnum = (typeof CommentVoteScalarFieldEnum)[keyof typeof CommentVoteScalarFieldEnum]
 
 
+  export const DebateScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    description: 'description',
+    status: 'status',
+    isPinned: 'isPinned',
+    commentCount: 'commentCount',
+    viewCount: 'viewCount',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    lastCommentAt: 'lastCommentAt'
+  };
+
+  export type DebateScalarFieldEnum = (typeof DebateScalarFieldEnum)[keyof typeof DebateScalarFieldEnum]
+
+
+  export const DebateCommentScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    userId: 'userId',
+    debateId: 'debateId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DebateCommentScalarFieldEnum = (typeof DebateCommentScalarFieldEnum)[keyof typeof DebateCommentScalarFieldEnum]
+
+
   export const AlertKeywordScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -21093,6 +23424,8 @@ export namespace Prisma {
     followers?: FollowListRelationFilter
     alertKeywords?: AlertKeywordListRelationFilter
     shares?: ShareListRelationFilter
+    debates?: DebateListRelationFilter
+    debateComments?: DebateCommentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -21130,6 +23463,8 @@ export namespace Prisma {
     followers?: FollowOrderByRelationAggregateInput
     alertKeywords?: AlertKeywordOrderByRelationAggregateInput
     shares?: ShareOrderByRelationAggregateInput
+    debates?: DebateOrderByRelationAggregateInput
+    debateComments?: DebateCommentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -21170,6 +23505,8 @@ export namespace Prisma {
     followers?: FollowListRelationFilter
     alertKeywords?: AlertKeywordListRelationFilter
     shares?: ShareListRelationFilter
+    debates?: DebateListRelationFilter
+    debateComments?: DebateCommentListRelationFilter
   }, "id" | "email" | "username" | "emailVerificationToken" | "unsubscribeToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -22060,6 +24397,164 @@ export namespace Prisma {
     commentId?: StringWithAggregatesFilter<"CommentVote"> | string
   }
 
+  export type DebateWhereInput = {
+    AND?: DebateWhereInput | DebateWhereInput[]
+    OR?: DebateWhereInput[]
+    NOT?: DebateWhereInput | DebateWhereInput[]
+    id?: StringFilter<"Debate"> | string
+    title?: StringFilter<"Debate"> | string
+    slug?: StringFilter<"Debate"> | string
+    description?: StringFilter<"Debate"> | string
+    status?: EnumPostStatusFilter<"Debate"> | $Enums.PostStatus
+    isPinned?: BoolFilter<"Debate"> | boolean
+    commentCount?: IntFilter<"Debate"> | number
+    viewCount?: IntFilter<"Debate"> | number
+    userId?: StringFilter<"Debate"> | string
+    createdAt?: DateTimeFilter<"Debate"> | Date | string
+    updatedAt?: DateTimeFilter<"Debate"> | Date | string
+    lastCommentAt?: DateTimeFilter<"Debate"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    comments?: DebateCommentListRelationFilter
+  }
+
+  export type DebateOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    isPinned?: SortOrder
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastCommentAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    comments?: DebateCommentOrderByRelationAggregateInput
+  }
+
+  export type DebateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: DebateWhereInput | DebateWhereInput[]
+    OR?: DebateWhereInput[]
+    NOT?: DebateWhereInput | DebateWhereInput[]
+    title?: StringFilter<"Debate"> | string
+    description?: StringFilter<"Debate"> | string
+    status?: EnumPostStatusFilter<"Debate"> | $Enums.PostStatus
+    isPinned?: BoolFilter<"Debate"> | boolean
+    commentCount?: IntFilter<"Debate"> | number
+    viewCount?: IntFilter<"Debate"> | number
+    userId?: StringFilter<"Debate"> | string
+    createdAt?: DateTimeFilter<"Debate"> | Date | string
+    updatedAt?: DateTimeFilter<"Debate"> | Date | string
+    lastCommentAt?: DateTimeFilter<"Debate"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    comments?: DebateCommentListRelationFilter
+  }, "id" | "slug">
+
+  export type DebateOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    isPinned?: SortOrder
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastCommentAt?: SortOrder
+    _count?: DebateCountOrderByAggregateInput
+    _avg?: DebateAvgOrderByAggregateInput
+    _max?: DebateMaxOrderByAggregateInput
+    _min?: DebateMinOrderByAggregateInput
+    _sum?: DebateSumOrderByAggregateInput
+  }
+
+  export type DebateScalarWhereWithAggregatesInput = {
+    AND?: DebateScalarWhereWithAggregatesInput | DebateScalarWhereWithAggregatesInput[]
+    OR?: DebateScalarWhereWithAggregatesInput[]
+    NOT?: DebateScalarWhereWithAggregatesInput | DebateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Debate"> | string
+    title?: StringWithAggregatesFilter<"Debate"> | string
+    slug?: StringWithAggregatesFilter<"Debate"> | string
+    description?: StringWithAggregatesFilter<"Debate"> | string
+    status?: EnumPostStatusWithAggregatesFilter<"Debate"> | $Enums.PostStatus
+    isPinned?: BoolWithAggregatesFilter<"Debate"> | boolean
+    commentCount?: IntWithAggregatesFilter<"Debate"> | number
+    viewCount?: IntWithAggregatesFilter<"Debate"> | number
+    userId?: StringWithAggregatesFilter<"Debate"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Debate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Debate"> | Date | string
+    lastCommentAt?: DateTimeWithAggregatesFilter<"Debate"> | Date | string
+  }
+
+  export type DebateCommentWhereInput = {
+    AND?: DebateCommentWhereInput | DebateCommentWhereInput[]
+    OR?: DebateCommentWhereInput[]
+    NOT?: DebateCommentWhereInput | DebateCommentWhereInput[]
+    id?: StringFilter<"DebateComment"> | string
+    content?: StringFilter<"DebateComment"> | string
+    userId?: StringFilter<"DebateComment"> | string
+    debateId?: StringFilter<"DebateComment"> | string
+    createdAt?: DateTimeFilter<"DebateComment"> | Date | string
+    updatedAt?: DateTimeFilter<"DebateComment"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    debate?: XOR<DebateRelationFilter, DebateWhereInput>
+  }
+
+  export type DebateCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    debateId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    debate?: DebateOrderByWithRelationInput
+  }
+
+  export type DebateCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DebateCommentWhereInput | DebateCommentWhereInput[]
+    OR?: DebateCommentWhereInput[]
+    NOT?: DebateCommentWhereInput | DebateCommentWhereInput[]
+    content?: StringFilter<"DebateComment"> | string
+    userId?: StringFilter<"DebateComment"> | string
+    debateId?: StringFilter<"DebateComment"> | string
+    createdAt?: DateTimeFilter<"DebateComment"> | Date | string
+    updatedAt?: DateTimeFilter<"DebateComment"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    debate?: XOR<DebateRelationFilter, DebateWhereInput>
+  }, "id">
+
+  export type DebateCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    debateId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DebateCommentCountOrderByAggregateInput
+    _max?: DebateCommentMaxOrderByAggregateInput
+    _min?: DebateCommentMinOrderByAggregateInput
+  }
+
+  export type DebateCommentScalarWhereWithAggregatesInput = {
+    AND?: DebateCommentScalarWhereWithAggregatesInput | DebateCommentScalarWhereWithAggregatesInput[]
+    OR?: DebateCommentScalarWhereWithAggregatesInput[]
+    NOT?: DebateCommentScalarWhereWithAggregatesInput | DebateCommentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DebateComment"> | string
+    content?: StringWithAggregatesFilter<"DebateComment"> | string
+    userId?: StringWithAggregatesFilter<"DebateComment"> | string
+    debateId?: StringWithAggregatesFilter<"DebateComment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"DebateComment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DebateComment"> | Date | string
+  }
+
   export type AlertKeywordWhereInput = {
     AND?: AlertKeywordWhereInput | AlertKeywordWhereInput[]
     OR?: AlertKeywordWhereInput[]
@@ -22340,6 +24835,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -22377,6 +24874,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -22414,6 +24913,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -22451,6 +24952,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -23355,6 +25858,175 @@ export namespace Prisma {
     commentId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type DebateCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+    user: UserCreateNestedOneWithoutDebatesInput
+    comments?: DebateCommentCreateNestedManyWithoutDebateInput
+  }
+
+  export type DebateUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+    comments?: DebateCommentUncheckedCreateNestedManyWithoutDebateInput
+  }
+
+  export type DebateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDebatesNestedInput
+    comments?: DebateCommentUpdateManyWithoutDebateNestedInput
+  }
+
+  export type DebateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: DebateCommentUncheckedUpdateManyWithoutDebateNestedInput
+  }
+
+  export type DebateCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+  }
+
+  export type DebateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentCreateInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDebateCommentsInput
+    debate: DebateCreateNestedOneWithoutCommentsInput
+  }
+
+  export type DebateCommentUncheckedCreateInput = {
+    id?: string
+    content: string
+    userId: string
+    debateId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DebateCommentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDebateCommentsNestedInput
+    debate?: DebateUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type DebateCommentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    debateId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentCreateManyInput = {
+    id?: string
+    content: string
+    userId: string
+    debateId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DebateCommentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    debateId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AlertKeywordCreateInput = {
     id?: string
     keyword: string
@@ -23732,6 +26404,18 @@ export namespace Prisma {
     none?: ShareWhereInput
   }
 
+  export type DebateListRelationFilter = {
+    every?: DebateWhereInput
+    some?: DebateWhereInput
+    none?: DebateWhereInput
+  }
+
+  export type DebateCommentListRelationFilter = {
+    every?: DebateCommentWhereInput
+    some?: DebateCommentWhereInput
+    none?: DebateCommentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -23782,6 +26466,14 @@ export namespace Prisma {
   }
 
   export type ShareOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DebateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DebateCommentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24523,6 +27215,93 @@ export namespace Prisma {
     value?: SortOrder
   }
 
+  export type DebateCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    isPinned?: SortOrder
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastCommentAt?: SortOrder
+  }
+
+  export type DebateAvgOrderByAggregateInput = {
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+  }
+
+  export type DebateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    isPinned?: SortOrder
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastCommentAt?: SortOrder
+  }
+
+  export type DebateMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    isPinned?: SortOrder
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastCommentAt?: SortOrder
+  }
+
+  export type DebateSumOrderByAggregateInput = {
+    commentCount?: SortOrder
+    viewCount?: SortOrder
+  }
+
+  export type DebateRelationFilter = {
+    is?: DebateWhereInput
+    isNot?: DebateWhereInput
+  }
+
+  export type DebateCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    debateId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DebateCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    debateId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DebateCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    debateId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AlertKeywordUserIdKeywordCompoundUniqueInput = {
     userId: string
     keyword: string
@@ -24766,6 +27545,20 @@ export namespace Prisma {
     connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
   }
 
+  export type DebateCreateNestedManyWithoutUserInput = {
+    create?: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput> | DebateCreateWithoutUserInput[] | DebateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCreateOrConnectWithoutUserInput | DebateCreateOrConnectWithoutUserInput[]
+    createMany?: DebateCreateManyUserInputEnvelope
+    connect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+  }
+
+  export type DebateCommentCreateNestedManyWithoutUserInput = {
+    create?: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput> | DebateCommentCreateWithoutUserInput[] | DebateCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutUserInput | DebateCommentCreateOrConnectWithoutUserInput[]
+    createMany?: DebateCommentCreateManyUserInputEnvelope
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -24862,6 +27655,20 @@ export namespace Prisma {
     connectOrCreate?: ShareCreateOrConnectWithoutUserInput | ShareCreateOrConnectWithoutUserInput[]
     createMany?: ShareCreateManyUserInputEnvelope
     connect?: ShareWhereUniqueInput | ShareWhereUniqueInput[]
+  }
+
+  export type DebateUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput> | DebateCreateWithoutUserInput[] | DebateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCreateOrConnectWithoutUserInput | DebateCreateOrConnectWithoutUserInput[]
+    createMany?: DebateCreateManyUserInputEnvelope
+    connect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+  }
+
+  export type DebateCommentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput> | DebateCommentCreateWithoutUserInput[] | DebateCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutUserInput | DebateCommentCreateOrConnectWithoutUserInput[]
+    createMany?: DebateCommentCreateManyUserInputEnvelope
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -25092,6 +27899,34 @@ export namespace Prisma {
     deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
   }
 
+  export type DebateUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput> | DebateCreateWithoutUserInput[] | DebateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCreateOrConnectWithoutUserInput | DebateCreateOrConnectWithoutUserInput[]
+    upsert?: DebateUpsertWithWhereUniqueWithoutUserInput | DebateUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DebateCreateManyUserInputEnvelope
+    set?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    disconnect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    delete?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    connect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    update?: DebateUpdateWithWhereUniqueWithoutUserInput | DebateUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DebateUpdateManyWithWhereWithoutUserInput | DebateUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DebateScalarWhereInput | DebateScalarWhereInput[]
+  }
+
+  export type DebateCommentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput> | DebateCommentCreateWithoutUserInput[] | DebateCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutUserInput | DebateCommentCreateOrConnectWithoutUserInput[]
+    upsert?: DebateCommentUpsertWithWhereUniqueWithoutUserInput | DebateCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DebateCommentCreateManyUserInputEnvelope
+    set?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    disconnect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    delete?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    update?: DebateCommentUpdateWithWhereUniqueWithoutUserInput | DebateCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DebateCommentUpdateManyWithWhereWithoutUserInput | DebateCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -25286,6 +28121,34 @@ export namespace Prisma {
     update?: ShareUpdateWithWhereUniqueWithoutUserInput | ShareUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ShareUpdateManyWithWhereWithoutUserInput | ShareUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ShareScalarWhereInput | ShareScalarWhereInput[]
+  }
+
+  export type DebateUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput> | DebateCreateWithoutUserInput[] | DebateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCreateOrConnectWithoutUserInput | DebateCreateOrConnectWithoutUserInput[]
+    upsert?: DebateUpsertWithWhereUniqueWithoutUserInput | DebateUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DebateCreateManyUserInputEnvelope
+    set?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    disconnect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    delete?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    connect?: DebateWhereUniqueInput | DebateWhereUniqueInput[]
+    update?: DebateUpdateWithWhereUniqueWithoutUserInput | DebateUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DebateUpdateManyWithWhereWithoutUserInput | DebateUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DebateScalarWhereInput | DebateScalarWhereInput[]
+  }
+
+  export type DebateCommentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput> | DebateCommentCreateWithoutUserInput[] | DebateCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutUserInput | DebateCommentCreateOrConnectWithoutUserInput[]
+    upsert?: DebateCommentUpsertWithWhereUniqueWithoutUserInput | DebateCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DebateCommentCreateManyUserInputEnvelope
+    set?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    disconnect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    delete?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    update?: DebateCommentUpdateWithWhereUniqueWithoutUserInput | DebateCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DebateCommentUpdateManyWithWhereWithoutUserInput | DebateCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -26012,6 +28875,90 @@ export namespace Prisma {
     upsert?: CommentUpsertWithoutVotesInput
     connect?: CommentWhereUniqueInput
     update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutVotesInput, CommentUpdateWithoutVotesInput>, CommentUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type UserCreateNestedOneWithoutDebatesInput = {
+    create?: XOR<UserCreateWithoutDebatesInput, UserUncheckedCreateWithoutDebatesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDebatesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DebateCommentCreateNestedManyWithoutDebateInput = {
+    create?: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput> | DebateCommentCreateWithoutDebateInput[] | DebateCommentUncheckedCreateWithoutDebateInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutDebateInput | DebateCommentCreateOrConnectWithoutDebateInput[]
+    createMany?: DebateCommentCreateManyDebateInputEnvelope
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+  }
+
+  export type DebateCommentUncheckedCreateNestedManyWithoutDebateInput = {
+    create?: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput> | DebateCommentCreateWithoutDebateInput[] | DebateCommentUncheckedCreateWithoutDebateInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutDebateInput | DebateCommentCreateOrConnectWithoutDebateInput[]
+    createMany?: DebateCommentCreateManyDebateInputEnvelope
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutDebatesNestedInput = {
+    create?: XOR<UserCreateWithoutDebatesInput, UserUncheckedCreateWithoutDebatesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDebatesInput
+    upsert?: UserUpsertWithoutDebatesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDebatesInput, UserUpdateWithoutDebatesInput>, UserUncheckedUpdateWithoutDebatesInput>
+  }
+
+  export type DebateCommentUpdateManyWithoutDebateNestedInput = {
+    create?: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput> | DebateCommentCreateWithoutDebateInput[] | DebateCommentUncheckedCreateWithoutDebateInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutDebateInput | DebateCommentCreateOrConnectWithoutDebateInput[]
+    upsert?: DebateCommentUpsertWithWhereUniqueWithoutDebateInput | DebateCommentUpsertWithWhereUniqueWithoutDebateInput[]
+    createMany?: DebateCommentCreateManyDebateInputEnvelope
+    set?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    disconnect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    delete?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    update?: DebateCommentUpdateWithWhereUniqueWithoutDebateInput | DebateCommentUpdateWithWhereUniqueWithoutDebateInput[]
+    updateMany?: DebateCommentUpdateManyWithWhereWithoutDebateInput | DebateCommentUpdateManyWithWhereWithoutDebateInput[]
+    deleteMany?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
+  }
+
+  export type DebateCommentUncheckedUpdateManyWithoutDebateNestedInput = {
+    create?: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput> | DebateCommentCreateWithoutDebateInput[] | DebateCommentUncheckedCreateWithoutDebateInput[]
+    connectOrCreate?: DebateCommentCreateOrConnectWithoutDebateInput | DebateCommentCreateOrConnectWithoutDebateInput[]
+    upsert?: DebateCommentUpsertWithWhereUniqueWithoutDebateInput | DebateCommentUpsertWithWhereUniqueWithoutDebateInput[]
+    createMany?: DebateCommentCreateManyDebateInputEnvelope
+    set?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    disconnect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    delete?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    connect?: DebateCommentWhereUniqueInput | DebateCommentWhereUniqueInput[]
+    update?: DebateCommentUpdateWithWhereUniqueWithoutDebateInput | DebateCommentUpdateWithWhereUniqueWithoutDebateInput[]
+    updateMany?: DebateCommentUpdateManyWithWhereWithoutDebateInput | DebateCommentUpdateManyWithWhereWithoutDebateInput[]
+    deleteMany?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutDebateCommentsInput = {
+    create?: XOR<UserCreateWithoutDebateCommentsInput, UserUncheckedCreateWithoutDebateCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDebateCommentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DebateCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<DebateCreateWithoutCommentsInput, DebateUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: DebateCreateOrConnectWithoutCommentsInput
+    connect?: DebateWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDebateCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutDebateCommentsInput, UserUncheckedCreateWithoutDebateCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDebateCommentsInput
+    upsert?: UserUpsertWithoutDebateCommentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDebateCommentsInput, UserUpdateWithoutDebateCommentsInput>, UserUncheckedUpdateWithoutDebateCommentsInput>
+  }
+
+  export type DebateUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<DebateCreateWithoutCommentsInput, DebateUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: DebateCreateOrConnectWithoutCommentsInput
+    upsert?: DebateUpsertWithoutCommentsInput
+    connect?: DebateWhereUniqueInput
+    update?: XOR<XOR<DebateUpdateToOneWithWhereWithoutCommentsInput, DebateUpdateWithoutCommentsInput>, DebateUncheckedUpdateWithoutCommentsInput>
   }
 
   export type UserCreateNestedOneWithoutAlertKeywordsInput = {
@@ -26819,6 +29766,72 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DebateCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+    comments?: DebateCommentCreateNestedManyWithoutDebateInput
+  }
+
+  export type DebateUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+    comments?: DebateCommentUncheckedCreateNestedManyWithoutDebateInput
+  }
+
+  export type DebateCreateOrConnectWithoutUserInput = {
+    where: DebateWhereUniqueInput
+    create: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput>
+  }
+
+  export type DebateCreateManyUserInputEnvelope = {
+    data: DebateCreateManyUserInput | DebateCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DebateCommentCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    debate: DebateCreateNestedOneWithoutCommentsInput
+  }
+
+  export type DebateCommentUncheckedCreateWithoutUserInput = {
+    id?: string
+    content: string
+    debateId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DebateCommentCreateOrConnectWithoutUserInput = {
+    where: DebateCommentWhereUniqueInput
+    create: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type DebateCommentCreateManyUserInputEnvelope = {
+    data: DebateCommentCreateManyUserInput | DebateCommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -27196,6 +30209,68 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Share"> | Date | string
   }
 
+  export type DebateUpsertWithWhereUniqueWithoutUserInput = {
+    where: DebateWhereUniqueInput
+    update: XOR<DebateUpdateWithoutUserInput, DebateUncheckedUpdateWithoutUserInput>
+    create: XOR<DebateCreateWithoutUserInput, DebateUncheckedCreateWithoutUserInput>
+  }
+
+  export type DebateUpdateWithWhereUniqueWithoutUserInput = {
+    where: DebateWhereUniqueInput
+    data: XOR<DebateUpdateWithoutUserInput, DebateUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DebateUpdateManyWithWhereWithoutUserInput = {
+    where: DebateScalarWhereInput
+    data: XOR<DebateUpdateManyMutationInput, DebateUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DebateScalarWhereInput = {
+    AND?: DebateScalarWhereInput | DebateScalarWhereInput[]
+    OR?: DebateScalarWhereInput[]
+    NOT?: DebateScalarWhereInput | DebateScalarWhereInput[]
+    id?: StringFilter<"Debate"> | string
+    title?: StringFilter<"Debate"> | string
+    slug?: StringFilter<"Debate"> | string
+    description?: StringFilter<"Debate"> | string
+    status?: EnumPostStatusFilter<"Debate"> | $Enums.PostStatus
+    isPinned?: BoolFilter<"Debate"> | boolean
+    commentCount?: IntFilter<"Debate"> | number
+    viewCount?: IntFilter<"Debate"> | number
+    userId?: StringFilter<"Debate"> | string
+    createdAt?: DateTimeFilter<"Debate"> | Date | string
+    updatedAt?: DateTimeFilter<"Debate"> | Date | string
+    lastCommentAt?: DateTimeFilter<"Debate"> | Date | string
+  }
+
+  export type DebateCommentUpsertWithWhereUniqueWithoutUserInput = {
+    where: DebateCommentWhereUniqueInput
+    update: XOR<DebateCommentUpdateWithoutUserInput, DebateCommentUncheckedUpdateWithoutUserInput>
+    create: XOR<DebateCommentCreateWithoutUserInput, DebateCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type DebateCommentUpdateWithWhereUniqueWithoutUserInput = {
+    where: DebateCommentWhereUniqueInput
+    data: XOR<DebateCommentUpdateWithoutUserInput, DebateCommentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DebateCommentUpdateManyWithWhereWithoutUserInput = {
+    where: DebateCommentScalarWhereInput
+    data: XOR<DebateCommentUpdateManyMutationInput, DebateCommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DebateCommentScalarWhereInput = {
+    AND?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
+    OR?: DebateCommentScalarWhereInput[]
+    NOT?: DebateCommentScalarWhereInput | DebateCommentScalarWhereInput[]
+    id?: StringFilter<"DebateComment"> | string
+    content?: StringFilter<"DebateComment"> | string
+    userId?: StringFilter<"DebateComment"> | string
+    debateId?: StringFilter<"DebateComment"> | string
+    createdAt?: DateTimeFilter<"DebateComment"> | Date | string
+    updatedAt?: DateTimeFilter<"DebateComment"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -27230,6 +30305,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -27266,6 +30343,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -27318,6 +30397,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -27354,6 +30435,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -27390,6 +30473,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -27426,6 +30511,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -27478,6 +30565,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -27514,6 +30603,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCreateWithoutCategoryInput = {
@@ -27630,6 +30721,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -27666,6 +30759,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -27897,6 +30992,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -27933,6 +31030,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutPostsInput = {
@@ -28302,6 +31401,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVotesInput = {
@@ -28338,6 +31439,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVotesInput = {
@@ -28449,6 +31552,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotesInput = {
@@ -28485,6 +31590,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutVotesInput = {
@@ -28586,6 +31693,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -28622,6 +31731,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -28846,6 +31957,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -28882,6 +31995,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -29068,6 +32183,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -29104,6 +32221,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -29187,6 +32306,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -29223,6 +32344,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutReactionsInput = {
@@ -29296,6 +32419,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -29332,6 +32457,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -29443,6 +32570,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -29479,6 +32608,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutBookmarksInput = {
@@ -29580,6 +32711,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentVotesInput = {
@@ -29616,6 +32749,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentVotesInput = {
@@ -29699,6 +32834,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentVotesInput = {
@@ -29735,6 +32872,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutVotesInput = {
@@ -29774,6 +32913,460 @@ export namespace Prisma {
     reactions?: CommentReactionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
+  export type UserCreateWithoutDebatesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailVerificationToken?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationCreateNestedManyWithoutActorInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDebatesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailVerificationToken?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteUncheckedCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionUncheckedCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDebatesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDebatesInput, UserUncheckedCreateWithoutDebatesInput>
+  }
+
+  export type DebateCommentCreateWithoutDebateInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDebateCommentsInput
+  }
+
+  export type DebateCommentUncheckedCreateWithoutDebateInput = {
+    id?: string
+    content: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DebateCommentCreateOrConnectWithoutDebateInput = {
+    where: DebateCommentWhereUniqueInput
+    create: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput>
+  }
+
+  export type DebateCommentCreateManyDebateInputEnvelope = {
+    data: DebateCommentCreateManyDebateInput | DebateCommentCreateManyDebateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutDebatesInput = {
+    update: XOR<UserUpdateWithoutDebatesInput, UserUncheckedUpdateWithoutDebatesInput>
+    create: XOR<UserCreateWithoutDebatesInput, UserUncheckedCreateWithoutDebatesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDebatesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDebatesInput, UserUncheckedUpdateWithoutDebatesInput>
+  }
+
+  export type UserUpdateWithoutDebatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDebatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DebateCommentUpsertWithWhereUniqueWithoutDebateInput = {
+    where: DebateCommentWhereUniqueInput
+    update: XOR<DebateCommentUpdateWithoutDebateInput, DebateCommentUncheckedUpdateWithoutDebateInput>
+    create: XOR<DebateCommentCreateWithoutDebateInput, DebateCommentUncheckedCreateWithoutDebateInput>
+  }
+
+  export type DebateCommentUpdateWithWhereUniqueWithoutDebateInput = {
+    where: DebateCommentWhereUniqueInput
+    data: XOR<DebateCommentUpdateWithoutDebateInput, DebateCommentUncheckedUpdateWithoutDebateInput>
+  }
+
+  export type DebateCommentUpdateManyWithWhereWithoutDebateInput = {
+    where: DebateCommentScalarWhereInput
+    data: XOR<DebateCommentUpdateManyMutationInput, DebateCommentUncheckedUpdateManyWithoutDebateInput>
+  }
+
+  export type UserCreateWithoutDebateCommentsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailVerificationToken?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationCreateNestedManyWithoutActorInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDebateCommentsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    username?: string | null
+    bio?: string | null
+    karma?: number
+    role?: $Enums.UserRole
+    isPremium?: boolean
+    premiumUntil?: Date | string | null
+    isAI?: boolean
+    aiPersona?: string | null
+    passwordHash?: string | null
+    emailVerificationToken?: string | null
+    emailReplies?: boolean
+    emailDigest?: boolean
+    unsubscribeToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    commentVotes?: CommentVoteUncheckedCreateNestedManyWithoutUserInput
+    commentReactions?: CommentReactionUncheckedCreateNestedManyWithoutUserInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    actorNotifications?: NotificationUncheckedCreateNestedManyWithoutActorInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDebateCommentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDebateCommentsInput, UserUncheckedCreateWithoutDebateCommentsInput>
+  }
+
+  export type DebateCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+    user: UserCreateNestedOneWithoutDebatesInput
+  }
+
+  export type DebateUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+  }
+
+  export type DebateCreateOrConnectWithoutCommentsInput = {
+    where: DebateWhereUniqueInput
+    create: XOR<DebateCreateWithoutCommentsInput, DebateUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type UserUpsertWithoutDebateCommentsInput = {
+    update: XOR<UserUpdateWithoutDebateCommentsInput, UserUncheckedUpdateWithoutDebateCommentsInput>
+    create: XOR<UserCreateWithoutDebateCommentsInput, UserUncheckedCreateWithoutDebateCommentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDebateCommentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDebateCommentsInput, UserUncheckedUpdateWithoutDebateCommentsInput>
+  }
+
+  export type UserUpdateWithoutDebateCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUpdateManyWithoutActorNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDebateCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    karma?: IntFieldUpdateOperationsInput | number
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    aiPersona?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    emailReplies?: BoolFieldUpdateOperationsInput | boolean
+    emailDigest?: BoolFieldUpdateOperationsInput | boolean
+    unsubscribeToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    commentVotes?: CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+    commentReactions?: CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    actorNotifications?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DebateUpsertWithoutCommentsInput = {
+    update: XOR<DebateUpdateWithoutCommentsInput, DebateUncheckedUpdateWithoutCommentsInput>
+    create: XOR<DebateCreateWithoutCommentsInput, DebateUncheckedCreateWithoutCommentsInput>
+    where?: DebateWhereInput
+  }
+
+  export type DebateUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: DebateWhereInput
+    data: XOR<DebateUpdateWithoutCommentsInput, DebateUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type DebateUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDebatesNestedInput
+  }
+
+  export type DebateUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutAlertKeywordsInput = {
     id?: string
     name?: string | null
@@ -29808,6 +33401,8 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAlertKeywordsInput = {
@@ -29844,6 +33439,8 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAlertKeywordsInput = {
@@ -29896,6 +33493,8 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAlertKeywordsInput = {
@@ -29932,6 +33531,8 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSharesInput = {
@@ -29968,6 +33569,8 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharesInput = {
@@ -30004,6 +33607,8 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharesInput = {
@@ -30115,6 +33720,8 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharesInput = {
@@ -30151,6 +33758,8 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutSharesInput = {
@@ -30252,6 +33861,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -30288,6 +33899,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -30329,6 +33942,8 @@ export namespace Prisma {
     following?: FollowCreateNestedManyWithoutFollowerInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -30365,6 +33980,8 @@ export namespace Prisma {
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -30417,6 +34034,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -30453,6 +34072,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutFollowersInput = {
@@ -30500,6 +34121,8 @@ export namespace Prisma {
     following?: FollowUpdateManyWithoutFollowerNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -30536,6 +34159,8 @@ export namespace Prisma {
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -30572,6 +34197,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -30608,6 +34235,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -30649,6 +34278,8 @@ export namespace Prisma {
     followers?: FollowCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
+    debates?: DebateCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActorNotificationsInput = {
@@ -30685,6 +34316,8 @@ export namespace Prisma {
     followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
     alertKeywords?: AlertKeywordUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    debates?: DebateUncheckedCreateNestedManyWithoutUserInput
+    debateComments?: DebateCommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActorNotificationsInput = {
@@ -30796,6 +34429,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -30832,6 +34467,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutActorNotificationsInput = {
@@ -30879,6 +34516,8 @@ export namespace Prisma {
     followers?: FollowUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
+    debates?: DebateUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActorNotificationsInput = {
@@ -30915,6 +34554,8 @@ export namespace Prisma {
     followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
     alertKeywords?: AlertKeywordUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    debates?: DebateUncheckedUpdateManyWithoutUserNestedInput
+    debateComments?: DebateCommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutNotificationsInput = {
@@ -31101,6 +34742,28 @@ export namespace Prisma {
     postId: string
     platform: string
     createdAt?: Date | string
+  }
+
+  export type DebateCreateManyUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    status?: $Enums.PostStatus
+    isPinned?: boolean
+    commentCount?: number
+    viewCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastCommentAt?: Date | string
+  }
+
+  export type DebateCommentCreateManyUserInput = {
+    id?: string
+    content: string
+    debateId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -31482,6 +35145,74 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     platform?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: DebateCommentUpdateManyWithoutDebateNestedInput
+  }
+
+  export type DebateUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: DebateCommentUncheckedUpdateManyWithoutDebateNestedInput
+  }
+
+  export type DebateUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    commentCount?: IntFieldUpdateOperationsInput | number
+    viewCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastCommentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    debate?: DebateUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type DebateCommentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    debateId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    debateId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostCreateManyCategoryInput = {
@@ -31876,6 +35607,38 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DebateCommentCreateManyDebateInput = {
+    id?: string
+    content: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DebateCommentUpdateWithoutDebateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDebateCommentsNestedInput
+  }
+
+  export type DebateCommentUncheckedUpdateWithoutDebateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DebateCommentUncheckedUpdateManyWithoutDebateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -31901,6 +35664,10 @@ export namespace Prisma {
      * @deprecated Use CommentCountOutputTypeDefaultArgs instead
      */
     export type CommentCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CommentCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DebateCountOutputTypeDefaultArgs instead
+     */
+    export type DebateCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DebateCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -31957,6 +35724,14 @@ export namespace Prisma {
      * @deprecated Use CommentVoteDefaultArgs instead
      */
     export type CommentVoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CommentVoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DebateDefaultArgs instead
+     */
+    export type DebateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DebateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DebateCommentDefaultArgs instead
+     */
+    export type DebateCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DebateCommentDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AlertKeywordDefaultArgs instead
      */

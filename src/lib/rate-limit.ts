@@ -17,7 +17,7 @@ const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
 const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
 const redis = url && token ? new Redis({ url, token }) : null;
 
-export type LimitName = "login" | "register" | "comment" | "vote";
+export type LimitName = "login" | "register" | "comment" | "vote" | "debate";
 
 type Window = `${number} ${"s" | "m" | "h"}`;
 
@@ -26,6 +26,7 @@ const CONFIG: Record<LimitName, { limit: number; window: Window }> = {
   register: { limit: 5, window: "1 h" }, // 5 registros/hora por IP
   comment: { limit: 12, window: "1 m" }, // 12 comentarios/min por usuario
   vote: { limit: 40, window: "1 m" }, // 40 votos/min por usuario
+  debate: { limit: 5, window: "1 h" }, // 5 debates/hora por usuario
 };
 
 // --- Upstash (producción) ---

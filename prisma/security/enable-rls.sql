@@ -35,6 +35,8 @@ ALTER TABLE public.follows             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.alert_keywords      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shares              ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.presence            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.debates             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.debate_comments     ENABLE ROW LEVEL SECURITY;
 
 -- Safety net: activa RLS en cualquier otra tabla futura de `public` que aún no
 -- lo tenga (p. ej. tras un `prisma db push` que cree tablas nuevas).

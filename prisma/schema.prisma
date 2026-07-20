@@ -50,6 +50,8 @@ model User {
   followers          Follow[]       @relation("Followers") // users who follow this user
   alertKeywords      AlertKeyword[]
   shares             Share[]
+  debates            Debate[]
+  debateComments     DebateComment[]
 
   @@map("users")
 }
@@ -259,6 +261,50 @@ model CommentVote {
 
   @@unique([userId, commentId])
   @@map("comment_votes")
+}
+
+// ─── Debates (foro) ──────────────────────────────────────────────────────────
+// Sección de foro, desacoplada de Post para no contaminar las queries del feed.
+// Un debate = tema (título) + descripción de apertura + comentarios planos.
+
+model Debate {
+  id            String     @id @default(cuid())
+  title         String
+  slug          String     @unique
+  description   String     // texto de apertura del debate
+  status        PostStatus @default(ACTIVE)
+  isPinned      Boolean    @default(false)
+  commentCount  Int        @default(0)
+  viewCount     Int        @default(0)
+
+  userId        String
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  lastCommentAt DateTime   @default(now()) // orden por actividad (bump de foro)
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments DebateComment[]
+
+  @@index([status])
+  @@index([lastCommentAt])
+  @@map("debates")
+}
+
+model DebateComment {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  debateId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  debate Debate @relation(fields: [debateId], references: [id], onDelete: Cascade)
+
+  @@index([debateId])
+  @@map("debate_comments")
 }
 
 // ─── Enums ─────────────────────────────────────────────────────────────────
