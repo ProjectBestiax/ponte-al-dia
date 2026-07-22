@@ -24,6 +24,15 @@ const NAV_ITEMS = [
     ),
   },
   {
+    href: "/guias",
+    label: "Guías",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    ),
+  },
+  {
     href: "/populares",
     label: "Destacados",
     icon: (
@@ -52,7 +61,9 @@ export function LeftSidebarNav() {
   return (
     <nav className="flex flex-col gap-[3px]">
       {NAV_ITEMS.map((item) => {
-        const active = pathname === item.href;
+        const active =
+          pathname === item.href ||
+          (item.href === "/guias" && pathname.startsWith("/guias/"));
         // Inicio always resets to "/" with no filters; other sections preserve category
         const target = item.href === "/" || !categoria ? item.href : `${item.href}?categoria=${categoria}`;
         return (

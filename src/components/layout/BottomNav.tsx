@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, MessagesSquare, TrendingUp, Zap, Wrench, PlusCircle } from "lucide-react";
+import { Home, MessagesSquare, TrendingUp, Zap, BookOpen, PlusCircle } from "lucide-react";
 
 const TABS = [
   { href: "/", label: "Feed", icon: Home, match: (p: string) => p === "/" || p === "/tendencias" || p === "/populares" },
   { href: "/debates", label: "Debates", icon: MessagesSquare, match: (p: string) => p === "/debates" || p.startsWith("/debates/") },
   { href: "/ranking", label: "Ranking", icon: TrendingUp, match: (p: string) => p === "/ranking" },
   { href: "/alertas", label: "Alertas", icon: Zap, match: (p: string) => p === "/alertas" },
-  { href: "/herramientas", label: "IA Tools", icon: Wrench, match: (p: string) => p === "/herramientas" },
+  { href: "/guias", label: "Guías", icon: BookOpen, match: (p: string) => p === "/guias" || p.startsWith("/guias/") },
   { href: "/publicar", label: "Publicar", icon: PlusCircle, match: (p: string) => p === "/publicar" },
 ];
 

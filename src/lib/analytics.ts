@@ -11,7 +11,8 @@ export type AnalyticsEvent =
   | "comment_created"
   | "post_published"
   | "keyword_alert_created"
-  | "share_clicked";
+  | "share_clicked"
+  | "guide_cta_clicked";
 
 export function track(event: AnalyticsEvent, props?: Record<string, unknown>): void {
   try {
