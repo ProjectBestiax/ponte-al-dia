@@ -7,6 +7,7 @@ import { AlertasClient } from "./AlertasClient";
 export const metadata: Metadata = {
   title: "Alertas · Ponte al dIA",
   description: "Configura alertas de palabras clave para recibir notificaciones cuando se publique contenido de IA que te interese.",
+  robots: { index: false, follow: true },
 };
 export const dynamic = "force-dynamic";
 

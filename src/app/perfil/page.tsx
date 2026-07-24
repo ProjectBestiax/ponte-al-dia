@@ -6,7 +6,10 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Mi perfil · Ponte al dIA" };
+export const metadata: Metadata = {
+  title: "Mi perfil · Ponte al dIA",
+  robots: { index: false, follow: true },
+};
 export const dynamic = "force-dynamic";
 
 type Tab = "publicaciones" | "votos" | "comentarios" | "guardados";

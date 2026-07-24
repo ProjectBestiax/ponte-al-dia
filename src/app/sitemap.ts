@@ -1,5 +1,8 @@
 export const dynamic = "force-dynamic";
 
+// Criterio: solo URLs indexables con contenido sustancial. Nada de query params
+// (duplican "/"), nada de perfiles de usuario, nada de debates sin actividad.
+
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 import { GUIDES } from "@/lib/guides";
@@ -14,17 +17,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     take: 1000,
   });
 
-  const categories = await db.category.findMany({
-    select: { slug: true },
-  });
-
-  const users = await db.user.findMany({
-    where: { posts: { some: { status: "ACTIVE" } } },
-    select: { username: true, id: true },
-  });
-
   const debates = await db.debate.findMany({
-    where: { status: "ACTIVE" },
+    where: { status: "ACTIVE", commentCount: { gte: 2 } },
     select: { slug: true, updatedAt: true },
     take: 1000,
   });
@@ -42,12 +36,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),
-    ...categories.map((cat) => ({
-      url: `${base}/?categoria=${cat.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 0.7,
-    })),
     ...posts.map((post) => ({
       url: `${base}/p/${post.slug}`,
       lastModified: post.updatedAt,
@@ -59,11 +47,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: debate.updatedAt,
       changeFrequency: "weekly" as const,
       priority: 0.6,
-    })),
-    ...users.map((user) => ({
-      url: `${base}/u/${user.username ?? user.id}`,
-      changeFrequency: "weekly" as const,
-      priority: 0.4,
     })),
   ];
 }

@@ -18,9 +18,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const debate = await getDebateBySlug(slug);
   if (!debate) return { title: "Debate no encontrado" };
 
+  // Noindex si tiene poca participación: contenido fino, penaliza en revisión AdSense/SEO.
+  const lowEngagement = debate.commentCount < 2;
+
   return {
     title: debate.title,
     description: debate.description.slice(0, 155),
+    ...(lowEngagement ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

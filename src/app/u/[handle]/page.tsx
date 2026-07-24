@@ -28,7 +28,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const user = await resolveUser(handle);
   if (!user) return { title: "Usuario no encontrado" };
   const name = user.name ?? user.username ?? "Usuario";
-  return { title: `${name} · Ponte al dIA`, description: user.bio ?? undefined };
+  // Noindex siempre: perfil público de usuario, contenido fino de cara a AdSense/SEO.
+  return {
+    title: `${name} · Ponte al dIA`,
+    description: user.bio ?? undefined,
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function PublicProfilePage({ params }: PageProps) {
