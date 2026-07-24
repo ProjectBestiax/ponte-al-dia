@@ -10,6 +10,12 @@ import { guide as desarrolladores } from "./data/desarrolladores";
 import { guide as marketers } from "./data/marketers";
 import { guide as disenadores } from "./data/disenadores";
 import { guide as profesores } from "./data/profesores";
+import { guide as sanitarios } from "./data/sanitarios";
+import { guide as rrhh } from "./data/rrhh";
+import { guide as comerciales } from "./data/comerciales";
+import { guide as hosteleros } from "./data/hosteleros";
+import { guide as arquitectos } from "./data/arquitectos";
+import { guide as gestores } from "./data/gestores";
 
 import type { GuideContent, GuideMeta } from "./types";
 
@@ -22,6 +28,12 @@ export const ALL_GUIDES: GuideContent[] = [
   marketers,
   disenadores,
   profesores,
+  sanitarios,
+  rrhh,
+  comerciales,
+  hosteleros,
+  arquitectos,
+  gestores,
 ];
 
 export const GUIDES: GuideMeta[] = ALL_GUIDES.map(({ slug, profession, icon, tagline }) => ({
