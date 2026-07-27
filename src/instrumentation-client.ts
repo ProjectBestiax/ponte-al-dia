@@ -25,7 +25,7 @@ if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     defaults: "2026-01-30",
     capture_exceptions: true,
     capture_pageview: false,  // pageviews manuales via PostHogPageview
-    capture_pageleave: true,
+    capture_pageleave: false, // Desactivado: evita "Java object is gone" en WebView móvil
     person_profiles: "identified_only",
     debug: process.env.NODE_ENV === "development",
   });
