@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: guide.title,
     description: guide.metaDescription,
     keywords: guide.keywords,
+    alternates: { canonical: `/guias/ia-para-${guide.slug}` },
     openGraph: {
       type: "article",
       title: guide.title,

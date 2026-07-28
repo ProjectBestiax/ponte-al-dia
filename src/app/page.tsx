@@ -15,6 +15,13 @@ import { getNewPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
 
+// Canónica fija a la raíz: las variantes con query param (?categoria, ?pagina,
+// ?q) son filtros del mismo feed, no páginas distintas. Evita "duplicada sin
+// canónica" en Search Console.
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 interface PageProps {
   searchParams: Promise<{ categoria?: string; pagina?: string; q?: string }>;
 }

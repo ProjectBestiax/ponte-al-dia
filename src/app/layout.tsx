@@ -29,6 +29,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  // Base para resolver canonicals/OG relativos. Sin esto, Next no emite
+  // <link rel="canonical"> y Google trata las variantes con query param
+  // (/?categoria=, /?pagina=, /?q=) como duplicados sin canónica.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
   title: {
     default: "Ponte al dIA — Comunidad de IA en español",
     template: "%s | Ponte al dIA",

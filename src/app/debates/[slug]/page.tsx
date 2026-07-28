@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: debate.title,
     description: debate.description.slice(0, 155),
+    alternates: { canonical: `/debates/${slug}` },
     ...(lowEngagement ? { robots: { index: false, follow: true } } : {}),
   };
 }
