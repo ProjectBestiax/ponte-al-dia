@@ -10,6 +10,29 @@ const POST_INCLUDE = {
 
 export type FeedPost = Awaited<ReturnType<typeof getNewPosts>>[number];
 
+/**
+ * ¿Merece un post ser indexado por Google? Muchos posts curados son stubs
+ * finos (título + resumen corto + enlace) y Google los deja "rastreados sin
+ * indexar", arrastrando la calidad percibida del sitio (y la revisión AdSense).
+ *
+ * Criterio autorreparable: un post es indexable si tiene texto sustancial
+ * (>= 500 caracteres entre descripción, contenido y resumen) o conversación
+ * real (2+ comentarios). Al enriquecer un post, cruza el umbral y vuelve a
+ * ser indexable sin tocar nada más. Usado por la página de post y el sitemap.
+ */
+export function isPostIndexable(post: {
+  description?: string | null;
+  content?: string | null;
+  aiSummary?: string | null;
+  commentCount: number;
+}): boolean {
+  const textLength =
+    (post.description?.length ?? 0) +
+    (post.content?.length ?? 0) +
+    (post.aiSummary?.length ?? 0);
+  return textLength >= 500 || post.commentCount >= 2;
+}
+
 async function getSessionUserId(): Promise<string | null> {
   const session = await auth();
   return session?.user?.id ?? null;

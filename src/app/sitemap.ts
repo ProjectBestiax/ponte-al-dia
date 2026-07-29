@@ -6,16 +6,20 @@ export const dynamic = "force-dynamic";
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 import { GUIDES } from "@/lib/guides";
+import { isPostIndexable } from "@/lib/posts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-  const posts = await db.post.findMany({
+  // Solo posts con contenido sustancial (mismo criterio que el noindex de la
+  // página): no enviamos a Google stubs finos que dejaría "sin indexar".
+  const allPosts = await db.post.findMany({
     where: { status: "ACTIVE" },
-    select: { slug: true, updatedAt: true },
+    select: { slug: true, updatedAt: true, description: true, content: true, aiSummary: true, commentCount: true },
     orderBy: { createdAt: "desc" },
     take: 1000,
   });
+  const posts = allPosts.filter(isPostIndexable);
 
   const debates = await db.debate.findMany({
     where: { status: "ACTIVE", commentCount: { gte: 2 } },

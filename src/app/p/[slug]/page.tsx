@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { isPostIndexable } from "@/lib/posts";
 import { timeAgo } from "@/lib/utils";
 import { ExternalLink, MessageSquare } from "lucide-react";
 import { VoteButtons } from "./VoteButtons";
@@ -29,13 +30,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     select: {
       title: true,
       description: true,
+      content: true,
       aiSummary: true,
+      commentCount: true,
       voteCount: true,
       imageUrl: true,
       category: { select: { name: true, emoji: true } },
     },
   });
   if (!post) return { title: "Post no encontrado" };
+
+  // Los stubs finos se dejan fuera del índice (contenido de poco valor). En
+  // cuanto un post gana profundidad o conversación, vuelve a ser indexable.
+  const indexable = isPostIndexable(post);
 
   // Preferimos la imagen real del contenido (scrapeada de la URL o subida);
   // si no hay, generamos una tarjeta de marca con el título.
@@ -52,6 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: post.title,
     description: post.description ?? post.aiSummary ?? undefined,
     alternates: { canonical: `/p/${slug}` },
+    ...(indexable ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       title: post.title,
       description: post.description ?? post.aiSummary ?? undefined,
