@@ -34,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/debates`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/debates/normas`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
     { url: `${base}/guias`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/guias/skills`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     ...GUIDES.map((g) => ({
       url: `${base}/guias/ia-para-${g.slug}`,
       lastModified: new Date(),

@@ -3,9 +3,31 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "¿Qué es una skill y cómo se instala?",
+  title: "¿Qué es una skill de IA y cómo se instala? Guía sencilla",
   description:
-    "Guía sencilla y agnóstica: qué es una skill o extensión de IA, para qué sirve y cómo se instala en Claude, Cursor, ChatGPT y otras herramientas.",
+    "Qué es una skill (o extensión) de IA, para qué sirve y cómo se instala paso a paso en Claude, Cursor, ChatGPT y con MCP. Explicado sin tecnicismos.",
+  keywords: [
+    "qué es una skill",
+    "qué es una skill de ia",
+    "cómo instalar skills",
+    "skills claude",
+    "agent skills",
+    "extensiones de ia",
+    "mcp qué es",
+  ],
+  alternates: { canonical: "/guias/skills" },
+  openGraph: {
+    title: "¿Qué es una skill de IA y cómo se instala?",
+    description:
+      "El concepto y el cómo, paso a paso, en Claude, Cursor, ChatGPT y MCP. Sin tecnicismos.",
+    images: [
+      {
+        url: "/api/og?title=%C2%BFQu%C3%A9%20es%20una%20skill%20de%20IA%3F&emoji=%F0%9F%A7%A9&category=Gu%C3%ADas",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 const TOOLS = [
