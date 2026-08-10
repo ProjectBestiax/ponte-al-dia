@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { generateAiSummary } from "@/lib/ai-summary";
-import { notifyKeywordMatches } from "@/lib/notifications";
+import { approvePost } from "@/lib/moderation";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -26,28 +24,13 @@ export async function POST(
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Acción inválida" }, { status: 400 });
 
-  const status = parsed.data.action === "approve" ? "ACTIVE" : "REMOVED";
-  const publishedAt = parsed.data.action === "approve" ? new Date() : null;
-
-  await db.post.update({
-    where: { id },
-    data: { status, publishedAt },
-  });
-
   if (parsed.data.action === "approve") {
-    const post = await db.post.findUnique({
+    await approvePost(id);
+  } else {
+    await db.post.update({
       where: { id },
-      select: { title: true, description: true, url: true, aiSummary: true, userId: true },
+      data: { status: "REMOVED", publishedAt: null },
     });
-    if (post) {
-      if (!post.aiSummary) {
-        const summary = await generateAiSummary(post);
-        if (summary) {
-          await db.post.update({ where: { id }, data: { aiSummary: summary } });
-        }
-      }
-      after(() => notifyKeywordMatches({ id, title: post.title, description: post.description, userId: post.userId }));
-    }
   }
 
   return NextResponse.json({ success: true });

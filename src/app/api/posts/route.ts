@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
 import { fetchOgImage } from "@/lib/og-image";
+import { runAutoModeration } from "@/lib/moderation";
 import { KARMA } from "@/lib/karma";
 import { z } from "zod";
 
@@ -78,6 +80,12 @@ export async function POST(req: NextRequest) {
     where: { id: session.user.id },
     data: { karma: { increment: KARMA.POST_CREATED } },
   });
+
+  // Moderación automática en segundo plano: si cumple las normas se publica
+  // solo en segundos; si es dudoso se queda PENDING para revisión manual.
+  after(() =>
+    runAutoModeration(post.id, { title, description, url: url || null })
+  );
 
   return NextResponse.json({ slug: post.slug }, { status: 201 });
 }
