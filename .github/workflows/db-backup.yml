@@ -1,0 +1,53 @@
+name: Backup diario de la base de datos a R2
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DIRECT_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      RETENTION_DAYS: "30"
+    steps:
+      - name: Volcado de la base de datos
+        run: |
+          set -euo pipefail
+          FILE="pontealdia-$(date -u +%Y-%m-%dT%H%MZ).dump"
+          echo "FILE=$FILE" >> "$GITHUB_ENV"
+          # pg_dump debe ser >= la versión del servidor (Postgres 17 en Supabase)
+          docker run --rm -e DIRECT_URL -v "$PWD:/out" postgres:17-alpine \
+            sh -c 'pg_dump "$DIRECT_URL" --format=custom --schema=public --no-owner --no-privileges --file="/out/'"$FILE"'"'
+          # Un volcado vacío o corrupto no debe pasar por bueno
+          docker run --rm -v "$PWD:/out" postgres:17-alpine pg_restore --list "/out/$FILE" > toc.txt
+          TABLES=$(grep -c ' TABLE DATA ' toc.txt || true)
+          echo "Tablas con datos en el volcado: $TABLES · tamaño: $(du -h "$FILE" | cut -f1)"
+          [ "$TABLES" -ge 15 ] || { echo "Volcado sospechoso: solo $TABLES tablas"; exit 1; }
+
+      - name: Subida a R2
+        run: aws s3 cp "$FILE" "s3://$R2_BUCKET/db/$FILE" --endpoint-url "$R2_ENDPOINT" --only-show-errors
+
+      - name: Borrar copias de más de 30 días
+        run: |
+          set -euo pipefail
+          CUTOFF=$(date -u -d "-$RETENTION_DAYS days" +%Y-%m-%d)
+          aws s3api list-objects-v2 --bucket "$R2_BUCKET" --prefix db/ --endpoint-url "$R2_ENDPOINT" \
+            --query "Contents[?LastModified<'$CUTOFF'].Key" --output text | tr '\t' '\n' | grep -v '^None$' | grep . \
+          | while read -r KEY; do
+              aws s3 rm "s3://$R2_BUCKET/$KEY" --endpoint-url "$R2_ENDPOINT" --only-show-errors && echo "borrado $KEY"
+            done || true
