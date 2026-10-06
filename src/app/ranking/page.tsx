@@ -5,7 +5,9 @@ import { RankingTabs } from "./RankingTabs";
 import { KARMA } from "@/lib/karma";
 
 export const metadata: Metadata = {
-  title: "Ranking · Ponte al dIA",
+  title: "Ranking",
+  // Los filtros (?categoria=, ?pagina=, ?tab=…) son variantes de la misma página.
+  alternates: { canonical: "/ranking" },
   description: "Los usuarios y posts más destacados de la comunidad de IA en español. Descubre quién contribuye más y qué contenido es tendencia.",
 };
 export const dynamic = "force-dynamic";

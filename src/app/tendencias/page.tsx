@@ -12,7 +12,9 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: "Subiendo · Ponte al dIA",
+  title: "Subiendo",
+  // Los filtros (?categoria=, ?pagina=, ?tab=…) son variantes de la misma página.
+  alternates: { canonical: "/tendencias" },
   description: "Posts de IA que están ganando tracción ahora mismo. Lo que la comunidad está votando en las últimas 24h.",
 };
 

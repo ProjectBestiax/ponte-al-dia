@@ -13,7 +13,9 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: "Más votados · Ponte al dIA",
+  title: "Más votados",
+  // Los filtros (?categoria=, ?pagina=, ?tab=…) son variantes de la misma página.
+  alternates: { canonical: "/top" },
   description: "Los posts de IA más votados de todos los tiempos por la comunidad hispanohablante.",
 };
 

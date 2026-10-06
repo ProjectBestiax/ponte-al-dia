@@ -6,6 +6,7 @@ import { FollowButton } from "@/components/users/FollowButton";
 import { AiBadge } from "@/components/users/AiBadge";
 import { ToolsSidebar } from "./ToolsSidebar";
 import { LiveCounters } from "./LiveCounters";
+import { GUIDES } from "@/lib/guides";
 
 export async function RightSidebar() {
   const [session, trending, topUsers] = await Promise.all([
@@ -125,6 +126,24 @@ export async function RightSidebar() {
           </div>
         </div>
       )}
+
+      {/* Guías por profesión: enlaces internos para que Google descubra cada guía */}
+      <div className="border border-zinc-100 rounded-[14px] p-[18px] mb-[18px]">
+        <Link href="/guias" className="flex items-center gap-2 mb-3">
+          <span className="font-extrabold text-[15px] text-zinc-950">Guías de IA por profesión</span>
+        </Link>
+        <div className="flex flex-wrap gap-1.5">
+          {GUIDES.map((g) => (
+            <Link
+              key={g.slug}
+              href={`/guias/ia-para-${g.slug}`}
+              className="px-2.5 py-1 rounded-full border border-zinc-200 text-[12.5px] font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              {g.icon} IA para {g.profession}
+            </Link>
+          ))}
+        </div>
+      </div>
 
       {/* Herramientas recomendadas (afiliados) */}
       <div className="mb-[18px]">

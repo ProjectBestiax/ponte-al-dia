@@ -12,7 +12,9 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: "Destacados · Ponte al dIA",
+  title: "Destacados",
+  // Los filtros (?categoria=, ?pagina=, ?tab=…) son variantes de la misma página.
+  alternates: { canonical: "/populares" },
   description: "Los posts de IA destacados por la comunidad hispanohablante. Herramientas, papers, tutoriales y repos que de verdad merecen la pena.",
 };
 
