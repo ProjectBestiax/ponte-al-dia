@@ -2,19 +2,38 @@
 
 Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Console, acciones, pendientes.
 
-## Pendiente de solicitar indexación (cuota ~10/día, Google corta antes a veces)
-- /guias/ia-para-marketers (sin confirmar el 6 oct)
-- /guias/ia-para-profesores (sin confirmar el 6 oct)
-- /guias/ia-para-periodistas (falló por límite el 6 oct)
-- /guias/ia-para-disenadores
-- /guias/ia-para-psicologos
-- /guias/ia-para-sanitarios
-- /guias/ia-para-rrhh
-- /guias/ia-para-comerciales
-- /guias/ia-para-hosteleros
-- /guias/ia-para-arquitectos
-- /guias/ia-para-gestores
-- /guias/skills
+## Estado de las guías (actualizado 2026-10-07)
+| URL | Estado | Último rastreo |
+|---|---|---|
+| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct (pedida 6 oct) |
+| /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
+| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago (pedida 6 oct) |
+| /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
+| /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
+| /guias/skills | Rastreada: sin indexar (versión antigua) | 5 jul — pedir tras desplegar la versión nueva |
+| /guias/n8n | Nueva — pedir tras desplegar | — |
+| /guias, /guias/ia-para-desarrolladores | Pedidas 6 oct | sin comprobar |
+| resto de guías | Sin comprobar | — |
+
+**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas. Pedir indexación de nuevo no sirve; hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces externos).
+
+## 2026-10-07
+**Search Console:** el informe de indexación se ha actualizado: 17 indexadas (antes 22), 150 sin indexar (antes 270). "Descubierta: sin indexar" baja de 139 a 14 (Google procesó la cola); "Rastreada: sin indexar" 107.
+- En "Rastreada: sin indexar": 44 posts /p/, 11 URLs /out?… (página intermedia con anuncio), 6 de /guias (incluidas variantes con query), 8 de /u/, listados con filtros.
+
+**Acciones (PR #3, pendiente de merge):**
+- /guias/skills ampliada (~1.250 palabras, Article + FAQPage + Breadcrumb) para "qué es una skill" (pos. 9-16).
+- Nueva /guias/n8n (~1.150 palabras, Article + HowTo + FAQPage) para "n8n que es" / "n8n español".
+- Sitemap con fechas reales por guía (antes cambiaban en cada lectura) y /guias/n8n.
+- /out → noindex, nofollow; enlaces a /out → nofollow.
+- Canónica en /guias, /debates, /herramientas; 16 títulos sin marca duplicada.
+- La ejecución programada de hoy se quedó bloqueada esperando un permiso desde las 9:42; se paró y su trabajo está incluido en la PR #3.
+
+**Ideas para próximos días:**
+- Autoría real en guías (nombre, foto, LinkedIn de Marcos + Person schema) — pendiente de que Marcos lo apruebe.
+- Diferenciar las 14 guías: comparten estructura y frases; añadir ejemplos y casos específicos de cada profesión.
+- Enlaces externos: directorios de IA en español, colegios y asociaciones profesionales, comunidades (sin spam).
+- Valorar noindex en /herramientas (lista corta de afiliados).
 
 ## 2026-10-06 (primera revisión)
 **Search Console (90 días):** 4 clics, 718 impresiones, CTR 0,6 %, posición media 18,3.
