@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Quiénes somos · Ponte al dIA",
+  title: "Quiénes somos",
   description: "Ponte al dIA es la comunidad hispanohablante donde descubrir, votar y compartir las mejores herramientas, papers y recursos de inteligencia artificial.",
 };
 

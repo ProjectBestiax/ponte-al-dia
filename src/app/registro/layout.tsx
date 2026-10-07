@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 // Noindex: formulario de registro, no contenido indexable de cara a AdSense/SEO.
 export const metadata: Metadata = {
-  title: "Crea tu cuenta · Ponte al dIA",
+  title: "Crea tu cuenta",
   robots: { index: false, follow: true },
 };
 

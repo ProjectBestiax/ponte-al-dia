@@ -7,7 +7,7 @@ import { es } from "date-fns/locale";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mi perfil · Ponte al dIA",
+  title: "Mi perfil",
   robots: { index: false, follow: true },
 };
 export const dynamic = "force-dynamic";

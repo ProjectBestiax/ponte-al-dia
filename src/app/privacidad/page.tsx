@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidad · Ponte al dIA",
+  title: "Política de Privacidad",
   description: "Cómo Ponte al dIA recopila, usa y protege tus datos personales. Cumplimiento GDPR.",
 };
 

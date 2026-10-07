@@ -1,7 +1,12 @@
 import { ToolsSidebar } from "@/components/layout/ToolsSidebar";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Herramientas IA · Ponte al dIA" };
+export const metadata: Metadata = {
+  title: "Herramientas de IA recomendadas",
+  description:
+    "Las herramientas de IA que recomienda la comunidad de Ponte al dIA para escribir, programar, crear vídeo, voz e imágenes, con para qué sirve cada una.",
+  alternates: { canonical: "/herramientas" },
+};
 
 export default function HerramientasPage() {
   return (

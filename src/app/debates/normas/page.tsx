@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Normas de los debates · Ponte al dIA",
+    title: "Normas de los debates",
     description: "Las normas de la comunidad para participar en los debates de Ponte al dIA.",
   };
 }

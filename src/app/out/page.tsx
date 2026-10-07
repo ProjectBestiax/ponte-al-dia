@@ -1,5 +1,10 @@
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { OutClient } from "./OutClient";
+
+// Página intermedia de salida (con anuncio y cuenta atrás): no aporta nada en
+// Google y Search Console la marcaba como "rastreada: sin indexar" en bucle.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 const ALLOWED_DOMAINS = [
   "cursor.com", "perplexity.ai", "elevenlabs.io", "claude.ai",

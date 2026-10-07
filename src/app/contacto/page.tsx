@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contacto · Ponte al dIA",
+  title: "Contacto",
   description: "Ponte en contacto con el equipo de Ponte al dIA. Dudas, sugerencias, colaboraciones o cualquier consulta.",
 };
 

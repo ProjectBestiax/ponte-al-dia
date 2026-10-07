@@ -119,7 +119,8 @@ function ToolCard({ tool }: { tool: typeof TOOLS[0] }) {
     <a
       href={href}
       target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer sponsored" : undefined}
+      // Los enlaces a /out son nofollow para que Google no rastree la página intermedia.
+      rel={isExternal ? "noopener noreferrer sponsored" : "nofollow"}
       className="block bg-white border border-gray-200 rounded-lg p-3 hover:border-zinc-400 transition-all group"
     >
       <div className="flex items-start justify-between gap-2">
