@@ -4,7 +4,7 @@ import { PublishForm } from "./PublishForm";
 import { getCategories } from "@/lib/posts";
 
 export const metadata = {
-  title: "Publicar · Ponte al dIA",
+  title: "Publicar",
   description: "Comparte herramientas, papers, tutoriales o repos de IA con la comunidad hispanohablante. Publicar es gratis.",
   robots: { index: false, follow: true },
 };

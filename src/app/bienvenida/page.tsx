@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Bienvenida · Ponte al dIA",
+  title: "Bienvenida",
   description: "Descubre cómo funciona Ponte al dIA, la comunidad de inteligencia artificial en español.",
 };
 

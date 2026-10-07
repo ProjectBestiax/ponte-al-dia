@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Términos de Uso · Ponte al dIA",
+  title: "Términos de Uso",
   description: "Términos y condiciones de uso de Ponte al dIA, la comunidad de inteligencia artificial en español.",
 };
 

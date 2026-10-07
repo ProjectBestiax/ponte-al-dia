@@ -13,9 +13,10 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Debates de IA · Ponte al dIA",
+    title: "Debates de IA",
     description:
       "Debate el presente y el futuro de la inteligencia artificial con la comunidad, en español.",
+    alternates: { canonical: "/debates" },
   };
 }
 

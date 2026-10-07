@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { AlertasClient } from "./AlertasClient";
 
 export const metadata: Metadata = {
-  title: "Alertas · Ponte al dIA",
+  title: "Alertas",
   description: "Configura alertas de palabras clave para recibir notificaciones cuando se publique contenido de IA que te interese.",
   robots: { index: false, follow: true },
 };

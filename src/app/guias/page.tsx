@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Guías: aprende a usar IA en tu profesión",
   description:
     "Tutoriales prácticos de IA por profesión: herramientas concretas, prompts listos para copiar y casos reales para abogados, periodistas, marketers, profesores y más.",
+  alternates: { canonical: "/guias" },
   openGraph: {
     title: "Guías: aprende a usar IA en tu profesión",
     description:

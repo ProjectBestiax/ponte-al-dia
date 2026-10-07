@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { EditProfileForm } from "./EditProfileForm";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Editar perfil · Ponte al dIA" };
+export const metadata: Metadata = { title: "Editar perfil" };
 
 export default async function EditarPerfilPage() {
   const session = await auth();

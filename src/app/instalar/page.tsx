@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { InstallButton } from "./InstallButton";
 
 export const metadata: Metadata = {
-  title: "Instalar app · Ponte al dIA",
+  title: "Instalar app",
   description: "Añade Ponte al dIA a tu pantalla de inicio y accede como una app nativa. Estamos trabajando en la app oficial.",
 };
 
