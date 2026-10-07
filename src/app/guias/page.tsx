@@ -27,6 +27,22 @@ export const metadata: Metadata = {
   },
 };
 
+// Guías de herramientas (páginas propias, fuera de la plantilla por profesión).
+const TOOL_GUIDES = [
+  {
+    href: "/guias/skills",
+    icon: "🧩",
+    title: "¿Qué es una skill de IA y cómo se crea?",
+    text: "Qué son las skills y extensiones de IA, cómo se instalan en Claude, ChatGPT o Cursor y una plantilla para hacer la tuya.",
+  },
+  {
+    href: "/guias/n8n",
+    icon: "⚙️",
+    title: "n8n en español: tu primera automatización con IA",
+    text: "Qué es n8n, en qué se diferencia de Zapier y Make, y un tutorial para que la IA te resuma el correo cada mañana.",
+  },
+];
+
 export default function GuiasPage() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -74,21 +90,23 @@ export default function GuiasPage() {
         copiar y casos reales de gente que hace lo mismo que tú. Elige tu profesión y empieza.
       </p>
 
-      <Link
-        href="/guias/skills"
-        className="mt-8 flex items-center gap-4 border border-zinc-200 rounded-xl p-5 hover:border-accent-300 hover:bg-zinc-50 transition-colors"
-      >
-        <div className="text-3xl">🧩</div>
-        <div className="min-w-0">
-          <div className="font-bold text-zinc-900" style={{ fontFamily: "var(--font-manrope)" }}>
-            ¿Qué es una skill y cómo se instala?
-          </div>
-          <p className="text-sm text-zinc-500 mt-1">
-            El concepto base, sin tecnicismos: qué son las skills y extensiones de IA y cómo se
-            instalan en Claude, Cursor, ChatGPT y con MCP.
-          </p>
-        </div>
-      </Link>
+      <div className="mt-8 grid sm:grid-cols-2 gap-4">
+        {TOOL_GUIDES.map((g) => (
+          <Link
+            key={g.href}
+            href={g.href}
+            className="flex items-center gap-4 border border-zinc-200 rounded-xl p-5 hover:border-accent-300 hover:bg-zinc-50 transition-colors"
+          >
+            <div className="text-3xl">{g.icon}</div>
+            <div className="min-w-0">
+              <div className="font-bold text-zinc-900" style={{ fontFamily: "var(--font-manrope)" }}>
+                {g.title}
+              </div>
+              <p className="text-sm text-zinc-500 mt-1">{g.text}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
 
       <div className="mt-6">
         <GuidesGrid guides={GUIDES} />

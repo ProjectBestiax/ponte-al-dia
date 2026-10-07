@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
-import { GUIDES } from "@/lib/guides";
+import { ALL_GUIDES } from "@/lib/guides";
 import { isPostIndexable } from "@/lib/posts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -27,17 +27,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     take: 1000,
   });
 
+  const latestGuideUpdate = new Date(
+    Math.max(...ALL_GUIDES.map((g) => new Date(g.updatedAt).getTime()))
+  );
+
   return [
     { url: base, lastModified: new Date(), changeFrequency: "hourly", priority: 1 },
     { url: `${base}/populares`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.9 },
     { url: `${base}/ranking`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/debates`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/debates/normas`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
-    { url: `${base}/guias`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    { url: `${base}/guias/skills`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    ...GUIDES.map((g) => ({
+    // Fechas reales de las guías: si lastModified cambia en cada lectura, Google lo ignora.
+    { url: `${base}/guias`, lastModified: latestGuideUpdate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/guias/skills`, lastModified: new Date("2026-10-07"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/guias/n8n`, lastModified: new Date("2026-10-07"), changeFrequency: "monthly", priority: 0.7 },
+    ...ALL_GUIDES.map((g) => ({
       url: `${base}/guias/ia-para-${g.slug}`,
-      lastModified: new Date(),
+      lastModified: new Date(g.updatedAt),
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),
