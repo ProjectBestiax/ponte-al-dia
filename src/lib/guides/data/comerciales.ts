@@ -146,7 +146,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un comercial redujo de 45 a 10 minutos la preparación de cada reunión",
+    title: "Caso práctico: cómo un comercial redujo de 45 a 10 minutos la preparación de cada reunión",
     before: "45 minutos por reunión buscando información de la empresa, repasando el histórico del CRM y redactando el email de seguimiento posterior.",
     after: "10 minutos: investigación asistida por IA antes de la llamada + seguimiento generado justo después, con revisión rápida.",
     steps: [

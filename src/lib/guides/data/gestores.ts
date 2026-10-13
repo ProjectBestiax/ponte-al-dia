@@ -141,11 +141,11 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo una asesoría pequeña redujo el tiempo de respuesta a consultas de clientes",
+    title: "Caso práctico: cómo una asesoría pequeña redujo el tiempo de respuesta a consultas de clientes",
     before:
-      "Antes: 3-4 horas semanales dedicadas a responder consultas repetidas de clientes por email, redactando cada respuesta desde cero, más el tiempo de buscar en la normativa el dato exacto para cada caso.",
+      "3-4 horas semanales dedicadas a responder consultas repetidas de clientes por email, redactando cada respuesta desde cero, más el tiempo de buscar en la normativa el dato exacto para cada caso.",
     after:
-      "Después: 1 hora semanal, usando plantillas de respuesta generadas y revisadas una vez con IA, y NotebookLM para resolver dudas normativas puntuales directamente sobre los textos oficiales ya cargados.",
+      "1 hora semanal, usando plantillas de respuesta generadas y revisadas una vez con IA, y NotebookLM para resolver dudas normativas puntuales directamente sobre los textos oficiales ya cargados.",
     steps: [
       "Sube a NotebookLM los documentos normativos que se consultan con más frecuencia (leyes, guías oficiales, convenios) para tener un cuaderno de referencia siempre disponible.",
       "Identifica las 5-6 consultas de clientes que se repiten cada mes y genera con ChatGPT o Claude un borrador de respuesta para cada una, sin datos reales de ningún cliente.",
