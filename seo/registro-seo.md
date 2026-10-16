@@ -2,20 +2,48 @@
 
 Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Console, acciones, pendientes.
 
-## Estado de las guías (actualizado 2026-10-07)
+## Estado de las guías (actualizado 2026-10-15)
 | URL | Estado | Último rastreo |
 |---|---|---|
-| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct (pedida 6 oct) |
+| /guias/skills | ✅ **Indexada** | 12 oct |
+| /guias/ia-para-rrhh | Rastreada: sin indexar | 13 oct (pedida 13 oct; antes desconocida) |
+| /guias/ia-para-arquitectos | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-disenadores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-desarrolladores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-gestores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-hosteleros | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-periodistas | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-profesores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-psicologos | Rastreada: sin indexar | 12 oct |
+| /guias/n8n | Rastreada: sin indexar | 7 oct (comprobado 15 oct) |
+| /guias | Rastreada: sin indexar | 6 oct |
+| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
-| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago (pedida 6 oct) |
+| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago |
 | /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
 | /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
-| /guias/skills | Rastreada: sin indexar (versión antigua) | 5 jul — pedir tras desplegar la versión nueva |
-| /guias/n8n | Nueva — pedir tras desplegar | — |
-| /guias, /guias/ia-para-desarrolladores | Pedidas 6 oct | sin comprobar |
-| resto de guías | Sin comprobar | — |
 
-**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas. Pedir indexación de nuevo no sirve; hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces externos).
+**Conclusión:** Google ya conoce las 14 guías por profesión y las 14 están en "Rastreada: sin indexar". Es un problema de calidad percibida y autoridad, no de rastreo. No se vuelve a pedir indexación hasta que cambie el contenido en producción (PRs #4, #5 y la de hoy).
+
+## 2026-10-15
+**Search Console (rendimiento, 28 días):** 0 clics, 7 impresiones, CTR 0 %, posición 24,3. Igual que el 12 y el 13 oct: los datos siguen llegando hasta ~11 oct. Única consulta: "ponte al dia" (1 impresión).
+
+**Indexación** (informe del 9 oct, sin actualizar): 16 indexadas, 160 sin indexar (rastreada sin indexar 111, descubierta sin indexar 19, noindex 19, redirección 3, canónica alternativa 3, duplicada sin canónica 3, robots.txt 2).
+
+**Inspecciones:** /guias/ia-para-rrhh pasa de "Google no reconoce esta URL" a "Rastreada: actualmente sin indexar" (rastreo 13 oct, 11:50). /guias/n8n sigue igual (rastreo 7 oct).
+
+**URLs con indexación pedida:** ninguna. Todas las guías son conocidas y el contenido en producción no ha cambiado desde el 7 oct (las PRs #4 y #5 siguen sin mergear).
+
+**Cambios (PR `seo/2026-10-15`) — /guias deja de ser una página fina:**
+- El hub /guias era un H1, dos líneas y tarjetas. Ahora tiene contenido propio (~600 palabras más): qué trae cada guía, por dónde empezar si nunca has usado IA en el trabajo (3 pasos), tres reglas que valen para cualquier profesión (responsabilidad, verificar datos, privacidad) y 4 preguntas frecuentes con **FAQPage JSON-LD**, más enlace a /debates.
+- "casos reales" → "casos prácticos" en la meta descripción, OG y la entradilla (coherente con la PR #5).
+- Solo toca `src/app/guias/page.tsx` y este registro: sin conflictos de código con #4/#5. En `seo/registro-seo.md` sí habrá conflicto con #4/#5 (las entradas del 12 y 13 oct viven en esas ramas): al resolver, conservar las tres entradas y la tabla de estado de hoy.
+
+**Ideas para mañana:**
+- Contenido diferencial por guía (normativa y límites propios de cada profesión: secreto profesional, RGPD de datos de salud, uso en el aula). Mejor hacerlo cuando se mergee la PR #5, que toca los 14 ficheros de datos, para no generar conflictos.
+- Autoría real (nombre, foto, bio, LinkedIn + `Person` schema): sigue pendiente de que Marcos lo apruebe.
+- Cuando se desplieguen #4, #5 y esta PR: pedir indexación de /guias y de 2-3 guías por profesión con más cambios.
+- Enlaces externos de calidad hacia las guías (depende de Marcos).
 
 ## 2026-10-07
 **Search Console:** el informe de indexación se ha actualizado: 17 indexadas (antes 22), 150 sin indexar (antes 270). "Descubierta: sin indexar" baja de 139 a 14 (Google procesó la cola); "Rastreada: sin indexar" 107.
