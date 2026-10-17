@@ -5,17 +5,27 @@ Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Con
 ## Estado de las guías (actualizado 2026-10-17)
 | URL | Estado | Último rastreo |
 |---|---|---|
+| /guias/skills | ⚠️ Rastreada: sin indexar (estuvo indexada ~12 oct, ha caído del índice) | 12 oct (comprobado 17 oct) |
 | /guias/n8n | Rastreada: sin indexar | 7 oct (comprobado 17 oct) |
-| /guias/skills | Rastreada: sin indexar | 12 oct (comprobado 17 oct) |
-| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct (pedida 6 oct) |
+| /guias/ia-para-rrhh | Rastreada: sin indexar | 13 oct |
+| /guias/ia-para-arquitectos | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-disenadores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-desarrolladores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-gestores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-hosteleros | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-periodistas | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-profesores | Rastreada: sin indexar | 12 oct |
+| /guias/ia-para-psicologos | Rastreada: sin indexar | 12 oct |
+| /guias | Rastreada: sin indexar | 6 oct |
+| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
-| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago (pedida 6 oct) |
+| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago |
 | /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
 | /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
-| /guias, /guias/ia-para-desarrolladores | Pedidas 6 oct | sin comprobar |
-| resto de guías | Sin comprobar | — |
 
-**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas. Pedir indexación de nuevo no sirve (ninguna guía ha cambiado desde su último rastreo); hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces internos y externos). El contenido profundo ya está en las PRs #4/#5/#6 pendientes de merge.
+**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas — y en el caso de /guias/skills, incluso la ha de-indexado tras tenerla. Pedir indexación de nuevo no sirve mientras el contenido no cambie en producción; hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces internos y externos). El contenido profundo estaba en las PRs #4/#5/#6.
+
+> **Actualización 17 oct (tarde):** Marcos mergeó las cuatro PRs (#4, #5, #6 y #7 de hoy). Ya está en producción: guías relacionadas en cada guía, "casos prácticos" + Article JSON-LD completo, hub /guias con contenido propio + FAQPage, y los enlaces internos a /guias/skills y /guias/n8n. **Próximo paso (mañana):** reinspeccionar las guías con contenido cambiado y pedir indexación de /guias, /guias/skills y 2-3 guías por profesión.
 
 ## 2026-10-17
 **Search Console — Rendimiento (28 días):** 0 clics, 7 impresiones, CTR 0 %. Prácticamente plano; todas las impresiones las captan la home y posts /p/ de bots, ninguna guía.
@@ -43,6 +53,67 @@ Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Con
 - Autoría real / E-E-A-T (nombre, foto, LinkedIn de Marcos + Person schema) — sigue pendiente de aprobación de Marcos.
 - Enlaces externos (directorios de IA en español, asociaciones profesionales, comunidades) — fuera del código.
 - Valorar noindex en posts /p/ finos y listados filtrados que inflan "Rastreada: sin indexar" (118) y diluyen el presupuesto de rastreo.
+
+## 2026-10-15
+**Search Console (rendimiento, 28 días):** 0 clics, 7 impresiones, CTR 0 %, posición 24,3. Igual que el 12 y el 13 oct: los datos siguen llegando hasta ~11 oct. Única consulta: "ponte al dia" (1 impresión).
+
+**Indexación** (informe del 9 oct, sin actualizar): 16 indexadas, 160 sin indexar (rastreada sin indexar 111, descubierta sin indexar 19, noindex 19, redirección 3, canónica alternativa 3, duplicada sin canónica 3, robots.txt 2).
+
+**Inspecciones:** /guias/ia-para-rrhh pasa de "Google no reconoce esta URL" a "Rastreada: actualmente sin indexar" (rastreo 13 oct, 11:50). /guias/n8n sigue igual (rastreo 7 oct).
+
+**URLs con indexación pedida:** ninguna. Todas las guías son conocidas y el contenido en producción no ha cambiado desde el 7 oct (las PRs #4 y #5 siguen sin mergear).
+
+**Cambios (PR `seo/2026-10-15`) — /guias deja de ser una página fina:**
+- El hub /guias era un H1, dos líneas y tarjetas. Ahora tiene contenido propio (~600 palabras más): qué trae cada guía, por dónde empezar si nunca has usado IA en el trabajo (3 pasos), tres reglas que valen para cualquier profesión (responsabilidad, verificar datos, privacidad) y 4 preguntas frecuentes con **FAQPage JSON-LD**, más enlace a /debates.
+- "casos reales" → "casos prácticos" en la meta descripción, OG y la entradilla (coherente con la PR #5).
+- Solo toca `src/app/guias/page.tsx` y este registro: sin conflictos de código con #4/#5. En `seo/registro-seo.md` sí habrá conflicto con #4/#5 (las entradas del 12 y 13 oct viven en esas ramas): al resolver, conservar las tres entradas y la tabla de estado de hoy.
+
+**Ideas para mañana:**
+- Contenido diferencial por guía (normativa y límites propios de cada profesión: secreto profesional, RGPD de datos de salud, uso en el aula). Mejor hacerlo cuando se mergee la PR #5, que toca los 14 ficheros de datos, para no generar conflictos.
+- Autoría real (nombre, foto, bio, LinkedIn + `Person` schema): sigue pendiente de que Marcos lo apruebe.
+- Cuando se desplieguen #4, #5 y esta PR: pedir indexación de /guias y de 2-3 guías por profesión con más cambios.
+- Enlaces externos de calidad hacia las guías (depende de Marcos).
+
+## 2026-10-13
+**Search Console (rendimiento, 28 días):** 0 clics, 7 impresiones, CTR 0 %, posición 24,3. Sin cambios frente a ayer (los datos llegan hasta ~10 oct). Única consulta visible: "ponte al dia" (1 impresión).
+
+**Indexación** (informe del 9 oct, sin actualizar): 16 indexadas, 160 sin indexar. Mismos motivos que ayer (rastreada sin indexar 111, descubierta sin indexar 19, noindex 19…).
+
+**Inspecciones:** las 8 guías pedidas ayer (arquitectos, diseñadores, desarrolladores, gestores, hosteleros, periodistas, profesores, psicólogos) pasan de "Google no reconoce esta URL" a **"Rastreada: actualmente sin indexar"** (rastreo 12 oct, 20:01-20:16). No se pide de nuevo.
+
+**URLs con indexación pedida (1):** /guias/ia-para-rrhh ("Google no reconoce esta URL") → "Se ha solicitado la indexación".
+
+**Cambios (PR `seo/2026-10-13`) — confianza y calidad en las 14 guías:**
+- **"Caso real" → "Caso práctico"** en el título de los 14 casos y en el índice, con una nota visible: ejemplo ilustrativo, tiempos orientativos. Los casos no se pueden verificar (no hay persona ni fuente); presentarlos como reales resta confianza (E-E-A-T) y choca con la regla de no inventar casos.
+- **Bug visible corregido:** en 8 guías (abogados, arquitectos, desarrolladores, diseñadores, gestores, profesores, RRHH, sanitarios) se leía "Antes: Antes: …" y "Después: Después: …" porque el dato repetía la etiqueta que ya pone la plantilla.
+- **Article JSON-LD más completo:** `publisher` (Organization con logo), `mainEntityOfPage`, `inLanguage: es-ES`, `url` del autor.
+- Nota: esta PR parte de main y lleva el registro con la entrada del 12 oct (PR #4); si se mergea #4 antes, el conflicto en `seo/registro-seo.md` se resuelve quedándose con esta versión.
+
+**Ideas para mañana:**
+- Contenido diferencial por guía (la palanca real ahora): una sección propia de cada profesión con normativa/limitaciones concretas (p. ej. secreto profesional en abogados y psicólogos, RGPD en datos de pacientes, uso en el aula). Empezar por las 2-3 guías con más interés previsible (abogados, marketers, profesores).
+- Autoría real (nombre, foto, bio y LinkedIn de Marcos + `Person` schema): sigue pendiente de que Marcos lo apruebe; es probablemente la mejora E-E-A-T con más impacto.
+- Revisar la entrada de /guias (hub): texto introductorio propio y más largo, no solo tarjetas.
+- Enlaces externos de calidad hacia las guías (comunidades, colegios profesionales) — depende de Marcos.
+
+## 2026-10-12
+**Search Console (rendimiento):**
+- 28 días: 0 clics, 7 impresiones, CTR 0 %, posición media 24,3. Caída fuerte: casi todas las impresiones de los 90 días son anteriores a mediados de septiembre.
+- 90 días: 3 clics, 604 impresiones (6 oct: 4 clics / 718), CTR 0,5 %, posición 18,6. Consultas: "midudev twitter" (1 clic), "skills", "n8n que es", "n8n español", "que es skill" (pos. 16,5), "qué es una skill" (pos. 16,3) y nombres de papers/repos de los posts de bots.
+- Hipótesis de la caída (sin confirmar): los posts /p/ de bots que daban impresiones por nombres de papers se perdieron con la migración de la DB de octubre. Las consultas que nos interesan (skills, n8n) siguen con pocas impresiones.
+
+**Indexación** (actualizado 9 oct): 16 indexadas (7 oct: 17), 160 sin indexar (7 oct: 150). Rastreada sin indexar 111 (43 /p/, 11 /out, 10 /guias…), Descubierta sin indexar 19, noindex 19, redirección 3, canónica alternativa 3, duplicada sin canónica 3, bloqueada por robots 2.
+- **Buena noticia:** /guias/skills (versión nueva) rastreada hoy e **indexada**.
+
+**URLs con indexación pedida (8, cupo del día):** /guias/ia-para-arquitectos, -disenadores, -desarrolladores (2.ª vez), -gestores, -hosteleros, -periodistas, -profesores, -psicologos. Todas "Google no reconoce esta URL". No se pidió para n8n, marketers, abogados, etc. (rastreadas hace <7 días sin cambios).
+
+**Cambios (PR `seo/2026-10-12`):**
+- Bloque "Guías relacionadas" al final de cada guía por profesión: 3 guías afines elegidas a mano (con icono y tagline) + enlaces de texto al resto de guías y a /guias/skills y /guias/n8n. Cada guía pasa de enlazar 1-2 guías a 15. Objetivo: que Google descubra las 8 guías desconocidas desde las que ya rastrea y repartir autoridad entre ellas.
+
+**Ideas para mañana:**
+- Pedir indexación de /guias/ia-para-rrhh y volver a mirar si las 8 pedidas ya son conocidas.
+- Revisar en Rendimiento → Páginas qué URLs perdieron impresiones en septiembre para confirmar la hipótesis de la DB.
+- Seguir con valor/autoridad: autoría real (pendiente de que Marcos apruebe datos), casos concretos por profesión, enlaces externos.
+- Valorar noindex en posts /p/ de bots sin interacción (43 en "Rastreada sin indexar").
 
 ## 2026-10-07
 **Search Console:** el informe de indexación se ha actualizado: 17 indexadas (antes 22), 150 sin indexar (antes 270). "Descubierta: sin indexar" baja de 139 a 14 (Google procesó la cola); "Rastreada: sin indexar" 107.

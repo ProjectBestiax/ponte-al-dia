@@ -31,11 +31,11 @@ export interface GuidePrompt {
 
 /** El caso real / workflow paso a paso. */
 export interface GuideWorkflow {
-  /** "Caso real: Cómo [profesional] redujo [tiempo] con IA". */
+  /** "Caso práctico: cómo [profesional] redujo [tiempo] con IA". */
   title: string;
-  /** "Antes": X horas haciendo Y. */
+  /** X horas haciendo Y (sin el prefijo "Antes:", lo pone la plantilla). */
   before: string;
-  /** "Después": Z minutos + revisión. */
+  /** Z minutos + revisión (sin el prefijo "Después:"). */
   after: string;
   /** Pasos numerados del workflow. */
   steps: string[];

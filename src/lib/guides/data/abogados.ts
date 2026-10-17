@@ -140,9 +140,9 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo una abogada mercantilista redujo a la mitad el tiempo de due diligence",
-    before: "Antes: 8-10 horas revisando manualmente cada contrato de una carpeta de due diligence, tomando notas sueltas y montando el informe final desde cero.",
-    after: "Después: 4 horas, incluyendo la revisión humana de cada hallazgo antes de incluirlo en el informe.",
+    title: "Caso práctico: cómo una abogada mercantilista redujo a la mitad el tiempo de due diligence",
+    before: "8-10 horas revisando manualmente cada contrato de una carpeta de due diligence, tomando notas sueltas y montando el informe final desde cero.",
+    after: "4 horas, incluyendo la revisión humana de cada hallazgo antes de incluirlo en el informe.",
     steps: [
       "Sube cada contrato a NotebookLM organizados por carpeta del cliente, junto con la checklist interna de puntos a revisar.",
       "Pide un resumen por contrato siguiendo la checklist: partes, vigencia, cláusulas de cambio de control, penalizaciones y obligaciones pendientes.",
