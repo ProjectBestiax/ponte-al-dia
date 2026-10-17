@@ -2,20 +2,42 @@
 
 Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Console, acciones, pendientes.
 
-## Estado de las guías (actualizado 2026-10-07)
+## Estado de las guías (actualizado 2026-10-12)
 | URL | Estado | Último rastreo |
 |---|---|---|
+| /guias/skills | ✅ **Indexada** | 12 oct |
+| /guias/n8n | Rastreada: sin indexar | 7 oct (versión nueva) |
+| /guias | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct (pedida 6 oct) |
 | /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
 | /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago (pedida 6 oct) |
 | /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
 | /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
-| /guias/skills | Rastreada: sin indexar (versión antigua) | 5 jul — pedir tras desplegar la versión nueva |
-| /guias/n8n | Nueva — pedir tras desplegar | — |
-| /guias, /guias/ia-para-desarrolladores | Pedidas 6 oct | sin comprobar |
-| resto de guías | Sin comprobar | — |
+| /guias/ia-para-desarrolladores | Google no la conoce | — (pedida 6 y 12 oct) |
+| /guias/ia-para-arquitectos, -disenadores, -gestores, -hosteleros, -periodistas, -profesores, -psicologos | Google no la conoce | — (pedidas 12 oct) |
+| /guias/ia-para-rrhh | Google no la conoce | — (pedir el 13 oct; se acabó el cupo) |
 
-**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas. Pedir indexación de nuevo no sirve; hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces externos).
+**Conclusión:** dos problemas distintos. (1) 5 guías + /guias + n8n: Google las rastrea y no las indexa → valor percibido y autoridad. (2) 8 guías: Google ni las ha descubierto, aunque están en el sitemap (leído el 12 oct, 40 URLs, "Correcto") → poco presupuesto de rastreo y pocos enlaces internos hacia ellas (cada guía solo enlazaba a 1-2 guías más).
+
+## 2026-10-12
+**Search Console (rendimiento):**
+- 28 días: 0 clics, 7 impresiones, CTR 0 %, posición media 24,3. Caída fuerte: casi todas las impresiones de los 90 días son anteriores a mediados de septiembre.
+- 90 días: 3 clics, 604 impresiones (6 oct: 4 clics / 718), CTR 0,5 %, posición 18,6. Consultas: "midudev twitter" (1 clic), "skills", "n8n que es", "n8n español", "que es skill" (pos. 16,5), "qué es una skill" (pos. 16,3) y nombres de papers/repos de los posts de bots.
+- Hipótesis de la caída (sin confirmar): los posts /p/ de bots que daban impresiones por nombres de papers se perdieron con la migración de la DB de octubre. Las consultas que nos interesan (skills, n8n) siguen con pocas impresiones.
+
+**Indexación** (actualizado 9 oct): 16 indexadas (7 oct: 17), 160 sin indexar (7 oct: 150). Rastreada sin indexar 111 (43 /p/, 11 /out, 10 /guias…), Descubierta sin indexar 19, noindex 19, redirección 3, canónica alternativa 3, duplicada sin canónica 3, bloqueada por robots 2.
+- **Buena noticia:** /guias/skills (versión nueva) rastreada hoy e **indexada**.
+
+**URLs con indexación pedida (8, cupo del día):** /guias/ia-para-arquitectos, -disenadores, -desarrolladores (2.ª vez), -gestores, -hosteleros, -periodistas, -profesores, -psicologos. Todas "Google no reconoce esta URL". No se pidió para n8n, marketers, abogados, etc. (rastreadas hace <7 días sin cambios).
+
+**Cambios (PR `seo/2026-10-12`):**
+- Bloque "Guías relacionadas" al final de cada guía por profesión: 3 guías afines elegidas a mano (con icono y tagline) + enlaces de texto al resto de guías y a /guias/skills y /guias/n8n. Cada guía pasa de enlazar 1-2 guías a 15. Objetivo: que Google descubra las 8 guías desconocidas desde las que ya rastrea y repartir autoridad entre ellas.
+
+**Ideas para mañana:**
+- Pedir indexación de /guias/ia-para-rrhh y volver a mirar si las 8 pedidas ya son conocidas.
+- Revisar en Rendimiento → Páginas qué URLs perdieron impresiones en septiembre para confirmar la hipótesis de la DB.
+- Seguir con valor/autoridad: autoría real (pendiente de que Marcos apruebe datos), casos concretos por profesión, enlaces externos.
+- Valorar noindex en posts /p/ de bots sin interacción (43 en "Rastreada sin indexar").
 
 ## 2026-10-07
 **Search Console:** el informe de indexación se ha actualizado: 17 indexadas (antes 22), 150 sin indexar (antes 270). "Descubierta: sin indexar" baja de 139 a 14 (Google procesó la cola); "Rastreada: sin indexar" 107.

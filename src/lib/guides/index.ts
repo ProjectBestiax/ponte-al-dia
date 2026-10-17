@@ -47,4 +47,29 @@ export function getGuide(slug: string): GuideContent | undefined {
   return ALL_GUIDES.find((g) => g.slug === slug);
 }
 
+// Guías afines por profesión (enlazado interno entre guías). Elegidas a mano por
+// solapamiento real de tareas, no al azar: quien lee una suele trabajar con la otra.
+const RELATED: Record<string, string[]> = {
+  abogados: ["gestores", "rrhh", "periodistas"],
+  "community-managers": ["marketers", "disenadores", "periodistas"],
+  periodistas: ["community-managers", "marketers", "profesores"],
+  psicologos: ["sanitarios", "rrhh", "profesores"],
+  desarrolladores: ["disenadores", "marketers", "arquitectos"],
+  marketers: ["community-managers", "comerciales", "disenadores"],
+  disenadores: ["arquitectos", "marketers", "community-managers"],
+  profesores: ["psicologos", "periodistas", "rrhh"],
+  sanitarios: ["psicologos", "gestores", "rrhh"],
+  rrhh: ["gestores", "psicologos", "comerciales"],
+  comerciales: ["marketers", "gestores", "hosteleros"],
+  hosteleros: ["comerciales", "marketers", "gestores"],
+  arquitectos: ["disenadores", "gestores", "desarrolladores"],
+  gestores: ["abogados", "rrhh", "comerciales"],
+};
+
+export function getRelatedGuides(slug: string): GuideMeta[] {
+  return (RELATED[slug] ?? [])
+    .map((s) => GUIDES.find((g) => g.slug === s))
+    .filter((g): g is GuideMeta => g !== undefined);
+}
+
 export type { GuideContent, GuideMeta, GuideTool, GuidePrompt, GuideWorkflow, GuideMistake, GuideResource, GuideFaq } from "./types";
