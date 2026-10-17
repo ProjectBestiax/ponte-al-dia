@@ -146,7 +146,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un equipo de marketing redujo de 1 día a 2 horas el informe mensual de campañas",
+    title: "Caso práctico: cómo un equipo de marketing redujo de 1 día a 2 horas el informe mensual de campañas",
     before: "Un día completo recopilando datos de 4 plataformas de anuncios, montando tablas y redactando conclusiones a mano.",
     after: "2 horas: exportación de datos + análisis asistido por IA + revisión y presentación.",
     steps: [

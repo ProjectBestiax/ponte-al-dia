@@ -146,7 +146,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un restaurante redujo de un domingo entero a 2 horas la gestión semanal de redes y reseñas",
+    title: "Caso práctico: cómo un restaurante redujo de un domingo entero a 2 horas la gestión semanal de redes y reseñas",
     before: "Un domingo completo cada semana escribiendo posts para redes, diseñando artes en el móvil y respondiendo reseñas acumuladas de días anteriores.",
     after: "2 horas: generación de textos e imágenes asistida por IA + revisión y publicación, repartido en el día a día.",
     steps: [

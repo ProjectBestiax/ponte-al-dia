@@ -145,7 +145,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo una psicóloga de consulta privada redujo el tiempo de preparación de talleres grupales",
+    title: "Caso práctico: cómo una psicóloga de consulta privada redujo el tiempo de preparación de talleres grupales",
     before:
       "4 horas cada mes preparando desde cero el guion y el material de apoyo de un taller grupal mensual sobre gestión emocional para pacientes.",
     after:

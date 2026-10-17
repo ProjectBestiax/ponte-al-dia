@@ -141,9 +141,9 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un equipo de RRHH redujo a la mitad el tiempo de cribado inicial de candidaturas",
-    before: "Antes: 6-8 horas revisando manualmente 150 CVs para una vacante, con notas dispersas y criterios aplicados de forma poco consistente entre revisores.",
-    after: "Después: 3 horas, con criterios documentados de antemano y revisión humana de cada candidatura preseleccionada.",
+    title: "Caso práctico: cómo un equipo de RRHH redujo a la mitad el tiempo de cribado inicial de candidaturas",
+    before: "6-8 horas revisando manualmente 150 CVs para una vacante, con notas dispersas y criterios aplicados de forma poco consistente entre revisores.",
+    after: "3 horas, con criterios documentados de antemano y revisión humana de cada candidatura preseleccionada.",
     steps: [
       "Antes de abrir la vacante, el equipo define por escrito criterios objetivos de cribado con ayuda de un prompt estructurado, evitando criterios que puedan introducir sesgo.",
       "Se configura el ATS con esos criterios para ordenar (no descartar automáticamente) las candidaturas según su ajuste.",

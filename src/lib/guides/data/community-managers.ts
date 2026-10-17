@@ -146,7 +146,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo una community manager freelance redujo 6 horas semanales de producción de contenido",
+    title: "Caso práctico: cómo una community manager freelance redujo 6 horas semanales de producción de contenido",
     before: "6-7 horas semanales redactando copys, adaptando formatos y buscando ideas desde cero para 3 clientes.",
     after: "2 horas semanales: generación asistida por IA + revisión y ajuste de tono.",
     steps: [

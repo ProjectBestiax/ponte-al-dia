@@ -145,7 +145,7 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un redactor de local redujo el tiempo de una crónica de pleno municipal",
+    title: "Caso práctico: cómo un redactor de local redujo el tiempo de una crónica de pleno municipal",
     before:
       "3 horas transcribiendo a mano el audio del pleno de 2 horas, releyendo el acta municipal completa y buscando manualmente las cifras del presupuesto mencionadas.",
     after:

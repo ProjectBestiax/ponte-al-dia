@@ -142,11 +142,11 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo una diseñadora freelance redujo a la mitad el tiempo de la fase de propuesta",
+    title: "Caso práctico: cómo una diseñadora freelance redujo a la mitad el tiempo de la fase de propuesta",
     before:
-      "Antes: 6-8 horas por proyecto dedicadas solo a la fase de exploración inicial (buscar referencias en Pinterest, montar un moodboard manual en Figma, redactar el documento de propuesta con el razonamiento de las decisiones).",
+      "6-8 horas por proyecto dedicadas solo a la fase de exploración inicial (buscar referencias en Pinterest, montar un moodboard manual en Figma, redactar el documento de propuesta con el razonamiento de las decisiones).",
     after:
-      "Después: 2-3 horas, repartidas entre generar y curar opciones con IA, y el tiempo humano dedicado a pulir la dirección elegida y redactar la argumentación final con su propia voz.",
+      "2-3 horas, repartidas entre generar y curar opciones con IA, y el tiempo humano dedicado a pulir la dirección elegida y redactar la argumentación final con su propia voz.",
     steps: [
       "Recoge el brief del cliente y lo pasa por ChatGPT para extraer objetivos, público y palabras clave de tono.",
       "Genera 3-4 conceptos visuales distintos con Midjourney usando esas palabras clave como base del prompt.",

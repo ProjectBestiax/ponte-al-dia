@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
-import { ALL_GUIDES, getGuide } from "@/lib/guides";
+import { ALL_GUIDES, GUIDES, getGuide, getRelatedGuides } from "@/lib/guides";
 import { PromptBlock } from "./PromptBlock";
 import { GuideCta } from "./GuideCta";
 
@@ -54,10 +54,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const INDEX_LINKS = [
   { id: "herramientas", label: "Herramientas que puedes probar hoy" },
   { id: "prompts", label: "Prompts listos para copiar" },
-  { id: "caso-real", label: "Caso real" },
+  { id: "caso-real", label: "Caso práctico paso a paso" },
   { id: "errores", label: "Errores que evitar" },
   { id: "recursos", label: "Aprende más sin salir de Ponte al dIA" },
   { id: "faq", label: "Preguntas frecuentes" },
+  { id: "relacionadas", label: "Guías relacionadas" },
 ];
 
 export default async function GuiaPage({ params }: PageProps) {
@@ -67,6 +68,9 @@ export default async function GuiaPage({ params }: PageProps) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   const ogImageAbsolute = `${appUrl}/api/og?title=${encodeURIComponent(guide.title)}&emoji=${encodeURIComponent(guide.icon)}&category=Gu%C3%ADas`;
+
+  const related = getRelatedGuides(guide.slug);
+  const others = GUIDES.filter((g) => g.slug !== guide.slug && !related.some((r) => r.slug === g.slug));
 
   const updatedDate = new Date(guide.updatedAt).toLocaleDateString("es-ES", {
     day: "numeric",
@@ -81,7 +85,15 @@ export default async function GuiaPage({ params }: PageProps) {
     description: guide.metaDescription,
     datePublished: guide.updatedAt,
     dateModified: guide.updatedAt,
-    author: { "@type": "Organization", name: "Ponte al dIA" },
+    author: { "@type": "Organization", name: "Ponte al dIA", url: appUrl },
+    publisher: {
+      "@type": "Organization",
+      name: "Ponte al dIA",
+      url: appUrl,
+      logo: { "@type": "ImageObject", url: `${appUrl}/icons/icon-512.png` },
+    },
+    mainEntityOfPage: `${appUrl}/guias/ia-para-${guide.slug}`,
+    inLanguage: "es-ES",
     image: ogImageAbsolute,
   };
 
@@ -215,6 +227,10 @@ export default async function GuiaPage({ params }: PageProps) {
         <p className="mt-1 text-sm text-zinc-700">
           <span className="font-semibold">Después:</span> {guide.workflow.after}
         </p>
+        <p className="mt-2 text-xs text-zinc-500">
+          Ejemplo ilustrativo de un flujo habitual en la profesión: los tiempos son orientativos y
+          dependen de tu volumen de trabajo y de cuánto revises cada resultado.
+        </p>
         <ol className="mt-3 list-decimal list-inside text-sm text-zinc-700 space-y-1.5">
           {guide.workflow.steps.map((step, i) => (
             <li key={i}>{step}</li>
@@ -268,6 +284,39 @@ export default async function GuiaPage({ params }: PageProps) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section id="relacionadas" className="mt-10">
+        <h2 className="text-xl font-bold text-zinc-900" style={{ fontFamily: "var(--font-manrope)" }}>
+          Guías relacionadas
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {related.map((g) => (
+            <Link
+              key={g.slug}
+              href={`/guias/ia-para-${g.slug}`}
+              className="border border-zinc-200 rounded-xl p-4 hover:border-accent-300 transition-colors"
+            >
+              <p className="font-bold text-zinc-900">
+                {g.icon} IA para {g.profession}
+              </p>
+              <p className="mt-1 text-sm text-zinc-500">{g.tagline}</p>
+            </Link>
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-zinc-600 leading-relaxed">
+          Más guías por profesión:{" "}
+          {others.map((g, i) => (
+            <span key={g.slug}>
+              <Link href={`/guias/ia-para-${g.slug}`} className="text-accent-700 hover:underline">
+                {g.profession}
+              </Link>
+              {i < others.length - 1 ? ", " : "."}
+            </span>
+          ))}{" "}
+          Y si quieres ir un paso más allá: <Link href="/guias/skills" className="text-accent-700 hover:underline">qué es una skill de IA</Link>{" "}
+          y <Link href="/guias/n8n" className="text-accent-700 hover:underline">n8n en español</Link> para automatizar tareas.
+        </p>
       </section>
 
       <div className="mt-10">

@@ -142,11 +142,11 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un estudio pequeño redujo el tiempo de la fase de anteproyecto",
+    title: "Caso práctico: cómo un estudio pequeño redujo el tiempo de la fase de anteproyecto",
     before:
-      "Antes: 10-12 horas por proyecto en la fase de anteproyecto, entre buscar referencias visuales, montar un panel de presentación a mano y redactar desde cero la primera versión de la memoria descriptiva.",
+      "10-12 horas por proyecto en la fase de anteproyecto, entre buscar referencias visuales, montar un panel de presentación a mano y redactar desde cero la primera versión de la memoria descriptiva.",
     after:
-      "Después: 4-5 horas, repartidas entre generar y curar opciones visuales con IA, redactar un primer borrador de memoria con IA y dedicar el tiempo humano a revisar, corregir con datos reales y verificar la normativa en fuente oficial.",
+      "4-5 horas, repartidas entre generar y curar opciones visuales con IA, redactar un primer borrador de memoria con IA y dedicar el tiempo humano a revisar, corregir con datos reales y verificar la normativa en fuente oficial.",
     steps: [
       "Recoge el brief del cliente (uso, superficie deseada, presupuesto orientativo, referencias que le gustan) y lo estructura con ayuda de ChatGPT o Claude.",
       "Genera 3-4 conceptos volumétricos distintos con Midjourney o Stable Diffusion usando el brief como base del prompt.",

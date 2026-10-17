@@ -141,11 +141,11 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un profesor de secundaria redujo el tiempo de preparación semanal de clases",
+    title: "Caso práctico: cómo un profesor de secundaria redujo el tiempo de preparación semanal de clases",
     before:
-      "Antes: 5-6 horas semanales dedicadas a adaptar el mismo tema a los distintos niveles de sus tres grupos y a redactar preguntas de repaso desde cero para cada examen.",
+      "5-6 horas semanales dedicadas a adaptar el mismo tema a los distintos niveles de sus tres grupos y a redactar preguntas de repaso desde cero para cada examen.",
     after:
-      "Después: 2 horas semanales, usando IA para generar el primer borrador de las adaptaciones y las preguntas, dedicando el resto del tiempo a revisar, corregir y personalizar según lo que de verdad ha pasado en cada clase.",
+      "2 horas semanales, usando IA para generar el primer borrador de las adaptaciones y las preguntas, dedicando el resto del tiempo a revisar, corregir y personalizar según lo que de verdad ha pasado en cada clase.",
     steps: [
       "Sube el temario o los apuntes de la unidad a NotebookLM para tener una base fiable basada solo en su propio material.",
       "Genera con Diffit tres versiones del mismo texto adaptadas a los niveles de lectura de sus grupos.",
