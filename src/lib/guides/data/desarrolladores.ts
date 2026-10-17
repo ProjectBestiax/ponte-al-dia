@@ -141,9 +141,9 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un equipo backend redujo el tiempo de migración de una API legacy",
-    before: "Antes: 3 semanas estimadas para migrar 40 endpoints de una API antigua en callbacks a async/await con tests actualizados.",
-    after: "Después: 9 días, con revisión manual de cada endpoint migrado antes de mergear.",
+    title: "Caso práctico: cómo un equipo backend redujo el tiempo de migración de una API legacy",
+    before: "3 semanas estimadas para migrar 40 endpoints de una API antigua en callbacks a async/await con tests actualizados.",
+    after: "9 días, con revisión manual de cada endpoint migrado antes de mergear.",
     steps: [
       "Usan Cursor para pedir, endpoint por endpoint, la conversión de callbacks a async/await manteniendo la misma firma pública.",
       "Cada conversión se revisa a mano comparando el comportamiento ante errores con el código original, no solo el caso feliz.",

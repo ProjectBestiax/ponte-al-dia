@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const INDEX_LINKS = [
   { id: "herramientas", label: "Herramientas que puedes probar hoy" },
   { id: "prompts", label: "Prompts listos para copiar" },
-  { id: "caso-real", label: "Caso real" },
+  { id: "caso-real", label: "Caso práctico paso a paso" },
   { id: "errores", label: "Errores que evitar" },
   { id: "recursos", label: "Aprende más sin salir de Ponte al dIA" },
   { id: "faq", label: "Preguntas frecuentes" },
@@ -85,7 +85,15 @@ export default async function GuiaPage({ params }: PageProps) {
     description: guide.metaDescription,
     datePublished: guide.updatedAt,
     dateModified: guide.updatedAt,
-    author: { "@type": "Organization", name: "Ponte al dIA" },
+    author: { "@type": "Organization", name: "Ponte al dIA", url: appUrl },
+    publisher: {
+      "@type": "Organization",
+      name: "Ponte al dIA",
+      url: appUrl,
+      logo: { "@type": "ImageObject", url: `${appUrl}/icons/icon-512.png` },
+    },
+    mainEntityOfPage: `${appUrl}/guias/ia-para-${guide.slug}`,
+    inLanguage: "es-ES",
     image: ogImageAbsolute,
   };
 
@@ -218,6 +226,10 @@ export default async function GuiaPage({ params }: PageProps) {
         </p>
         <p className="mt-1 text-sm text-zinc-700">
           <span className="font-semibold">Después:</span> {guide.workflow.after}
+        </p>
+        <p className="mt-2 text-xs text-zinc-500">
+          Ejemplo ilustrativo de un flujo habitual en la profesión: los tiempos son orientativos y
+          dependen de tu volumen de trabajo y de cuánto revises cada resultado.
         </p>
         <ol className="mt-3 list-decimal list-inside text-sm text-zinc-700 space-y-1.5">
           {guide.workflow.steps.map((step, i) => (

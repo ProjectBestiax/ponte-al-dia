@@ -2,22 +2,49 @@
 
 Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Console, acciones, pendientes.
 
-## Estado de las guías (actualizado 2026-10-12)
+## Estado de las guías (actualizado 2026-10-13)
 | URL | Estado | Último rastreo |
 |---|---|---|
 | /guias/skills | ✅ **Indexada** | 12 oct |
-| /guias/n8n | Rastreada: sin indexar | 7 oct (versión nueva) |
+| /guias/ia-para-arquitectos | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-disenadores | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-desarrolladores | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-gestores | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-hosteleros | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-periodistas | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-profesores | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-psicologos | Rastreada: sin indexar | 12 oct (antes desconocida) |
+| /guias/ia-para-rrhh | Google no la conoce | — (pedida 13 oct) |
+| /guias/n8n | Rastreada: sin indexar | 7 oct (sin comprobar hoy) |
 | /guias | Rastreada: sin indexar | 6 oct |
-| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct (pedida 6 oct) |
+| /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
-| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago (pedida 6 oct) |
+| /guias/ia-para-community-managers | Rastreada: sin indexar | 13 ago |
 | /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
 | /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
-| /guias/ia-para-desarrolladores | Google no la conoce | — (pedida 6 y 12 oct) |
-| /guias/ia-para-arquitectos, -disenadores, -gestores, -hosteleros, -periodistas, -profesores, -psicologos | Google no la conoce | — (pedidas 12 oct) |
-| /guias/ia-para-rrhh | Google no la conoce | — (pedir el 13 oct; se acabó el cupo) |
 
-**Conclusión:** dos problemas distintos. (1) 5 guías + /guias + n8n: Google las rastrea y no las indexa → valor percibido y autoridad. (2) 8 guías: Google ni las ha descubierto, aunque están en el sitemap (leído el 12 oct, 40 URLs, "Correcto") → poco presupuesto de rastreo y pocos enlaces internos hacia ellas (cada guía solo enlazaba a 1-2 guías más).
+**Conclusión:** el problema de descubrimiento está resuelto (las 8 pedidas el 12 oct se rastrearon esa misma noche). Ahora **13 de 14 guías por profesión están en "Rastreada: sin indexar"**: es un problema de calidad percibida y autoridad, no de rastreo. No tiene sentido volver a pedir indexación de estas URLs sin cambios de contenido.
+
+## 2026-10-13
+**Search Console (rendimiento, 28 días):** 0 clics, 7 impresiones, CTR 0 %, posición 24,3. Sin cambios frente a ayer (los datos llegan hasta ~10 oct). Única consulta visible: "ponte al dia" (1 impresión).
+
+**Indexación** (informe del 9 oct, sin actualizar): 16 indexadas, 160 sin indexar. Mismos motivos que ayer (rastreada sin indexar 111, descubierta sin indexar 19, noindex 19…).
+
+**Inspecciones:** las 8 guías pedidas ayer (arquitectos, diseñadores, desarrolladores, gestores, hosteleros, periodistas, profesores, psicólogos) pasan de "Google no reconoce esta URL" a **"Rastreada: actualmente sin indexar"** (rastreo 12 oct, 20:01-20:16). No se pide de nuevo.
+
+**URLs con indexación pedida (1):** /guias/ia-para-rrhh ("Google no reconoce esta URL") → "Se ha solicitado la indexación".
+
+**Cambios (PR `seo/2026-10-13`) — confianza y calidad en las 14 guías:**
+- **"Caso real" → "Caso práctico"** en el título de los 14 casos y en el índice, con una nota visible: ejemplo ilustrativo, tiempos orientativos. Los casos no se pueden verificar (no hay persona ni fuente); presentarlos como reales resta confianza (E-E-A-T) y choca con la regla de no inventar casos.
+- **Bug visible corregido:** en 8 guías (abogados, arquitectos, desarrolladores, diseñadores, gestores, profesores, RRHH, sanitarios) se leía "Antes: Antes: …" y "Después: Después: …" porque el dato repetía la etiqueta que ya pone la plantilla.
+- **Article JSON-LD más completo:** `publisher` (Organization con logo), `mainEntityOfPage`, `inLanguage: es-ES`, `url` del autor.
+- Nota: esta PR parte de main y lleva el registro con la entrada del 12 oct (PR #4); si se mergea #4 antes, el conflicto en `seo/registro-seo.md` se resuelve quedándose con esta versión.
+
+**Ideas para mañana:**
+- Contenido diferencial por guía (la palanca real ahora): una sección propia de cada profesión con normativa/limitaciones concretas (p. ej. secreto profesional en abogados y psicólogos, RGPD en datos de pacientes, uso en el aula). Empezar por las 2-3 guías con más interés previsible (abogados, marketers, profesores).
+- Autoría real (nombre, foto, bio y LinkedIn de Marcos + `Person` schema): sigue pendiente de que Marcos lo apruebe; es probablemente la mejora E-E-A-T con más impacto.
+- Revisar la entrada de /guias (hub): texto introductorio propio y más largo, no solo tarjetas.
+- Enlaces externos de calidad hacia las guías (comunidades, colegios profesionales) — depende de Marcos.
 
 ## 2026-10-12
 **Search Console (rendimiento):**

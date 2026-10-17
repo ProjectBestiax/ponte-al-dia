@@ -140,9 +140,9 @@ export const guide: GuideContent = {
   ],
 
   workflow: {
-    title: "Caso real: cómo un médico de familia recuperó media hora al día de documentación",
-    before: "Antes: al final de cada jornada, 45-60 minutos redactando notas de evolución pendientes y cartas de derivación desde cero.",
-    after: "Después: 20-25 minutos, usando plantillas y dictado clínico revisado, con la misma calidad documental.",
+    title: "Caso práctico: cómo un médico de familia recuperó media hora al día de documentación",
+    before: "Al final de cada jornada, 45-60 minutos redactando notas de evolución pendientes y cartas de derivación desde cero.",
+    after: "20-25 minutos, usando plantillas y dictado clínico revisado, con la misma calidad documental.",
     steps: [
       "Al inicio de la consulta, activa (con consentimiento del paciente) el dictado ambiental para capturar el motivo de consulta y la exploración.",
       "El sistema genera un borrador de nota estructurada, que el médico revisa y corrige antes de firmarla en la historia clínica.",
