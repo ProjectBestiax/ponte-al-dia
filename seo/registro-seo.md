@@ -2,11 +2,12 @@
 
 Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Console, acciones, pendientes.
 
-## Estado de las guías (actualizado 2026-10-15)
+## Estado de las guías (actualizado 2026-10-17)
 | URL | Estado | Último rastreo |
 |---|---|---|
-| /guias/skills | ✅ **Indexada** | 12 oct |
-| /guias/ia-para-rrhh | Rastreada: sin indexar | 13 oct (pedida 13 oct; antes desconocida) |
+| /guias/skills | ⚠️ Rastreada: sin indexar (estuvo indexada ~12 oct, ha caído del índice) | 12 oct (comprobado 17 oct) |
+| /guias/n8n | Rastreada: sin indexar | 7 oct (comprobado 17 oct) |
+| /guias/ia-para-rrhh | Rastreada: sin indexar | 13 oct |
 | /guias/ia-para-arquitectos | Rastreada: sin indexar | 12 oct |
 | /guias/ia-para-disenadores | Rastreada: sin indexar | 12 oct |
 | /guias/ia-para-desarrolladores | Rastreada: sin indexar | 12 oct |
@@ -15,7 +16,6 @@ Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Con
 | /guias/ia-para-periodistas | Rastreada: sin indexar | 12 oct |
 | /guias/ia-para-profesores | Rastreada: sin indexar | 12 oct |
 | /guias/ia-para-psicologos | Rastreada: sin indexar | 12 oct |
-| /guias/n8n | Rastreada: sin indexar | 7 oct (comprobado 15 oct) |
 | /guias | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-abogados | Rastreada: sin indexar | 6 oct |
 | /guias/ia-para-marketers | Rastreada: sin indexar | 7 oct |
@@ -23,7 +23,36 @@ Lo actualiza la tarea programada "SEO diario". Cada entrada: datos de Search Con
 | /guias/ia-para-sanitarios | Rastreada: sin indexar | 28 jul |
 | /guias/ia-para-comerciales | Rastreada: sin indexar | 27 jul |
 
-**Conclusión:** Google ya conoce las 14 guías por profesión y las 14 están en "Rastreada: sin indexar". Es un problema de calidad percibida y autoridad, no de rastreo. No se vuelve a pedir indexación hasta que cambie el contenido en producción (PRs #4, #5 y la de hoy).
+**Conclusión:** el problema ya no es que Google no las encuentre, sino que las rastrea y decide no indexarlas — y en el caso de /guias/skills, incluso la ha de-indexado tras tenerla. Pedir indexación de nuevo no sirve mientras el contenido no cambie en producción; hay que subir valor percibido y autoridad (contenido único, autoría real, enlaces internos y externos). El contenido profundo estaba en las PRs #4/#5/#6.
+
+> **Actualización 17 oct (tarde):** Marcos mergeó las cuatro PRs (#4, #5, #6 y #7 de hoy). Ya está en producción: guías relacionadas en cada guía, "casos prácticos" + Article JSON-LD completo, hub /guias con contenido propio + FAQPage, y los enlaces internos a /guias/skills y /guias/n8n. **Próximo paso (mañana):** reinspeccionar las guías con contenido cambiado y pedir indexación de /guias, /guias/skills y 2-3 guías por profesión.
+
+## 2026-10-17
+**Search Console — Rendimiento (28 días):** 0 clics, 7 impresiones, CTR 0 %. Prácticamente plano; todas las impresiones las captan la home y posts /p/ de bots, ninguna guía.
+
+**Rendimiento (3 meses, 52 consultas):** 1 clic en total.
+- "midudev twitter": 1 clic, 5 impr, CTR 20 %, pos. 14,8 (único clic del trimestre).
+- "n8n que es": 7 impr, pos. 72,7 · "n8n español": 6 impr, pos. 69,7 → la guía /guias/n8n ya está desplegada pero rankea muy abajo.
+- "sakana" (9 impr, pos. 64,9), "midudev" (5 impr, pos. 54) y una larga cola de papers/repos (foresight, meshflow, eventvla, gpt_academic) que capturan los posts /p/ de los bots.
+- Páginas con impresiones: solo la home (7 impr, pos. 24,3) y /p/paper-chartwalker… (1 impr, pos. 2). **Ninguna /guias/** aparece en la tabla de páginas.
+- Sigue sin haber ni una sola consulta "IA para [profesión]".
+
+**Indexación:** 16 indexadas (17 el 7 oct, 22 el 6 oct → sigue bajando poco a poco). No indexadas por motivo: Rastreada: sin indexar **118** (107 el 7 oct), Descubierta: sin indexar 18 (14), Excluida por noindex 23 (intencional: /out, /u/…), Alternativa con canónica adecuada 3 (nuestras canónicas funcionando), Redirección 3, Bloqueada por robots.txt 2, Duplicada sin canónica 1.
+
+**Inspección de URLs:** /guias/n8n → "Rastreada: sin indexar", último rastreo 7 oct. /guias/skills → "Rastreada: sin indexar", último rastreo 12 oct. Ambas rastreadas DESPUÉS de su despliegue (PR #3) y sin cambios desde entonces.
+
+**Indexación solicitada:** ninguna. Ni una sola guía ha cambiado desde su último rastreo (las PRs de contenido #4/#5/#6 no están mergeadas), así que pedir indexación no aportaría nada y gastaría cupo. Es un problema de calidad/autoridad, no de descubrimiento.
+
+**Verificación técnica (en vivo):** las guías están impecables — robots `index, follow`, canónica correcta y JSON-LD rico (Article + HowTo + FAQPage en /guias/n8n; Article + FAQPage + BreadcrumbList en las de profesión; CollectionPage + ItemList + BreadcrumbList en /guias). No hay defecto técnico que explique el "rastreada sin indexar".
+
+**Acciones (PR de hoy):**
+- Nuevo bloque "Guías de herramientas" en la barra lateral derecha (`RightSidebar.tsx`) con enlaces internos a /guias/skills y /guias/n8n. Hasta hoy esas dos páginas solo recibían enlaces desde dentro de otras guías; ahora las enlazan también la home, /top, /populares, /debates y /tendencias (las superficies que Google más rastrea). Son justo las dos guías con impresiones propias y "rastreadas sin indexar", así que es donde un empujón de autoridad interna puede moverlas. Fichero no tocado por las PRs #4/#5/#6, sin conflicto.
+
+**Pendiente / ideas para mañana:**
+- **Mergear las PRs #4/#5/#6** (casos prácticos, Article JSON-LD completo, guías relacionadas, FAQPage en el hub). Es el contenido que puede cambiar la percepción de calidad; hasta que no se despliegue, pedir indexación no sirve. Tras el merge: pedir indexación de las guías cambiadas.
+- Autoría real / E-E-A-T (nombre, foto, LinkedIn de Marcos + Person schema) — sigue pendiente de aprobación de Marcos.
+- Enlaces externos (directorios de IA en español, asociaciones profesionales, comunidades) — fuera del código.
+- Valorar noindex en posts /p/ finos y listados filtrados que inflan "Rastreada: sin indexar" (118) y diluyen el presupuesto de rastreo.
 
 ## 2026-10-15
 **Search Console (rendimiento, 28 días):** 0 clics, 7 impresiones, CTR 0 %, posición 24,3. Igual que el 12 y el 13 oct: los datos siguen llegando hasta ~11 oct. Única consulta: "ponte al dia" (1 impresión).

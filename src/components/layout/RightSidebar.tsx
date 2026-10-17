@@ -143,6 +143,25 @@ export async function RightSidebar() {
             </Link>
           ))}
         </div>
+        {/* Guías de herramientas: enlaces internos para que Google descubra y
+            revalorice las dos páginas con impresiones propias (n8n, skills). */}
+        <div className="mt-3 pt-3 border-t border-zinc-100">
+          <span className="block font-bold text-[13px] text-zinc-900 mb-2">Guías de herramientas</span>
+          <div className="flex flex-wrap gap-1.5">
+            <Link
+              href="/guias/skills"
+              className="px-2.5 py-1 rounded-full border border-zinc-200 text-[12.5px] font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              🧩 Qué es una skill de IA
+            </Link>
+            <Link
+              href="/guias/n8n"
+              className="px-2.5 py-1 rounded-full border border-zinc-200 text-[12.5px] font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              🔗 Qué es n8n
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Herramientas recomendadas (afiliados) */}
